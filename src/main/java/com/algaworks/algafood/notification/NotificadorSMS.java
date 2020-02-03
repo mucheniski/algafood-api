@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.domain.Cliente;
 
-@Qualifier("primeiro")
+@Qualifier("segundo")
 @Component
-public class NotificadorEmail implements Notificador {
+public class NotificadorSMS implements Notificador {
 
 	@Override
 	public void notificar(Cliente cliente, String mensagem) {
-		System.out.printf("Notificando %s atrav�s do e-mail %s: %s\n", cliente.getNome(), cliente.getEmail(), mensagem);
+		System.out.printf("Notificando %s por SMS atrav�s do telefone %s: %s\n", cliente.getNome(), cliente.getTelefone(), mensagem);
 	}
 
 }
