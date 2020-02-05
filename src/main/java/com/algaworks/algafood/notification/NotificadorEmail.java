@@ -8,7 +8,7 @@ import com.algaworks.algafood.customannotation.NivelUrgencia;
 import com.algaworks.algafood.customannotation.TipoNotificador;
 import com.algaworks.algafood.domain.Cliente;
 
-@Profile("prod")
+@Profile("production")
 @TipoNotificador(NivelUrgencia.NORMAL)
 @Component
 public class NotificadorEmail implements Notificador {
@@ -17,7 +17,7 @@ public class NotificadorEmail implements Notificador {
 	private NotificadorProperties notificadorProperties;
 		
 	public NotificadorEmail() {
-		System.out.println("Notificador e-mail real");
+		System.out.println("Notificador e-mail production");
 	}
 
 	@Override
