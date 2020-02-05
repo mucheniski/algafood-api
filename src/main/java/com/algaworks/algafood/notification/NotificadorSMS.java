@@ -6,7 +6,7 @@ import com.algaworks.algafood.customannotation.NivelUrgencia;
 import com.algaworks.algafood.customannotation.TipoNotificador;
 import com.algaworks.algafood.domain.Cliente;
 
-@TipoNotificador(NivelUrgencia.NORMAL)
+@TipoNotificador(NivelUrgencia.URGENTE)
 @Component
 public class NotificadorSMS implements Notificador {
 
