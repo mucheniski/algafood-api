@@ -14,6 +14,13 @@ public class Cozinha {
 	
 	private String nome;
 
+	public Cozinha(String nome) {		
+		this.nome = nome;
+	}
+	
+	public Cozinha() {
+	}
+
 	public Long getId() {
 		return id;
 	}
