@@ -22,6 +22,15 @@ public class ConsultaCozinhaMain {
 		
 		buscarPorId(cadastroCozinha, 1L);
 		
+		atualizar(cadastroCozinha, 1L);
+		
+	}
+
+	private static void atualizar(CadastroCozinha cadastroCozinha, long id) {
+		Cozinha cozinha = new Cozinha();
+		cozinha.setId(id);
+		cozinha.setNome("Atualizada");
+		cadastroCozinha.salvar(cozinha);
 	}
 
 	private static Cozinha buscarPorId(CadastroCozinha cadastroCozinha, long id) {
@@ -33,8 +42,8 @@ public class ConsultaCozinhaMain {
 	private static void criarNovaCozinha(CadastroCozinha cadastroCozinha) {
 		Cozinha cozinha1 = new Cozinha("Brasileira");
 		Cozinha cozinha2 = new Cozinha("Japonesa");
-		cozinha1 = cadastroCozinha.adicionar(cozinha1);
-		cozinha2 = cadastroCozinha.adicionar(cozinha2);
+		cozinha1 = cadastroCozinha.salvar(cozinha1);
+		cozinha2 = cadastroCozinha.salvar(cozinha2);
 		
 		System.out.printf("%d - %s\n", cozinha1.getId(), cozinha1.getNome());
 		System.out.printf("%d - %s\n", cozinha2.getId(), cozinha2.getNome());
