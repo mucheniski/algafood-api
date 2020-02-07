@@ -18,6 +18,19 @@ public class ConsultaCozinhaMain {
 		
 		cadastroCozinha.listar().forEach(System.out::println);
 		
+		criarNovaCozinha(cadastroCozinha);
+		
+		buscarPorId(cadastroCozinha, 1L);
+		
+	}
+
+	private static Cozinha buscarPorId(CadastroCozinha cadastroCozinha, long id) {
+		Cozinha cozinha = cadastroCozinha.buscar(id);	
+		System.out.println("Busca por id: " + cozinha.getNome());
+		return cozinha;
+	}
+
+	private static void criarNovaCozinha(CadastroCozinha cadastroCozinha) {
 		Cozinha cozinha1 = new Cozinha("Brasileira");
 		Cozinha cozinha2 = new Cozinha("Japonesa");
 		cozinha1 = cadastroCozinha.adicionar(cozinha1);
@@ -25,7 +38,6 @@ public class ConsultaCozinhaMain {
 		
 		System.out.printf("%d - %s\n", cozinha1.getId(), cozinha1.getNome());
 		System.out.printf("%d - %s\n", cozinha2.getId(), cozinha2.getNome());
-		
 	}
 	
 }
