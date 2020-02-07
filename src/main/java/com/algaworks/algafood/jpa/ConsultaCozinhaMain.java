@@ -24,6 +24,14 @@ public class ConsultaCozinhaMain {
 		
 		atualizar(cadastroCozinha, 1L);
 		
+		remover(cadastroCozinha, 1L);
+		
+	}
+
+	private static void remover(CadastroCozinha cadastroCozinha, long id) {
+		Cozinha cozinha = new Cozinha();
+		cozinha.setId(id);
+		cadastroCozinha.remover(cozinha);		
 	}
 
 	private static void atualizar(CadastroCozinha cadastroCozinha, long id) {
