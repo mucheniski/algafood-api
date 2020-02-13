@@ -3,6 +3,7 @@ package com.algaworks.algafood.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,18 @@ public class CozinhaController {
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
-	@GetMapping
-	public List<Cozinha> listar() {
+	/*As requisições estão sendo feitas no mesmo endpoint get, o que define qual será chamado é o 
+	 * parâmetro passado no Header: Accept*/
+	
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Cozinha> listarJSON() {
+		System.out.println("Lista em JSON");
+		return cozinhaRepository.listar();
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+	public List<Cozinha> listarXML() {
+		System.out.println("Lista em XML");
 		return cozinhaRepository.listar();
 	}
 	
