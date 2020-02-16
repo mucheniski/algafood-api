@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.entity.Cozinha;
+import com.algaworks.algafood.entity.CozinhaXMLWrapper;
 import com.algaworks.algafood.repository.CozinhaRepository;
 
 @RestController
@@ -19,8 +20,14 @@ public class CozinhaController {
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
+	@GetMapping
 	public List<Cozinha> listar() {		
 		return cozinhaRepository.listar();
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+	public CozinhaXMLWrapper listarXML() {
+		return new CozinhaXMLWrapper(cozinhaRepository.listar());
 	}
 	
 	@GetMapping("/{id}")
