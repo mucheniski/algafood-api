@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.entity.Cozinha;
-import com.algaworks.algafood.entity.CozinhaXMLWrapper;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.repository.CozinhaRepository;
@@ -37,11 +35,6 @@ public class CozinhaController {
 	@GetMapping
 	public List<Cozinha> listar() {		
 		return cozinhaRepository.listar();
-	}
-	
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public CozinhaXMLWrapper listarXML() {
-		return new CozinhaXMLWrapper(cozinhaRepository.listar());
 	}
 	
 	@GetMapping("/{id}")
@@ -65,7 +58,7 @@ public class CozinhaController {
 		
 		if (cozinhaAtual != null) {			
 			BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id"); // Do terciero parâmetro em diante passamos o que queremos que seja ignorado
-			cozinhaRepository.salvar(cozinhaAtual);
+			cozinhaService.salvar(cozinhaAtual);
 			return ResponseEntity.ok(cozinhaAtual);			
 		}
 		return ResponseEntity.notFound().build();
