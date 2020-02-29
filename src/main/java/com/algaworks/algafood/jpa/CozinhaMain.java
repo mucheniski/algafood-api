@@ -29,10 +29,8 @@ public class CozinhaMain {
 		
 	}
 
-	private static void remover(CozinhaRepository cozinhaRepository, long id) {
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(id);
-		cozinhaRepository.remover(cozinha);		
+	private static void remover(CozinhaRepository cozinhaRepository, long id) {		
+		cozinhaRepository.remover(id);		
 	}
 
 	private static void atualizar(CozinhaRepository cozinhaRepository, long id) {
