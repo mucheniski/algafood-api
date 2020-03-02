@@ -57,7 +57,7 @@ public class CozinhaController {
 		Cozinha cozinhaAtual = cozinhaRepository.buscar(id);
 		
 		if (cozinhaAtual != null) {			
-			BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id"); // Do terciero parâmetro em diante passamos o que queremos que seja ignorado
+			BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 			cozinhaService.salvar(cozinhaAtual);
 			return ResponseEntity.ok(cozinhaAtual);			
 		}
