@@ -55,11 +55,11 @@ public class RestauranteController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Restaurante restauranteRecebido) {
-		Restaurante restauranteAtual = restauranteRepository.buscar(id);  // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+		Restaurante restauranteAtual = restauranteRepository.buscar(id);  
 		
 		if (restauranteAtual != null) {
 			try {
-				BeanUtils.copyProperties(restauranteRecebido, restauranteAtual, "id");
+				BeanUtils.copyProperties(restauranteRecebido, restauranteAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 				restauranteService.salvar(restauranteAtual);
 				return ResponseEntity.ok(restauranteAtual);
 			} catch (EntidadeNaoEncotradaException e) {				
@@ -67,7 +67,6 @@ public class RestauranteController {
 			}
 		}		
 		return ResponseEntity.notFound().build();		
-	}
- 	
+	} 	
 	
 }
