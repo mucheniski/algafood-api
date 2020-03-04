@@ -1,12 +1,14 @@
 package com.algaworks.algafood.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -54,12 +56,12 @@ public class RestauranteController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Restaurante restauranteRecebido) {
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Restaurante restauranteAtualizado) {
 		Restaurante restauranteAtual = restauranteRepository.buscar(id);  
 		
 		if (restauranteAtual != null) {
 			try {
-				BeanUtils.copyProperties(restauranteRecebido, restauranteAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+				BeanUtils.copyProperties(restauranteAtualizado, restauranteAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 				restauranteService.salvar(restauranteAtual);
 				return ResponseEntity.ok(restauranteAtual);
 			} catch (EntidadeNaoEncotradaException e) {				
@@ -68,5 +70,26 @@ public class RestauranteController {
 		}		
 		return ResponseEntity.notFound().build();		
 	} 	
+	
+	@PatchMapping("/{id}")
+	public ResponseEntity<?> atualizarParcial(@PathVariable Long id, @RequestBody Map<String, Object> campos) {
+		
+		Restaurante restauranteAtual = restauranteRepository.buscar(id);  
+		
+		if (restauranteAtual == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		mergeCampos(campos, restauranteAtual);
+		
+		return atualizar(id, restauranteAtual);
+	}
+
+	private void mergeCampos(Map<String, Object> campos, Restaurante restauranteMerge) {
+		campos.forEach((chaveCampo, valorCampo) -> {
+			System.out.println(chaveCampo + " = " + valorCampo);
+		});
+	}
+	
 	
 }
