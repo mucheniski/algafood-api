@@ -1,5 +1,6 @@
 package com.algaworks.algafood.controller;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -72,7 +75,7 @@ public class RestauranteController {
 	} 	
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> atualizarParcial(@PathVariable Long id, @RequestBody Map<String, Object> campos) {
+	public ResponseEntity<?> atualizarParcial(@PathVariable Long id, @RequestBody Map<String, Object> camposAtualizados) {		
 		
 		Restaurante restauranteAtual = restauranteRepository.buscar(id);  
 		
@@ -80,14 +83,22 @@ public class RestauranteController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		mergeCampos(campos, restauranteAtual);
+		mergeCampos(camposAtualizados, restauranteAtual);
 		
 		return atualizar(id, restauranteAtual);
 	}
 
-	private void mergeCampos(Map<String, Object> campos, Restaurante restauranteMerge) {
-		campos.forEach((chaveCampo, valorCampo) -> {
-			System.out.println(chaveCampo + " = " + valorCampo);
+	private void mergeCampos(Map<String, Object> camposAtualizados, Restaurante restauranteAtual) {
+		ObjectMapper objectMapper = new ObjectMapper(); // Converte JSON em Java e Java em JSON		
+		Restaurante restauranteOrigem = objectMapper.convertValue(camposAtualizados, Restaurante.class);		
+		
+		System.out.println(restauranteOrigem);
+		
+		camposAtualizados.forEach((chaveCampo, valorCampo) -> {
+			Field campo = ReflectionUtils.findField(Restaurante.class, chaveCampo); // Busca na classe Restaurante um campo com o nome passado na chaveCampo
+			campo.setAccessible(true); // Torna a variável que é private acessível aqui.			
+			Object novoValor = ReflectionUtils.getField(campo, restauranteOrigem);		
+			ReflectionUtils.setField(campo, restauranteAtual, novoValor);			
 		});
 	}
 	

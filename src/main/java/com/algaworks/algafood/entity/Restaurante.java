@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.CollectionId;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
