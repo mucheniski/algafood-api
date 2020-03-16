@@ -1,6 +1,7 @@
 package com.algaworks.algafood.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class EstadoController {
 	
 	@GetMapping
 	public List<Estado> listar() {
-		return estadoRepository.listar();
+		return estadoRepository.findAll();
 	}
 	
 	@PostMapping
@@ -44,19 +45,18 @@ public class EstadoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Estado estadoRecebido) {
-		Estado estadoAtual = estadoRepository.buscar(id);
-		
-		if (estadoAtual != null) {
-			try {
-				BeanUtils.copyProperties(estadoRecebido, estadoAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-				estadoService.salvar(estadoAtual);
-				return ResponseEntity.ok(estadoAtual);
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Estado estadoRecebida) {
+		Optional<Estado> estadoAtual = estadoRepository.findById(id);
+		if (estadoAtual.isPresent()) {	
+			try {						
+				BeanUtils.copyProperties(estadoRecebida, estadoAtual.get(), "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+				Estado estadoSalvo = estadoService.salvar(estadoAtual.get());
+				return ResponseEntity.ok(estadoSalvo);			
 			} catch (EntidadeNaoEncotradaException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
 		}
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.notFound().build();		
 	}
 	
 	@DeleteMapping("/{id}")

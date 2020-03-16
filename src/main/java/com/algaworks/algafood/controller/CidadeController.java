@@ -1,6 +1,7 @@
 package com.algaworks.algafood.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,14 @@ public class CidadeController {
 	
 	@GetMapping
 	public List<Cidade> listar() {
-		return cidadeRepository.listar();
+		return cidadeRepository.findAll();
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Cidade> buscar(@PathVariable Long id) {
-		Cidade cidade = cidadeRepository.buscar(id);
-		if (cidade != null) {
-			return ResponseEntity.ok(cidade);
+		Optional<Cidade> cidade = cidadeRepository.findById(id);
+		if (cidade.isPresent()) {
+			return ResponseEntity.ok(cidade.get());
 		}		
 		return ResponseEntity.notFound().build();
 	}
@@ -56,18 +57,17 @@ public class CidadeController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cidade cidadeRecebido) {
-		Cidade cidadeAtual = cidadeRepository.buscar(id);  
-		
-		if (cidadeAtual != null) {
-			try {
-				BeanUtils.copyProperties(cidadeRecebido, cidadeAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-				cidadeService.salvar(cidadeAtual);
-				return ResponseEntity.ok(cidadeAtual);
-			} catch (EntidadeNaoEncotradaException e) {				
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cidade cidadeRecebida) {
+		Optional<Cidade> cidadeAtual = cidadeRepository.findById(id);
+		if (cidadeAtual.isPresent()) {	
+			try {						
+				BeanUtils.copyProperties(cidadeRecebida, cidadeAtual.get(), "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+				Cidade cidadeSalva = cidadeService.salvar(cidadeAtual.get());
+				return ResponseEntity.ok(cidadeSalva);			
+			} catch (EntidadeNaoEncotradaException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
-		}		
+		}
 		return ResponseEntity.notFound().build();		
 	}
 	

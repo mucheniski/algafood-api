@@ -25,7 +25,7 @@ public class RestauranteService {
 							.orElseThrow(() -> new EntidadeNaoEncotradaException(String.format("Não existe cozinha com o código %d", cozinhaId)));		
 
 		restaurante.setCozinha(cozinha);
-		return restauranteRepository.salvar(restaurante);
+		return restauranteRepository.save(restaurante);
 	}
 	
 }
