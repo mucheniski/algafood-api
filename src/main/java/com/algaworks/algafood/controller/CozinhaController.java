@@ -38,6 +38,11 @@ public class CozinhaController {
 		return cozinhaRepository.findAll();
 	}
 	
+	@GetMapping("/nome")
+	public List<Cozinha> listarPorNome(String nome) {		
+		return cozinhaRepository.findByNome(nome);
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
 		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
