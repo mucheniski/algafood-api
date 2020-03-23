@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.algaworks.algafood.entity.Restaurante;
 
 @ResponseStatus
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries {
 	
 	List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 	
