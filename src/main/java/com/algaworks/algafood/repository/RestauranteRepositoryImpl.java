@@ -1,6 +1,9 @@
 package com.algaworks.algafood.repository;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.algaworks.algafood.entity.Restaurante;
 
@@ -29,11 +33,21 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
 		Root<Restaurante> root = criteria.from(Restaurante.class);
 		
-		Predicate nomePredicate = builder.like(root.get("nome"), "%" + nome + "%");
-		Predicate taxaInicialPredicate = builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaInicial);
-		Predicate taxaFinalPredicate = builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal);
+		List<Predicate> predicates = new ArrayList<>();
 		
-		criteria.where(nomePredicate, taxaInicialPredicate, taxaFinalPredicate);
+		if (StringUtils.hasText(nome)) {
+			predicates.add(builder.like(root.get("nome"), "%" + nome + "%"));
+		}
+		
+		if (taxaInicial != null) {
+			predicates.add(builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaInicial));
+		}
+		
+		if (taxaFinal != null) {
+			predicates.add(builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFinal));
+		}
+		
+		criteria.where(predicates.toArray(new Predicate[0])); // TODO: ver como melhorar essa conversão 
 		
 		TypedQuery<Restaurante> query =  manager.createQuery(criteria);
 		return query.getResultList();		
