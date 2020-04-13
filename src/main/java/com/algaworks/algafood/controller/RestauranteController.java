@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.repository.RestauranteRepository;
-import com.algaworks.algafood.repository.spec.RestauranteSpecs;
 import com.algaworks.algafood.service.RestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -54,7 +53,7 @@ public class RestauranteController {
 	
 	@GetMapping("/com-frete-gratis")
 	public List<Restaurante> comFreteGratis(String nome) {	
-		return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis().and(RestauranteSpecs.comNomeSemelhante(nome)));
+		return restauranteRepository.findComFreteGratis(nome);
 	}
 	
 	@GetMapping("/nome-cozinha")

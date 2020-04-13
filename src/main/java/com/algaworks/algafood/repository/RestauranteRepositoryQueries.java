@@ -8,5 +8,7 @@ import com.algaworks.algafood.entity.Restaurante;
 public interface RestauranteRepositoryQueries {
 
 	List<Restaurante> findByNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal);
+	
+	List<Restaurante> findComFreteGratis(String nome);
 
 }
