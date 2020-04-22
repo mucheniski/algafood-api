@@ -70,6 +70,11 @@ public class RestauranteController {
 		return ResponseEntity.notFound().build();
 	}
 	
+	@GetMapping("/primeiro")
+	public Optional<Restaurante> primeiroRestaurante() {
+		return restauranteRepository.buscarPrimeiro();
+	}
+	
 	@PostMapping	
 	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
 		try {
