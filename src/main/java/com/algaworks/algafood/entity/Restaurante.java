@@ -40,6 +40,7 @@ public class Restaurante {
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
+	@JsonIgnore
 	@Embedded // Essa propriedade é um tipo incorporado de uma classe embeddable
 	private Endereco endereco;	
 	
