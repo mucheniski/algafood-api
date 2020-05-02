@@ -21,3 +21,6 @@ INSERT INTO algafood.estado (id, nome) VALUES(2, 'Sao Paulo');
 INSERT INTO algafood.cidade (nome, estado_id) VALUES('Londrina', 1);
 INSERT INTO algafood.cidade (nome, estado_id) VALUES('Maringa', 1);
 INSERT INTO algafood.cidade (nome, estado_id) VALUES('Campinas', 2);
+
+
+INSERT INTO algafood.restaurante_forma_pagamento (rastaurante_id, forma_pagamento_id) VALUES(1, 1), (1, 2), (1, 3), (2, 1), (2, 2);

@@ -64,7 +64,7 @@ public class RestauranteController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long id) {
 		Optional<Restaurante> restaurante = restauranteRepository.findById(id);
-		if (restaurante.isPresent()) {
+		if (restaurante.isPresent()) {			
 			return ResponseEntity.ok(restaurante.get());
 		}		
 		return ResponseEntity.notFound().build();
@@ -90,7 +90,7 @@ public class RestauranteController {
 		Optional<Restaurante> restauranteAtual = restauranteRepository.findById(id);
 		if (restauranteAtual.isPresent()) {	
 			try {						
-				BeanUtils.copyProperties(restauranteRecebida, restauranteAtual.get(), "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+				BeanUtils.copyProperties(restauranteRecebida, restauranteAtual.get(), "id", "formasPagamento"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 				Restaurante restauranteSalva = restauranteService.salvar(restauranteAtual.get());
 				return ResponseEntity.ok(restauranteSalva);			
 			} catch (EntidadeNaoEncotradaException e) {
