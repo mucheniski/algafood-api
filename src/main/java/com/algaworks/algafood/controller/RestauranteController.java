@@ -90,7 +90,7 @@ public class RestauranteController {
 		Optional<Restaurante> restauranteAtual = restauranteRepository.findById(id);
 		if (restauranteAtual.isPresent()) {	
 			try {						
-				BeanUtils.copyProperties(restauranteRecebida, restauranteAtual.get(), "id", "formasPagamento", "endereco"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+				BeanUtils.copyProperties(restauranteRecebida, restauranteAtual.get(), "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 				Restaurante restauranteSalva = restauranteService.salvar(restauranteAtual.get());
 				return ResponseEntity.ok(restauranteSalva);			
 			} catch (EntidadeNaoEncotradaException e) {

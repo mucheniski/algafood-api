@@ -1,6 +1,7 @@
 package com.algaworks.algafood.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,6 +47,14 @@ public class Restaurante {
 	@JsonIgnore
 	@Embedded // Essa propriedade é um tipo incorporado de uma classe embeddable
 	private Endereco endereco;	
+	
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataCadastro;	
+	
+	@UpdateTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataAtualizacao;
 	
 	@JsonIgnore
 	@ManyToMany
