@@ -1,6 +1,7 @@
 package com.algaworks.algafood.entity;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -16,7 +17,7 @@ public class Endereco {
 	private String complemento;
 	private String bairro;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cidade_id")
 	private Cidade cidade;
 
