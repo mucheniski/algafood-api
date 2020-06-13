@@ -38,7 +38,7 @@ public class RestauranteController {
 	
 	@GetMapping
 	public List<Restaurante> listar() {
-		return restauranteRepository.findAll();
+		return restauranteRepository.findAllCustom();
 	}
 	
 	@GetMapping("/taxa-frete")
