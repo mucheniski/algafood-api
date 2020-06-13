@@ -67,7 +67,7 @@ public class Restaurante {
 	
 	
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "restaurante_forma_pagamento",
 			joinColumns = @JoinColumn(name = "rastaurante_id"),
