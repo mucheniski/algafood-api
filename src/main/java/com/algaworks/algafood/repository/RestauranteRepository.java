@@ -20,7 +20,7 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 	 * O fetch no jpql não é feito automáticamente no relacionamento OneToMany, por esse motivo precisa ser colocado sobre o jpql
 	 * 
 	 */
-	@Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento")
+	@Query("from Restaurante r join fetch r.cozinha")
 	List<Restaurante> findAllCustom();
 	
 	
