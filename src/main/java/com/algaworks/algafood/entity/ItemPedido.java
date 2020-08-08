@@ -32,14 +32,19 @@ public class ItemPedido {
 	@Column(nullable = false)
 	private BigDecimal precoTotal;
 	
-	private String observacao;
+	private String observacao;	
 	
+	/*
+	 * Para o Item Pedido, além das duas constraints normais de fk de produto e pedido
+	 * deve ser criada uma uk unindo as duas colunas na base de dados, ex:
+	 * unique key uk_item_pedido_produto (pedido_id, produto_id),
+	 * */
 	@ManyToOne
-	@JoinColumn(name = "produto_id", nullable = false)
+	@JoinColumn(nullable = false)
 	private Produto produto;
 	
 	@ManyToOne
-	@JoinColumn(name = "pedido_id", nullable = false)
+	@JoinColumn(nullable = false)
 	private Pedido pedido;
 
 }
