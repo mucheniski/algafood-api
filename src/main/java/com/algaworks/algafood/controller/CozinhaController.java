@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.algaworks.algafood.entity.Cozinha;
-import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.service.CozinhaService;
 
@@ -73,23 +71,12 @@ public class CozinhaController {
 			return ResponseEntity.ok(cozinhaSalva);			
 		}
 		return ResponseEntity.notFound().build();
-	}
-	
+	}	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Cozinha> remover(@PathVariable Long id) {		
-		try {
-			cozinhaService.remover(id);		
-			return ResponseEntity.noContent().build();	
-			
-		} catch (EntidadeNaoEncotradaException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-		}
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long id) {		
+		cozinhaService.remover(id);		
 	}
-	
-//	@DeleteMapping("/{id}")
-//	@ResponseStatus(HttpStatus.NO_CONTENT)
-//	public void remover(@PathVariable Long id) {		
-//		cozinhaService.remover(id);		
-//	}
 	
 }
