@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,13 +40,9 @@ public class CozinhaController {
 		return cozinhaRepository.findByNome(nome);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
-		if (cozinha.isPresent()) {
-			return ResponseEntity.ok(cozinha.get());			
-		}		
-		return ResponseEntity.notFound().build();		
+	@GetMapping("/{cozinhaId}")
+	public Cozinha buscar(@PathVariable Long cozinhaId) {		
+		return cozinhaService.buscarPorId(cozinhaId);	
 	}
 	
 	@GetMapping("/primeiro")
@@ -61,16 +56,13 @@ public class CozinhaController {
 		return cozinhaService.salvar(cozinha);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinhaRecebida) {
-		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(id);
+	@PutMapping("/{cozinhaId}")
+	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinhaRecebida) {
 		
-		if (cozinhaAtual.isPresent()) {			
-			BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual.get(), "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-			Cozinha cozinhaSalva = cozinhaService.salvar(cozinhaAtual.get());
-			return ResponseEntity.ok(cozinhaSalva);			
-		}
-		return ResponseEntity.notFound().build();
+		Cozinha cozinhaAtual = cozinhaService.buscarPorId(cozinhaId);		
+		BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+		return cozinhaService.salvar(cozinhaAtual);
+		
 	}	
 
 	@DeleteMapping("/{id}")
