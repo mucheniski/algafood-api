@@ -1,6 +1,5 @@
 package com.algaworks.algafood.controller;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,6 @@ import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -61,7 +58,7 @@ public class RestauranteController {
 		return restauranteRepository.consultarPorNome(nome, cozinhaId);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{restauranteId}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long id) {
 		Optional<Restaurante> restaurante = restauranteRepository.findById(id);
 		if (restaurante.isPresent()) {			
@@ -85,45 +82,18 @@ public class RestauranteController {
 		}
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Restaurante restauranteRecebida) {
-		Optional<Restaurante> restauranteAtual = restauranteRepository.findById(id);
-		if (restauranteAtual.isPresent()) {	
-			try {						
-				BeanUtils.copyProperties(restauranteRecebida, restauranteAtual.get(), "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-				Restaurante restauranteSalva = restauranteService.salvar(restauranteAtual.get());
-				return ResponseEntity.ok(restauranteSalva);			
-			} catch (EntidadeNaoEncotradaException e) {
-				return ResponseEntity.badRequest().body(e.getMessage());
-			}
-		}
-		return ResponseEntity.notFound().build();		
+	@PutMapping("/{restauranteId}")
+	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restauranteRecebida) {
+		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
+		BeanUtils.copyProperties(restauranteRecebida, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
+		return restauranteService.salvar(restauranteAtual);
 	}	
 	
-	@PatchMapping("/{id}")
-	public ResponseEntity<?> atualizarParcial(@PathVariable Long id, @RequestBody Map<String, Object> camposAtualizados) {		
-		Optional<Restaurante> restauranteAtual = restauranteRepository.findById(id);  
-		if (!restauranteAtual.isPresent()) {
-			return ResponseEntity.notFound().build();
-		}		
-		mergeCampos(camposAtualizados, restauranteAtual.get());
-		
-		return atualizar(id, restauranteAtual.get());
-	}
-
-	private void mergeCampos(Map<String, Object> camposAtualizados, Restaurante restauranteAtual) {
-		ObjectMapper objectMapper = new ObjectMapper(); // Converte JSON em Java e Java em JSON		
-		Restaurante restauranteOrigem = objectMapper.convertValue(camposAtualizados, Restaurante.class);		
-		
-		System.out.println(restauranteOrigem);
-		
-		camposAtualizados.forEach((chaveCampo, valorCampo) -> {
-			Field campo = ReflectionUtils.findField(Restaurante.class, chaveCampo); // Busca na classe Restaurante um campo com o nome passado na chaveCampo
-			campo.setAccessible(true); // Torna a variável que é private acessível aqui.			
-			Object novoValor = ReflectionUtils.getField(campo, restauranteOrigem);		
-			ReflectionUtils.setField(campo, restauranteAtual, novoValor);			
-		});
-	}
-	
+	@PatchMapping("/{restauranteId}")
+	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> camposAtualizados) {		
+		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId); 
+		restauranteService.mergeCampos(camposAtualizados, restauranteAtual);		
+		return atualizar(restauranteId, restauranteAtual);
+	}	
 	
 }

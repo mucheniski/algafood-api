@@ -58,17 +58,15 @@ public class CozinhaController {
 	
 	@PutMapping("/{cozinhaId}")
 	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinhaRecebida) {
-		
 		Cozinha cozinhaAtual = cozinhaService.buscarPorId(cozinhaId);		
 		BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 		return cozinhaService.salvar(cozinhaAtual);
-		
 	}	
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{cozinhaId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long id) {		
-		cozinhaService.remover(id);		
+	public void remover(@PathVariable Long cozinhaId) {		
+		cozinhaService.remover(cozinhaId);		
 	}
 	
 }

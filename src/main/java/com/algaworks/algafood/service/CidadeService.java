@@ -1,7 +1,5 @@
 package com.algaworks.algafood.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,25 +10,28 @@ import com.algaworks.algafood.entity.Estado;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.repository.CidadeRepository;
-import com.algaworks.algafood.repository.EstadoRepository;
 
 @Service
 public class CidadeService {
 	
+	private static final String MSG_CIDADE_EM_USO = "Cidade com id %d não pode ser removida, está em uso!";
+	private static final String MSG_CIDADE_NAO_ENCONTRADA = "Não existe cidade com código %d";
+
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private EstadoService estadoService;
+	
+	public Cidade buscarPorId(Long cidadeId) {
+		return cidadeRepository.findById(cidadeId)
+				.orElseThrow(() -> new EntidadeEmUsoException(String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)) );
+	}
 	
 	public Cidade salvar(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
-		Optional<Estado> estado = estadoRepository.findById(estadoId);
-		
-		if (!estado.isPresent()) {
-			throw new EntidadeNaoEncotradaException(String.format("Não existe Estado com o código %d", estadoId));
-		}
-		cidade.setEstado(estado.get());
+		Estado estado = estadoService.buscarPorId(estadoId);
+		cidade.setEstado(estado);
 		return cidadeRepository.save(cidade);
 	}
 	
@@ -38,9 +39,11 @@ public class CidadeService {
 		try {
 			cidadeRepository.deleteById(id);	
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncotradaException(String.format("Não existe cidade com código %d", id));
+			throw new EntidadeNaoEncotradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, id));
+		
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format("ID %d não pode ser removida, está em uso!", id));
+			throw new EntidadeEmUsoException(String.format(MSG_CIDADE_EM_USO, id));
+			
 		}
 	}
 
