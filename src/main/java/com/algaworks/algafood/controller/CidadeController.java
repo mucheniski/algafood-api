@@ -57,7 +57,6 @@ public class CidadeController {
 		Cidade cidadeAtual = cidadeService.buscarPorId(cidadeId);
 		BeanUtils.copyProperties(cidadeRecebida, cidadeAtual, "id"); // Do terceiro parâmetro em diante passamos o que
 																		// queremos que seja ignorado
-
 		try {
 			return cidadeService.salvar(cidadeAtual);
 

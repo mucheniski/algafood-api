@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.entity.Restaurante;
+import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
 
@@ -77,14 +79,28 @@ public class RestauranteController {
 	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restauranteRecebida) {
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
 		BeanUtils.copyProperties(restauranteRecebida, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-		return restauranteService.salvar(restauranteAtual);
+		
+		try {
+			return restauranteService.salvar(restauranteAtual);
+			
+		} catch (EntidadeNaoEncotradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
+		
 	}	
 	
 	@PatchMapping("/{restauranteId}")
 	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> camposAtualizados) {		
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId); 
-		restauranteService.mergeCampos(camposAtualizados, restauranteAtual);		
-		return atualizar(restauranteId, restauranteAtual);
+		restauranteService.mergeCampos(camposAtualizados, restauranteAtual);	
+		
+		try {
+			return atualizar(restauranteId, restauranteAtual);
+			
+		} catch (Exception e) {
+			throw new NegocioException(e.getMessage());
+		}
+		
 	}	
 	
 }
