@@ -12,7 +12,7 @@ import org.springframework.util.ReflectionUtils;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
+import com.algaworks.algafood.exception.RestauranteNaoEncotradaException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,9 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RestauranteService {
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "	Restaurante id %d não pode ser removida, está em uso!";
-
-	private static final String MSG_RESTAURANTE_NAO_ENCONTRADO = "Não exite Restaurante com código %d";
-	
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
@@ -32,7 +29,7 @@ public class RestauranteService {
 	
 	public Restaurante buscarPorId(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId)
-				.orElseThrow(() -> new EntidadeNaoEncotradaException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)) );
+				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
 	}
 	
 	public Restaurante salvar(Restaurante restaurante) {
@@ -46,7 +43,7 @@ public class RestauranteService {
 			restauranteRepository.deleteById(restauranteId);
 			
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncotradaException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId));
+			throw new RestauranteNaoEncotradaException(restauranteId);
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, restauranteId));

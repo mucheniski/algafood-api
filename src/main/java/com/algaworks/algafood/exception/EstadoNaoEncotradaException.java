@@ -8,7 +8,7 @@ public class EstadoNaoEncotradaException extends EntidadeNaoEncotradaException {
 	}
 	
 	public EstadoNaoEncotradaException(Long estadoId) {
-		this(String.format("Não exite estado com código %d", estadoId));
+		this(String.format("Não exite Estado com código %d", estadoId));
 	}
 	
 }
