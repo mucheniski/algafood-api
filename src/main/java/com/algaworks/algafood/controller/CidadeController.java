@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.entity.Cidade;
-import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
+import com.algaworks.algafood.exception.EstadoNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.repository.CidadeRepository;
 import com.algaworks.algafood.service.CidadeService;
@@ -46,7 +46,7 @@ public class CidadeController {
 	public Cidade adicionar(@RequestBody Cidade cidade) {
 		try {
 			return cidadeService.salvar(cidade);
-		} catch (EntidadeNaoEncotradaException e) {
+		} catch (EstadoNaoEncotradaException e) {
 
 			throw new NegocioException(e.getMessage());
 		}
@@ -54,15 +54,15 @@ public class CidadeController {
 
 	@PutMapping("/{cidadeId}")
 	public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidadeRecebida) {
-		Cidade cidadeAtual = cidadeService.buscarPorId(cidadeId);
-		BeanUtils.copyProperties(cidadeRecebida, cidadeAtual, "id"); // Do terceiro parâmetro em diante passamos o que
-																		// queremos que seja ignorado
 		try {
+			Cidade cidadeAtual = cidadeService.buscarPorId(cidadeId);
+			BeanUtils.copyProperties(cidadeRecebida, cidadeAtual, "id"); // Do terceiro parâmetro em diante passamos o que
+			// queremos que seja ignorado
 			return cidadeService.salvar(cidadeAtual);
 
-		} catch (EntidadeNaoEncotradaException e) {
+		} catch (EstadoNaoEncotradaException e) {
 
-			throw new NegocioException(e.getMessage());
+			throw new NegocioException(e.getMessage(), e);
 		}
 
 	}
