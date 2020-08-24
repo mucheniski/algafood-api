@@ -8,7 +8,7 @@ public class RestauranteNaoEncotradaException extends EntidadeNaoEncotradaExcept
 	}
 	
 	public RestauranteNaoEncotradaException(Long restauranteId) {
-		this(String.format("Não exite Restaurante com código %d", restauranteId));
+		this(String.format("Não existe Restaurante com código %d", restauranteId));
 	}
 	
 }
