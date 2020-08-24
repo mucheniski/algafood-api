@@ -24,6 +24,19 @@ public class TrataExcecoesDaAPI {
 		
 	}
 	
+	@ExceptionHandler(EntidadeEmUsoException.class)
+	public ResponseEntity<?> tratarEntidadeEmUsoException( EntidadeEmUsoException e ) {
+		
+		Problema problema = Problema.builder()
+								.dataHora(LocalDateTime.now())
+								.mensagem(e.getMessage())
+								.build();
+		
+		return ResponseEntity.status(HttpStatus.CONFLICT)
+				.body(problema);
+		
+	}
+	
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> tratarNegocioException( NegocioException e ) {
 		
