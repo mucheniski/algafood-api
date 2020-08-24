@@ -77,31 +77,5 @@ public class CidadeController {
 	public void remover(@PathVariable Long cidadeId) {
 		cidadeService.remover(cidadeId);
 	}
-	
-	@ExceptionHandler(EntidadeNaoEncotradaException.class)
-	public ResponseEntity<?> tratarEntidadeNaoEncotradaException( EntidadeNaoEncotradaException e ) {
-		
-		Problema problema = Problema.builder()
-								.dataHora(LocalDateTime.now())
-								.mensagem(e.getMessage())
-								.build();
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(problema);
-		
-	}
-	
-	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<?> tratarNegocioException( NegocioException e ) {
-		
-		Problema problema = Problema.builder()
-				.dataHora(LocalDateTime.now())
-				.mensagem(e.getMessage())
-				.build();
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(problema);
-		
-	}
 
 }
