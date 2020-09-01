@@ -23,21 +23,23 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(EntidadeNaoEncotradaException.class)
 	public ResponseEntity<?> tratarEntidadeNaoEncotradaException( EntidadeNaoEncotradaException ex, WebRequest request ) {
-	    HttpStatus status = HttpStatus.NOT_FOUND;	    
-	    
+	    HttpStatus status = HttpStatus.NOT_FOUND;  
 	    Problema problema = criarUmProblema(status, TipoProblema.ENTIDADE_NAO_ENCONTRADA, ex.getMessage()).build();
-		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
 	@ExceptionHandler(EntidadeEmUsoException.class)
 	public ResponseEntity<?> tratarEntidadeEmUsoException( EntidadeEmUsoException ex, WebRequest request ) {
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);		
+		HttpStatus status = HttpStatus.CONFLICT;
+		Problema problema = criarUmProblema(status, TipoProblema.ENTIDADE_EM_USO, ex.getMessage()).build();		
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);		
 	}
 	
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> tratarNegocioException( NegocioException ex, WebRequest request ) {
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);		
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		Problema problema = criarUmProblema(status, TipoProblema.NEGOCIO, ex.getMessage()).build();
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);		
 	}
 	
 	@Override
