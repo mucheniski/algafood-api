@@ -1,4 +1,4 @@
-package com.algaworks.algafood.entity.enuns;
+package com.algaworks.algafood.enuns;
 
 public enum StatusPedido {
 	CRIADO,

@@ -1,7 +1,5 @@
 package com.algaworks.algafood.exception;
 
-import java.time.LocalDateTime;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.algaworks.algafood.enuns.TipoProblema;
 
 
 /*
@@ -23,7 +23,11 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(EntidadeNaoEncotradaException.class)
 	public ResponseEntity<?> tratarEntidadeNaoEncotradaException( EntidadeNaoEncotradaException ex, WebRequest request ) {
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	    HttpStatus status = HttpStatus.NOT_FOUND;	    
+	    
+	    Problema problema = criarUmProblema(status, TipoProblema.ENTIDADE_NAO_ENCONTRADA, ex.getMessage()).build();
+		
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
 	@ExceptionHandler(EntidadeEmUsoException.class)
@@ -37,25 +41,37 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	}
 	
 	@Override
-	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object object, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		if (body == null) {
+		if (object == null) {
 			
-			body = Problema.builder()
-					.dataHora(LocalDateTime.now())
-					.mensagem(status.getReasonPhrase())
+			object = Problema.builder()
+					.titulo(status.getReasonPhrase())
+					.status(status.value())
 					.build();
 			
-		} else if (body instanceof String) {
+		} else if (object instanceof String) {
 			
-			body = Problema.builder()
-					.dataHora(LocalDateTime.now())
-					.mensagem((String) body )
+			object = Problema.builder()
+					.titulo((String) object )
+					.status(status.value())
 					.build();
 			
 		}
 		
-		return super.handleExceptionInternal(ex, body, headers, status, request);
+		return super.handleExceptionInternal(ex, object, headers, status, request);
+	}
+	
+	/*
+	 * O builder é criado automáticamente pelo Lombok dentro da classe marcada com @Builder
+	 * */
+	private Problema.ProblemaBuilder criarUmProblema(HttpStatus status, TipoProblema tipoProblema, String detalhe) {
+		
+		return Problema.builder()
+					   .status(status.value())
+					   .tipo(tipoProblema.getUri())
+					   .titulo(tipoProblema.getTitulo())
+					   .detalhe(detalhe);
 	}
 
 }
