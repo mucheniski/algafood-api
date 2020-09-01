@@ -8,6 +8,7 @@ import lombok.Getter;
 
 @Getter
 public enum TipoProblema {
+	CORPO_ILEGIVEL("Corpo ilegível", "corpo-ilegivel"),
 	ENTIDADE_NAO_ENCONTRADA("Entidade nao encontrada", "/entidade-nao-encontrada"),
 	ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
 	NEGOCIO("Negócio", "/negocio");

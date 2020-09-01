@@ -3,6 +3,7 @@ package com.algaworks.algafood.exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -20,6 +21,12 @@ import com.algaworks.algafood.enuns.TipoProblema;
 
 @ControllerAdvice
 public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	    Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, "O corpo da requisição é inválido, favor verificar erros de sintaxe").build();
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
 	
 	@ExceptionHandler(EntidadeNaoEncotradaException.class)
 	public ResponseEntity<?> tratarEntidadeNaoEncotradaException( EntidadeNaoEncotradaException ex, WebRequest request ) {
