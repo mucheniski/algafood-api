@@ -29,3 +29,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### https://github.com/spring-projects/spring-security/pull/6860/commits/b441c47cd0ccc6e3ff52ec755fd4052eb8271be9
+!etc/eclipse/.checkstyle
+.checkstyle
+s101plugin.state
+.attach_pid*
