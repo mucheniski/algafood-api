@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,9 +92,9 @@ public class RestauranteController {
 	}	
 	
 	@PatchMapping("/{restauranteId}")
-	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> camposAtualizados) {		
+	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> camposAtualizados, HttpServletRequest request) {		
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId); 
-		restauranteService.mergeCampos(camposAtualizados, restauranteAtual);	
+		restauranteService.mergeCampos(camposAtualizados, restauranteAtual, request);	
 		
 		try {
 			return atualizar(restauranteId, restauranteAtual);
