@@ -11,6 +11,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algafood.enuns.TipoProblema;
@@ -70,9 +71,17 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> tratarNegocioException( NegocioException ex, WebRequest request ) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Problema problema = criarUmProblema(status, TipoProblema.NEGOCIO, ex.getMessage()).build();
-		return handleExceptionInternal(ex, problema, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);		
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);		
 	}
 	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<?> tratarMethodArgumentTypeMismatchException( MethodArgumentTypeMismatchException ex, WebRequest request ) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		String detalhe = String.format("O parâmetro de URL '%s' recebeu um valor '%s' que é do timpo inválido, por gentileza informe um valor do tipo '%s' ", ex.getName(), ex.getValue(), ex.getRequiredType());
+		Problema problema = criarUmProblema(status, TipoProblema.PARAMETRO_INVALIDO, detalhe).build();			
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
+		
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object object, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		

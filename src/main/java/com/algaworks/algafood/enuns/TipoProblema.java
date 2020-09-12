@@ -11,7 +11,8 @@ public enum TipoProblema {
 	CORPO_ILEGIVEL("Corpo ilegível", "corpo-ilegivel"),
 	ENTIDADE_NAO_ENCONTRADA("Entidade nao encontrada", "/entidade-nao-encontrada"),
 	ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
-	NEGOCIO("Negócio", "/negocio");
+	NEGOCIO("Negócio", "/negocio"),
+	PARAMETRO_INVALIDO("Parâmetro Inválido", "/parametro-invalido");
 	
 	private String titulo;
 	private String uri;
