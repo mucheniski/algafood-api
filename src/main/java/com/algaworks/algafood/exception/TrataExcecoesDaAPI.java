@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algafood.enuns.TipoProblema;
@@ -56,7 +57,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(EntidadeNaoEncotradaException.class)
 	public ResponseEntity<?> tratarEntidadeNaoEncotradaException( EntidadeNaoEncotradaException ex, WebRequest request ) {
 	    HttpStatus status = HttpStatus.NOT_FOUND;  
-	    Problema problema = criarUmProblema(status, TipoProblema.ENTIDADE_NAO_ENCONTRADA, ex.getMessage()).build();
+	    Problema problema = criarUmProblema(status, TipoProblema.RECURSO_NAO_ENCONTRADO, ex.getMessage()).build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
@@ -79,6 +80,13 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		String detalhe = String.format("O parâmetro de URL '%s' recebeu um valor '%s' que é do timpo inválido, por gentileza informe um valor do tipo '%s' ", ex.getName(), ex.getValue(), ex.getRequiredType());
 		Problema problema = criarUmProblema(status, TipoProblema.PARAMETRO_INVALIDO, detalhe).build();			
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,	HttpStatus status, WebRequest request) {
+		String detalhe = String.format("O recurso '%s' que você tentou acessar é inexistente, por gentileza informe um recurso válido.", ex.getRequestURL());
+		Problema problema = criarUmProblema(status, TipoProblema.RECURSO_NAO_ENCONTRADO, detalhe).build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 		
