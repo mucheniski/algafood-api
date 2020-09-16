@@ -83,6 +83,14 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> trataExceptionGenerico(Exception ex, WebRequest request) {
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		String detalhe = "Ocorreu um erro interno inesperado. Tente novamente, se o problema persistir, entre em contato com o administrador do sistema";
+		Problema problema = criarUmProblema(status, TipoProblema.ERRO_DE_SISTEMA, detalhe).build();
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
+	
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,	HttpStatus status, WebRequest request) {
 		String detalhe = String.format("O recurso '%s' que você tentou acessar é inexistente, por gentileza informe um recurso válido.", ex.getRequestURL());
