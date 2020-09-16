@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,7 +37,8 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@NotNull 					// Constraint do BeanValidation, para não deixar o JSON serializado ser enviado na requisição com null
+	@Column(nullable = false) 	// Constraint do JPA, para que a coluna no banco seja notnull 
 	private String nome;
 	
 	@Column(nullable = false)
