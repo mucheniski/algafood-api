@@ -19,5 +19,6 @@ public class Problema {
 	private String tipo;
 	private String titulo;
 	private String detalhe;
+	private String mensagemParaUsuario;
 	
 }
