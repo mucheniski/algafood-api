@@ -1,5 +1,6 @@
 package com.algaworks.algafood.exception;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 @ControllerAdvice
 public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
-	
+	// TODO: Revisar a classe e colocar mensagemDeUsuario e dataHoraAtual onde for instanciado um problema
 	private static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado. Tente novamente, se o problema persistir, entre em contato com o administrador do sistema";
 
 	@Override
@@ -52,14 +53,18 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 			return tratarUnrecognizedPropertyException((UnrecognizedPropertyException) causaRaiz, headers, status, request);
 		}
 		
-		Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, "O corpo da requisição é inválido, favor verificar erros de sintaxe").build();
+		Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, "O corpo da requisição é inválido, favor verificar erros de sintaxe")
+									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
+									.build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 
 	@ExceptionHandler(EntidadeNaoEncotradaException.class)
 	public ResponseEntity<?> tratarEntidadeNaoEncotradaException( EntidadeNaoEncotradaException ex, WebRequest request ) {
 	    HttpStatus status = HttpStatus.NOT_FOUND;  
-	    Problema problema = criarUmProblema(status, TipoProblema.RECURSO_NAO_ENCONTRADO, ex.getMessage()).build();
+	    Problema problema = criarUmProblema(status, TipoProblema.RECURSO_NAO_ENCONTRADO, ex.getMessage())
+	    							.mensagemParaUsuario(ex.getMessage())
+	    							.build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
@@ -75,7 +80,9 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> tratarNegocioException( NegocioException ex, WebRequest request ) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		Problema problema = criarUmProblema(status, TipoProblema.NEGOCIO, ex.getMessage()).build();
+		Problema problema = criarUmProblema(status, TipoProblema.NEGOCIO, ex.getMessage())									
+									.mensagemParaUsuario(ex.getMessage())
+									.build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);		
 	}
 	
@@ -83,7 +90,9 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> tratarMethodArgumentTypeMismatchException( MethodArgumentTypeMismatchException ex, WebRequest request ) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		String detalhe = String.format("O parâmetro de URL '%s' recebeu um valor '%s' que é do tipo inválido, por gentileza informe um valor do tipo '%s' ", ex.getName(), ex.getValue(), ex.getRequiredType());
-		Problema problema = criarUmProblema(status, TipoProblema.PARAMETRO_INVALIDO, detalhe).build();			
+		Problema problema = criarUmProblema(status, TipoProblema.PARAMETRO_INVALIDO, detalhe)
+									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
+									.build();			
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
@@ -91,14 +100,18 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> trataExceptionGenerico(Exception ex, WebRequest request) {
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 		String detalhe = MSG_ERRO_GENERICO_USUARIO_FINAL;
-		Problema problema = criarUmProblema(status, TipoProblema.ERRO_DE_SISTEMA, detalhe).build();
+		Problema problema = criarUmProblema(status, TipoProblema.ERRO_DE_SISTEMA, detalhe)
+									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
+									.build();	
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,	HttpStatus status, WebRequest request) {
 		String detalhe = String.format("O recurso '%s' que você tentou acessar é inexistente, por gentileza informe um recurso válido.", ex.getRequestURL());
-		Problema problema = criarUmProblema(status, TipoProblema.RECURSO_NAO_ENCONTRADO, detalhe).build();
+		Problema problema = criarUmProblema(status, TipoProblema.RECURSO_NAO_ENCONTRADO, detalhe)
+									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
+									.build();	
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 		
@@ -110,6 +123,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 			object = Problema.builder()
 					.titulo(status.getReasonPhrase())
 					.status(status.value())
+					.dataHoraAtual(LocalDateTime.now())
 					.build();
 			
 		} else if (object instanceof String) {
@@ -117,6 +131,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 			object = Problema.builder()
 					.titulo((String) object )
 					.status(status.value())
+					.dataHoraAtual(LocalDateTime.now())
 					.build();
 			
 		}
@@ -133,7 +148,8 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 					   .status(status.value())
 					   .tipo(tipoProblema.getUri())
 					   .titulo(tipoProblema.getTitulo())
-					   .detalhe(detalhe);
+					   .detalhe(detalhe)
+					   .dataHoraAtual(LocalDateTime.now());
 	}
 	
 	private ResponseEntity<Object> tratarInvalidFormatException(InvalidFormatException causaRaiz, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -148,14 +164,18 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	private ResponseEntity<Object> tratarPropertyBindingException(PropertyBindingException causaRaiz, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		String caminho = formatarCaminho(causaRaiz.getPath());
 		String detalhe = String.format("O campo '%s' está sendo ignorado e não deve ser enviado na requisição.", caminho);
-		Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, detalhe).build();
+		Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, detalhe)
+									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
+									.build();	
 		return handleExceptionInternal(causaRaiz, problema, headers, status, request);
 	}
 
 	private ResponseEntity<Object> tratarUnrecognizedPropertyException(UnrecognizedPropertyException causaRaiz,	HttpHeaders headers, HttpStatus status, WebRequest request) {
 		String caminho = formatarCaminho(causaRaiz.getPath());
 		String detalhe = String.format("O campo '%s' não existe, por gentileza verificar", caminho);
-		Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, detalhe).build();
+		Problema problema = criarUmProblema(status, TipoProblema.CORPO_ILEGIVEL, detalhe)
+									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
+									.build();	
 		return handleExceptionInternal(causaRaiz, problema, headers, status, request);
 	}
 	
