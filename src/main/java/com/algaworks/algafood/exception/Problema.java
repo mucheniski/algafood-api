@@ -1,6 +1,7 @@
 package com.algaworks.algafood.exception;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,5 +24,13 @@ public class Problema {
 	private String detalhe;
 	private String mensagemParaUsuario;
 	private LocalDateTime dataHoraAtual;
+	private List<Campo> campos;
+	
+	@Getter
+	@Builder
+	public static class Campo {
+		private String nome;
+		private String mensagemUsuario;
+	}
 	
 }
