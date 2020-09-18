@@ -16,16 +16,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,7 +50,9 @@ public class Restaurante {
 	private BigDecimal taxaFrete;
 	
 //	@JsonIgnore
-	@JsonIgnoreProperties("hibernateLazyInitializer")
+//	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@Valid // Faz a validação em cascata das propriedades da cozinha mapeadas aqui, como no caso o ID
+	@NotNull
 	@ManyToOne // (fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
