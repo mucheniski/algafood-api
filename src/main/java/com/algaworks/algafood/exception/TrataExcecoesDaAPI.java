@@ -127,9 +127,10 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		List<Problema.Campo> camposComProblema = bindingResult.getFieldErrors()
 																.stream()
 																.map(fieldError -> Problema.Campo.builder()
-																	.nome(fieldError.getField())
-																	.mensagemUsuario(fieldError.getDefaultMessage())
-																	.build())
+																							.nome(fieldError.getField())
+																							.mensagemUsuario(fieldError.getDefaultMessage())
+																							.build()
+																	)
 																.collect(Collectors.toList());
 		
 		String detalhe = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente";
