@@ -17,13 +17,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.algaworks.algafood.validations.Grupos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -41,18 +42,19 @@ public class Restaurante {
 	
 //	@NotNull 					// Constraint do BeanValidation, para não deixar o JSON serializado ser enviado na requisição com null
 //	@NotEmpty					// Não aceita vazio, mas aceita espaços em branco
-	@NotBlank
+	@NotBlank(groups = Grupos.CadastroRestaurante.class)
 	@Column(nullable = false) 	// Constraint do JPA, para que a coluna no banco seja notnull 
 	private String nome;
 	
-	@DecimalMin("0") // Valor mínimo para a taxa frete
+	// @DecimalMin("0") // Valor mínimo para a taxa frete
+	@PositiveOrZero(groups = Grupos.CadastroRestaurante.class)
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
 //	@JsonIgnore
 //	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@Valid // Faz a validação em cascata das propriedades da cozinha mapeadas aqui, como no caso o ID
-	@NotNull
+	@NotNull(groups = Grupos.CadastroRestaurante.class)
 	@ManyToOne // (fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;

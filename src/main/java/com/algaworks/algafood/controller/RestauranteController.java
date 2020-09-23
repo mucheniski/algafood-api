@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
+import com.algaworks.algafood.validations.Grupos;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -74,7 +76,7 @@ public class RestauranteController {
 	
 	@PostMapping	
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante salvar(@RequestBody @Valid Restaurante restaurante) {
+	public Restaurante salvar(@RequestBody @Validated(Grupos.CadastroRestaurante.class) Restaurante restaurante) {
 		return restauranteService.salvar(restaurante);
 	}
 	
