@@ -20,6 +20,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -42,19 +44,20 @@ public class Restaurante {
 	
 //	@NotNull 					// Constraint do BeanValidation, para não deixar o JSON serializado ser enviado na requisição com null
 //	@NotEmpty					// Não aceita vazio, mas aceita espaços em branco
-	@NotBlank(groups = Grupos.CadastroRestaurante.class)
+	@NotBlank
 	@Column(nullable = false) 	// Constraint do JPA, para que a coluna no banco seja notnull 
 	private String nome;
 	
 	// @DecimalMin("0") // Valor mínimo para a taxa frete
-	@PositiveOrZero(groups = Grupos.CadastroRestaurante.class)
+	@PositiveOrZero
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
 //	@JsonIgnore
 //	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@Valid // Faz a validação em cascata das propriedades da cozinha mapeadas aqui, como no caso o ID
-	@NotNull(groups = Grupos.CadastroRestaurante.class)
+	@ConvertGroup(from = Default.class, to = Grupos.CozinhaId.class) // Converte a validação apenas para o cadastro de restaurante
+	@NotNull
 	@ManyToOne // (fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;

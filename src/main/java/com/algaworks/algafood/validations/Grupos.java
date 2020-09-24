@@ -10,6 +10,6 @@ public interface Grupos {
 	 * Por padrão, toda vez que você faz um validação Bean Validation é usado o group Default.class
 	 * caso não seja especificado um grupo
 	 * */
-	public interface CadastroRestaurante {}
+	public interface CozinhaId {}
 	
 }
