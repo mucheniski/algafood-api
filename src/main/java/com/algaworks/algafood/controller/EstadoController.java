@@ -2,6 +2,8 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +38,12 @@ public class EstadoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado salvar(@RequestBody Estado estado) {
+	public Estado salvar(@RequestBody @Valid Estado estado) {
 		return estadoService.salvar(estado);
 	}
 	
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@PathVariable Long estadoId, @RequestBody Estado estadoRecebida) {
+	public Estado atualizar(@PathVariable Long estadoId, @RequestBody @Valid Estado estadoRecebida) {
 		Estado estadoAtual = estadoService.buscarPorId(estadoId);
 		BeanUtils.copyProperties(estadoRecebida, estadoAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 		return estadoService.salvar(estadoAtual);

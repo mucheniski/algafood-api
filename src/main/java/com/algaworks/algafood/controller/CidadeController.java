@@ -2,6 +2,8 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,7 @@ public class CidadeController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cidade adicionar(@RequestBody Cidade cidade) {
+	public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
 		try {
 			return cidadeService.salvar(cidade);
 		} catch (EstadoNaoEncotradaException e) {
@@ -53,15 +55,14 @@ public class CidadeController {
 	}
 
 	@PutMapping("/{cidadeId}")
-	public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidadeRecebida) {
+	public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody @Valid Cidade cidadeRecebida) {
+		Cidade cidadeAtual = cidadeService.buscarPorId(cidadeId);
+		BeanUtils.copyProperties(cidadeRecebida, cidadeAtual, "id", "estado"); // Do terceiro parâmetro em diante passamos o queremos que seja ignorado
+		
 		try {
-			Cidade cidadeAtual = cidadeService.buscarPorId(cidadeId);
-			BeanUtils.copyProperties(cidadeRecebida, cidadeAtual, "id"); // Do terceiro parâmetro em diante passamos o que
-			// queremos que seja ignorado
 			return cidadeService.salvar(cidadeAtual);
 
 		} catch (EstadoNaoEncotradaException e) {
-
 			throw new NegocioException(e.getMessage());
 		}
 

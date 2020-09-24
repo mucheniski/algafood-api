@@ -79,7 +79,7 @@ public class RestauranteController {
 	}
 	
 	@PutMapping("/{restauranteId}")
-	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restauranteRecebida) {
+	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restauranteRecebida) {
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
 		BeanUtils.copyProperties(restauranteRecebida, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 		
@@ -93,7 +93,7 @@ public class RestauranteController {
 	}	
 	
 	@PatchMapping("/{restauranteId}")
-	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> camposAtualizados, HttpServletRequest request) {		
+	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody @Valid Map<String, Object> camposAtualizados, HttpServletRequest request) {		
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId); 
 		restauranteService.mergeCampos(camposAtualizados, restauranteAtual, request);	
 		

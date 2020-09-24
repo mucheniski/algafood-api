@@ -12,4 +12,6 @@ public interface Grupos {
 	 * */
 	public interface CozinhaId {}
 	
+	public interface EstadoId {}
+	
 }

@@ -38,12 +38,5 @@ public class Cozinha {
 	@JsonIgnore
 	@OneToMany(mappedBy = "cozinha")
 	private List<Restaurante> restaurantes = new ArrayList<>();
-
-	public Cozinha(String nome) {		
-		this.nome = nome;
-	}
-	
-	public Cozinha() {
-	}
 	
 }
