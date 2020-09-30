@@ -2,9 +2,12 @@ package com.algaworks.algafood.exception;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +41,9 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	// TODO: Revisar a classe e colocar mensagemDeUsuario e dataHoraAtual onde for instanciado um problema
 	private static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado. Tente novamente, se o problema persistir, entre em contato com o administrador do sistema";
 
+	@Autowired
+	private MessageSource messageSource;
+	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 	    
@@ -124,14 +130,16 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		 * dentro desse bindingResult podemos obter queis foram os campos violados */
 		BindingResult bindingResult = ex.getBindingResult();
 		
-		List<Problema.Campo> camposComProblema = bindingResult.getFieldErrors()
-																.stream()
-																.map(fieldError -> Problema.Campo.builder()
-																							.nome(fieldError.getField())
-																							.mensagemUsuario(fieldError.getDefaultMessage())
-																							.build()
-																	)
-																.collect(Collectors.toList());
+		List<Problema.Campo> camposComProblema = 
+				bindingResult.getFieldErrors().stream().map(fieldError -> { 
+					String mensagem = messageSource.getMessage(fieldError, new Locale ("pt", "BR"));												
+																	
+					return Problema.Campo.builder()
+									.nome(fieldError.getField())
+									.mensagemUsuario(mensagem)
+								 .build();
+				   }
+				).collect(Collectors.toList());
 		
 		String detalhe = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente";
 		Problema problema = criarUmProblema(status, TipoProblema.DADOS_INVALIDOS, detalhe)
