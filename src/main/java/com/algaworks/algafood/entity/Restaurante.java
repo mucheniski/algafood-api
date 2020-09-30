@@ -44,7 +44,7 @@ public class Restaurante {
 	
 //	@NotNull 					// Constraint do BeanValidation, para não deixar o JSON serializado ser enviado na requisição com null
 //	@NotEmpty					// Não aceita vazio, mas aceita espaços em branco
-	@NotBlank
+	@NotBlank(message = "Nome é obrigatório")
 	@Column(nullable = false) 	// Constraint do JPA, para que a coluna no banco seja notnull 
 	private String nome;
 	
