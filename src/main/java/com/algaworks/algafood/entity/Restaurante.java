@@ -49,7 +49,7 @@ public class Restaurante {
 	private String nome;
 	
 	// @DecimalMin("0") // Valor mínimo para a taxa frete
-	@PositiveOrZero
+	@PositiveOrZero(message = "{taxaFrete.invalida}")
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
