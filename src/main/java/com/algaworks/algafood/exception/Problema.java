@@ -24,11 +24,11 @@ public class Problema {
 	private String detalhe;
 	private String mensagemParaUsuario;
 	private LocalDateTime dataHoraAtual;
-	private List<Campo> campos;
+	private List<Objeto> objetos;
 	
 	@Getter
 	@Builder
-	public static class Campo {
+	public static class Objeto {
 		private String nome;
 		private String mensagemUsuario;
 	}

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -130,12 +131,18 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		 * dentro desse bindingResult podemos obter queis foram os campos violados */
 		BindingResult bindingResult = ex.getBindingResult();
 		
-		List<Problema.Campo> camposComProblema = 
-				bindingResult.getFieldErrors().stream().map(fieldError -> { 
-					String mensagem = messageSource.getMessage(fieldError, new Locale ("pt", "BR"));												
+		List<Problema.Objeto> objetosComProblema = 
+				bindingResult.getAllErrors().stream().map(objectError -> { 
+					String mensagem = messageSource.getMessage(objectError, new Locale ("pt", "BR"));	
+					
+					String nome = objectError.getObjectName();
+					
+					if (objectError instanceof FieldError) {
+						nome = ((FieldError) objectError).getField();
+					}
 																	
-					return Problema.Campo.builder()
-									.nome(fieldError.getField())
+					return Problema.Objeto.builder()
+									.nome(nome)
 									.mensagemUsuario(mensagem)
 								 .build();
 				   }
@@ -144,7 +151,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		String detalhe = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente";
 		Problema problema = criarUmProblema(status, TipoProblema.DADOS_INVALIDOS, detalhe)
 									.mensagemParaUsuario(detalhe)
-									.campos(camposComProblema)
+									.objetos(objetosComProblema)
 									.build();
 		
 		return handleExceptionInternal(ex, problema, headers, status, request);
