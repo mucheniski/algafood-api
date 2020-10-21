@@ -125,11 +125,18 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	}
 	
 	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {		
 		/* Uma instância de BindingResult armazena as vionlações de constraints de validação
-		 * dentro desse bindingResult podemos obter queis foram os campos violados */
-		BindingResult bindingResult = ex.getBindingResult();
+		 * dentro desse bindingResult podemos obter queis foram os campos violados */		
+		return trataExcecao(ex.getBindingResult(), ex, headers, status, request);
+	}
+		
+	@ExceptionHandler(ValidacaoException.class)
+	protected ResponseEntity<Object> tratarValidacaoException(ValidacaoException ex, WebRequest request) {		
+		return trataExcecao(ex.getBindingResult(), ex, new HttpHeaders(), HttpStatus.BAD_REQUEST, request); 
+	}
+	
+	private ResponseEntity<Object> trataExcecao(BindingResult bindingResult, Exception ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
 		List<Problema.Objeto> objetosComProblema = 
 				bindingResult.getAllErrors().stream().map(objectError -> { 

@@ -13,11 +13,14 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradaException;
+import com.algaworks.algafood.exception.ValidacaoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +35,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private CozinhaService cozinhaService;
+	
+	@Autowired
+	private SmartValidator smartValidator; // Validador do spring.framework
 	
 	public Restaurante buscarPorId(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId)
@@ -82,6 +88,19 @@ public class RestauranteService {
 			throw new HttpMessageNotReadableException(e.getMessage(), causaRaiz, serverHttpRequest);
 		}
 		
+	}
+	
+	public void valida(Restaurante restauranteAtual, String objectName) {
+		/*
+		 * Classe que implementa BidingResult que extende de Erros para poder ser usada
+		 * como parâmetro no método validade abaixo.
+		 * */
+		BeanPropertyBindingResult beanPropertyBindingResult = new BeanPropertyBindingResult(restauranteAtual, objectName);		
+		smartValidator.validate(restauranteAtual, beanPropertyBindingResult);
+		
+		if (beanPropertyBindingResult.hasErrors()) {
+			throw new ValidacaoException(beanPropertyBindingResult);
+		}
 	}
 	
 }

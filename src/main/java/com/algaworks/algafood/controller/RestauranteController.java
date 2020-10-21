@@ -11,8 +11,6 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
-import com.algaworks.algafood.exception.ValidacaoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
 
@@ -39,9 +36,6 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteService restauranteService;
-	
-	@Autowired
-	private SmartValidator smartValidator; // Validador do spring.framework
 	
 	@GetMapping
 	public List<Restaurante> listar() {
@@ -101,9 +95,8 @@ public class RestauranteController {
 	@PatchMapping("/{restauranteId}")
 	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody @Valid Map<String, Object> camposAtualizados, HttpServletRequest request) {		
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId); 
-		restauranteService.mergeCampos(camposAtualizados, restauranteAtual, request);	
-		
-		valida(restauranteAtual, "restaurante");
+		restauranteService.mergeCampos(camposAtualizados, restauranteAtual, request);			
+		restauranteService.valida(restauranteAtual, "restaurante");
 		
 		try {
 			return atualizar(restauranteId, restauranteAtual);
@@ -113,18 +106,5 @@ public class RestauranteController {
 		}
 		
 	}
-
-	private void valida(Restaurante restauranteAtual, String objectName) {
-		/*
-		 * Classe que implementa BidingResult que extende de Erros para poder ser usada
-		 * como parâmetro no método validade abaixo.
-		 * */
-		BeanPropertyBindingResult beanPropertyBindingResult = new BeanPropertyBindingResult(restauranteAtual, objectName);		
-		smartValidator.validate(restauranteAtual, beanPropertyBindingResult);
-		
-		if (beanPropertyBindingResult.hasErrors()) {
-			throw new ValidacaoException(beanPropertyBindingResult);
-		}
-	}	
 	
 }
