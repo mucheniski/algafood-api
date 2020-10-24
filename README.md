@@ -1,3 +1,5 @@
+[github-como-fazer-um-readme-md-bonitão] (https://medium.com/@raullesteves/github-como-fazer-um-readme-md-bonit%C3%A3o-c85c8f154f8)
+
 # algafood-api
 Projeto do curso Especialista REST - Algaworks
 
@@ -27,9 +29,10 @@ Projeto do curso Especialista REST - Algaworks
 24. Deploy em produção
 
 **Testes - Modulo 10**
+
 Todo teste é dividido em 3 partes
 1 - Cenário
-2 - Aççao
+2 - Açao
 3 - Validação
 
 Cada teste deve testar apenas uma funcionalidade.
