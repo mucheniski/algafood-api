@@ -25,3 +25,11 @@ Projeto do curso Especialista REST - Algaworks
 22. Segurança com Spring Security e OAuth2
 23. OAuth2 avançado com JWT e controle de acesso
 24. Deploy em produção
+
+**Testes - Modulo 10**
+Todo teste é dividido em 3 partes
+1 - Cenário
+2 - Aççao
+3 - Validação
+
+Cada teste deve testar apenas uma funcionalidade.
