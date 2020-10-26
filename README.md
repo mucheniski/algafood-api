@@ -31,8 +31,11 @@ Projeto do curso Especialista REST - Algaworks
 **Testes - Modulo 10**
 
 Todo teste é dividido em 3 partes
-1 - Cenário
-2 - Açao
-3 - Validação
+1. Cenário
+2. Açao
+3. Validação
 
 Cada teste deve testar apenas uma funcionalidade.
+
+Rodar os testes pelo maven: Entrar no diretorio do projeto pelo terminal e digitar mvn test ou ./mvnw test
+Fazer o build do projeto: mvn clean package - Sempre que fizer o build do projeto os testes serão executados.
