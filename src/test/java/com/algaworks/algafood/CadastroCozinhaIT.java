@@ -15,9 +15,24 @@ import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.service.CozinhaService;
 
+
+/*
+ * O plugin
+ * 			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+	Por padrão precisa que as classes de teste terminem com o sufixo IT (Integration Test)
+	o plugin já vem configurado dessa forma, ele faz com que os testes de integração não 
+	sejam executados no build do projeto, porque pode ser muito custoso executar esse tipo
+	de teste no build do projeto.
+	Eles serão executados em outro momento pelo plugin
+	O Plugin é apenas para testes de integração, os testes unitários continuam normalmente.
+ * */
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CadastroCozinhaIntegrationTests {
+public class CadastroCozinhaIT {
 	
 	/*
 	 * Todo teste é dividido em 3 partes
