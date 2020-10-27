@@ -1,5 +1,6 @@
 package com.algaworks.algafood;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,7 @@ public class CadastroCozinhaIT {
 	public void deveRetornarStatus200Test() {
 		
 		/*
-		 * Apresenra um log da requisição e da responsta caso a validação falhe
+		 * Apresenra um log da requisição e da resposta caso a validação falhe
 		 * */
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); 
 		
@@ -35,6 +36,32 @@ public class CadastroCozinhaIT {
 				.get()
 			.then()
 				.statusCode(HttpStatus.OK.value());
+		
+	}
+	
+	
+	/*
+	 * em resources/db/migration;aferMigrate.sql são inseridas duas cozinhas quando o projeto sobe
+	 * */
+	@Test
+	public void deveConter2CozinhasTest() {
+		
+		/*
+		 * Apresenra um log da requisição e da resposta caso a validação falhe
+		 * */
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); 
+		
+		// Cenário, ação e validação
+		RestAssured
+			.given()
+				.basePath("/cozinhas")
+				.port(port)
+				.accept(ContentType.JSON)
+			.when()
+				.get()
+			.then()
+				.body("", Matchers.hasSize(2)) // Valida se tem 2 itens na resposta
+				.body("nome", Matchers.hasItems("Tailandesa", "Indiana")); // Valida o campo nome
 		
 	}
 
