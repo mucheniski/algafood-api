@@ -41,3 +41,6 @@ Rodar os testes pelo maven: Entrar no diretorio do projeto pelo terminal e digit
 Fazer o build do projeto: mvn clean package - Sempre que fizer o build do projeto os testes serão executados.
 
 maven-failsafe-plugin: plugin responsável por não deixar serem executados os testes de integração no momento do build do projeto, para executar os testes de integração caso seja necessário usar mvn verify.
+
+Testes de API
+São testes onde realmente é feita a chamada http ao serviço REST.
