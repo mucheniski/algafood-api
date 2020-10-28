@@ -1,6 +1,7 @@
 package com.algaworks.algafood;
 
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,19 +19,30 @@ public class CadastroCozinhaIT {
 	@LocalServerPort // Essa anotação faz a porta levantada no RANDOM_PORT ser injetada na variável
 	private int port;
 	
-	@Test
-	public void deveRetornarStatus200Test() {
+	/*
+	 * Essa anotação faz com que o método seja executado antes de cada teste
+	 * serve para preparar o ambiente para que os testes possam ser todos executados
+	 * a partir dessa configuração
+	 * */	
+	@Before
+	public void setUp() {
 		
 		/*
 		 * Apresenra um log da requisição e da resposta caso a validação falhe
 		 * */
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); 
 		
+		RestAssured.port = port;
+		RestAssured.basePath = "/cozinhas";
+		
+	}
+	
+	@Test
+	public void deveRetornarStatus200Test() {
+		
 		// Cenário, ação e validação
 		RestAssured
 			.given()
-				.basePath("/cozinhas")
-				.port(port)
 				.accept(ContentType.JSON)
 			.when()
 				.get()
@@ -54,8 +66,6 @@ public class CadastroCozinhaIT {
 		// Cenário, ação e validação
 		RestAssured
 			.given()
-				.basePath("/cozinhas")
-				.port(port)
 				.accept(ContentType.JSON)
 			.when()
 				.get()
