@@ -1,9 +1,11 @@
 package com.algaworks.algafood;
 
+import org.flywaydb.core.Flyway;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -19,8 +21,11 @@ public class CadastroCozinhaIT {
 	@LocalServerPort // Essa anotação faz a porta levantada no RANDOM_PORT ser injetada na variável
 	private int port;
 	
+	@Autowired
+	private Flyway flyway;
+	
 	/*
-	 * Essa anotação faz com que o método seja executado antes de cada teste
+	 * Essa anotação faz com que o método seja executado antes de cada um dos testes
 	 * serve para preparar o ambiente para que os testes possam ser todos executados
 	 * a partir dessa configuração
 	 * */	
@@ -34,6 +39,8 @@ public class CadastroCozinhaIT {
 		
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
+		
+		flyway.migrate(); // Após cada migrate do flyway é executado o callback que está em src/main/resources/db/testsdata/afterMigrate.sql
 		
 	}
 	
@@ -76,7 +83,7 @@ public class CadastroCozinhaIT {
 	}
 	
 	@Test
-	public void testRetornarStatus201Test() {
+	public void deveRetornarStatus201Test() {
 		RestAssured
 			.given()
 				.body("{ \"nome\": \"Chinesa\" }")
