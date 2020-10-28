@@ -44,3 +44,6 @@ maven-failsafe-plugin: plugin responsável por não deixar serem executados os t
 
 Testes de API
 São testes onde realmente é feita a chamada http ao serviço REST.
+
+Ordem dos Testes.
+Um teste não pode depender da execução ou não execução de outro teste, devem sempre funcionar de forma individual.

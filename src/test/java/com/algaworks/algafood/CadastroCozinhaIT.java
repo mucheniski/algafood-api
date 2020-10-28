@@ -74,5 +74,18 @@ public class CadastroCozinhaIT {
 				.body("nome", Matchers.hasItems("Tailandesa", "Indiana")); // Valida o campo nome
 		
 	}
+	
+	@Test
+	public void testRetornarStatus201Test() {
+		RestAssured
+			.given()
+				.body("{ \"nome\": \"Chinesa\" }")
+				.contentType(ContentType.JSON) // Tipo de conteúdo que estou enviando na requisição
+				.accept(ContentType.JSON)
+			.when()
+				.post()
+			.then()
+				.statusCode(HttpStatus.CREATED.value());
+	}
 
 }
