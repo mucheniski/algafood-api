@@ -1,5 +1,5 @@
 -- Criação da tabela estado
-CREATE TABLE algafood2.estado (
+CREATE TABLE estado (
 	id BIGINT auto_increment NOT NULL,
 	nome varchar(60) NOT NULL,
 	CONSTRAINT estado_PK PRIMARY KEY (id)

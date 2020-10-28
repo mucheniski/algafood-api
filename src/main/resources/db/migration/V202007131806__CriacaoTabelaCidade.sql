@@ -1,4 +1,4 @@
-CREATE TABLE algafood2.cidade (
+CREATE TABLE cidade (
 	id BIGINT auto_increment NOT NULL,
 	nome_cidade varchar(80) NOT NULL,
 	nome_estado varchar(80) NOT NULL,

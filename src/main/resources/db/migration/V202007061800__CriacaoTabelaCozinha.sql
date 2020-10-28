@@ -1,4 +1,4 @@
-CREATE TABLE algafood2.cozinha (
+CREATE TABLE cozinha (
 	id BIGINT auto_increment NOT NULL,
 	nome varchar(60) NOT NULL,	
 	CONSTRAINT Cozinha_PK PRIMARY KEY (id)

@@ -1,4 +1,4 @@
-CREATE TABLE algafood2.pedido (
+CREATE TABLE pedido (
 	id BIGINT auto_increment NOT NULL,
 	sub_total DECIMAL(10,2) NOT NULL,
 	taxa_frete DECIMAL(10,2) NOT NULL,
@@ -26,7 +26,7 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE algafood2.item_pedido (
+CREATE TABLE item_pedido (
 	id BIGINT auto_increment NOT NULL,
 	quantidade SMALLINT NOT NULL,
 	preco_unitario DECIMAL(10,2) NOT NULL,
