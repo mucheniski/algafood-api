@@ -1,6 +1,5 @@
 package com.algaworks.algafood;
 
-import org.flywaydb.core.Flyway;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +10,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.algaworks.algafood.entity.Cozinha;
+import com.algaworks.algafood.repository.CozinhaRepository;
+import com.algaworks.algafood.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -24,7 +27,10 @@ public class CadastroCozinhaIT {
 	private int port;
 	
 	@Autowired
-	private Flyway flyway;
+	private DatabaseCleaner databaseCleaner;
+	
+	@Autowired
+	private CozinhaRepository cozinhaRepository;
 	
 	/*
 	 * Essa anotação faz com que o método seja executado antes de cada um dos testes
@@ -41,8 +47,10 @@ public class CadastroCozinhaIT {
 		
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
+	
+		databaseCleaner.clearTables(); // Limpa todas as tabelas antes de cada teste
 		
-		flyway.migrate(); // Após cada migrate do flyway é executado o callback que está em src/main/resources/db/testsdata/afterMigrate.sql
+		preparaDados();
 		
 	}
 	
@@ -57,7 +65,6 @@ public class CadastroCozinhaIT {
 				.get()
 			.then()
 				.statusCode(HttpStatus.OK.value());
-		
 	}
 	
 	
@@ -81,7 +88,6 @@ public class CadastroCozinhaIT {
 			.then()
 				.body("", Matchers.hasSize(2)) // Valida se tem 2 itens na resposta
 				.body("nome", Matchers.hasItems("Tailandesa", "Indiana")); // Valida o campo nome
-		
 	}
 	
 	@Test
@@ -95,6 +101,17 @@ public class CadastroCozinhaIT {
 				.post()
 			.then()
 				.statusCode(HttpStatus.CREATED.value());
+	}
+	
+	private void preparaDados() {
+		Cozinha cozinha1 = new Cozinha();
+		cozinha1.setNome("Tailandesa");
+		cozinhaRepository.save(cozinha1);
+		
+		Cozinha cozinha2 = new Cozinha();
+		cozinha2.setNome("Indiana");
+		cozinhaRepository.save(cozinha2);
+					 
 	}
 
 }
