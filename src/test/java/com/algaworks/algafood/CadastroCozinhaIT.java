@@ -1,5 +1,7 @@
 package com.algaworks.algafood;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,8 +67,7 @@ public class CadastroCozinhaIT {
 				.get()
 			.then()
 				.statusCode(HttpStatus.OK.value());
-	}
-	
+	}	
 	
 	/*
 	 * em resources/db/migration;aferMigrate.sql são inseridas duas cozinhas quando o projeto sobe
@@ -102,6 +103,31 @@ public class CadastroCozinhaIT {
 			.then()
 				.statusCode(HttpStatus.CREATED.value());
 	}
+		
+	@Test
+	public void deveRetornarRespostaESatatusCorretosTest() {
+		RestAssured
+			.given()
+				.pathParam("cozinhaId", 2)
+				.accept(ContentType.JSON)
+			.when()
+				.get("/{cozinhaId}")
+			.then()
+				.statusCode(HttpStatus.OK.value())
+				.body("nome", equalTo("Indiana"));
+	}
+	
+	@Test
+	public void deveRetornarStatus404Test() {
+		RestAssured
+			.given()
+				.pathParam("cozinhaId", 100) // Cozinha não existe
+				.accept(ContentType.JSON)
+			.when()
+				.get("/{cozinhaId}")
+			.then()
+				.statusCode(HttpStatus.NOT_FOUND.value());
+	}
 	
 	private void preparaDados() {
 		Cozinha cozinha1 = new Cozinha();
@@ -110,8 +136,7 @@ public class CadastroCozinhaIT {
 		
 		Cozinha cozinha2 = new Cozinha();
 		cozinha2.setNome("Indiana");
-		cozinhaRepository.save(cozinha2);
-					 
+		cozinhaRepository.save(cozinha2);					 
 	}
 
 }
