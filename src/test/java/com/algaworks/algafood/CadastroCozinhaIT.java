@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.util.DatabaseCleaner;
+import com.algaworks.algafood.util.ResourceUtils;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -25,6 +26,8 @@ import io.restassured.http.ContentType;
 @TestPropertySource("/application-test.properties")
 public class CadastroCozinhaIT {
 	
+	private static final int COZINHA_ID_INEXISTENTE = 100;
+
 	@LocalServerPort // Essa anotação faz a porta levantada no RANDOM_PORT ser injetada na variável
 	private int port;
 	
@@ -33,6 +36,10 @@ public class CadastroCozinhaIT {
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	private Cozinha cozinhaIndiana = new Cozinha();
+	
+	private Long totalRegistros = 0L;
 	
 	/*
 	 * Essa anotação faz com que o método seja executado antes de cada um dos testes
@@ -73,13 +80,12 @@ public class CadastroCozinhaIT {
 	 * em resources/db/migration;aferMigrate.sql são inseridas duas cozinhas quando o projeto sobe
 	 * */
 	@Test
-	public void deveConter2CozinhasTest() {
+	public void deveContarCozinhasTest() {
 		
 		/*
 		 * Apresenra um log da requisição e da resposta caso a validação falhe
 		 * */
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); 
-		
 		// Cenário, ação e validação
 		RestAssured
 			.given()
@@ -87,15 +93,17 @@ public class CadastroCozinhaIT {
 			.when()
 				.get()
 			.then()
-				.body("", Matchers.hasSize(2)) // Valida se tem 2 itens na resposta
-				.body("nome", Matchers.hasItems("Tailandesa", "Indiana")); // Valida o campo nome
+				.body("", Matchers.hasSize(totalRegistros.intValue())); // Valida se tem 2 itens na resposta
 	}
 	
 	@Test
 	public void deveRetornarStatus201Test() {
+		
+		String cozinhaChinesaJson = ResourceUtils.getContentFromResource("/arquivosjson/cozinhachinesa.json");
+		
 		RestAssured
 			.given()
-				.body("{ \"nome\": \"Chinesa\" }")
+				.body(cozinhaChinesaJson)
 				.contentType(ContentType.JSON) // Tipo de conteúdo que estou enviando na requisição
 				.accept(ContentType.JSON)
 			.when()
@@ -105,23 +113,23 @@ public class CadastroCozinhaIT {
 	}
 		
 	@Test
-	public void deveRetornarRespostaESatatusCorretosTest() {
+	public void deveRetornarRespostaESatatusCorretosTest() {		
 		RestAssured
 			.given()
-				.pathParam("cozinhaId", 2)
+				.pathParam("cozinhaId", cozinhaIndiana.getId())
 				.accept(ContentType.JSON)
 			.when()
 				.get("/{cozinhaId}")
 			.then()
 				.statusCode(HttpStatus.OK.value())
-				.body("nome", equalTo("Indiana"));
+				.body("nome", equalTo(cozinhaIndiana.getNome()));
 	}
 	
 	@Test
-	public void deveRetornarStatus404Test() {
+	public void deveRetornarStatus404Test() {		
 		RestAssured
 			.given()
-				.pathParam("cozinhaId", 100) // Cozinha não existe
+				.pathParam("cozinhaId", COZINHA_ID_INEXISTENTE)
 				.accept(ContentType.JSON)
 			.when()
 				.get("/{cozinhaId}")
@@ -132,11 +140,12 @@ public class CadastroCozinhaIT {
 	private void preparaDados() {
 		Cozinha cozinha1 = new Cozinha();
 		cozinha1.setNome("Tailandesa");
-		cozinhaRepository.save(cozinha1);
+		cozinhaRepository.save(cozinha1);		
 		
-		Cozinha cozinha2 = new Cozinha();
-		cozinha2.setNome("Indiana");
-		cozinhaRepository.save(cozinha2);					 
+		cozinhaIndiana.setNome("Indiana");
+		cozinhaRepository.save(cozinhaIndiana);	
+		
+		totalRegistros = cozinhaRepository.count();
 	}
 
 }

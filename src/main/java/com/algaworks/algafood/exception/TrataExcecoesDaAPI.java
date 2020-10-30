@@ -39,7 +39,6 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 @ControllerAdvice
 public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
-	// TODO: Revisar a classe e colocar mensagemDeUsuario e dataHoraAtual onde for instanciado um problema
 	private static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado. Tente novamente, se o problema persistir, entre em contato com o administrador do sistema";
 
 	@Autowired
