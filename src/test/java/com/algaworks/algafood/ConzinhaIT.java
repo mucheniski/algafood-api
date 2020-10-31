@@ -24,7 +24,7 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // o WebEnvironment.MOCK não levanta um server web real, ele é configurado por padrão, por isso precisamos alterar
 @TestPropertySource("/application-test.properties")
-public class CadastroCozinhaIT {
+public class ConzinhaIT {
 	
 	private static final int COZINHA_ID_INEXISTENTE = 100;
 
@@ -49,16 +49,11 @@ public class CadastroCozinhaIT {
 	@Before
 	public void setUp() {
 		
-		/*
-		 * Apresenra um log da requisição e da resposta caso a validação falhe
-		 * */
-		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); 
-		
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); /* Apresenra um log da requisição e da resposta caso a validação falhe */
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
 	
 		databaseCleaner.clearTables(); // Limpa todas as tabelas antes de cada teste
-		
 		preparaDados();
 		
 	}
@@ -97,9 +92,9 @@ public class CadastroCozinhaIT {
 	}
 	
 	@Test
-	public void deveRetornarStatus201Test() {
+	public void deveCadastrarUmaCozinhaTest() {
 		
-		String cozinhaChinesaJson = ResourceUtils.getContentFromResource("/arquivosjson/cozinhachinesa.json");
+		String cozinhaChinesaJson = ResourceUtils.getContentFromResource("/arquivosjson/cozinhaChinesa.json");
 		
 		RestAssured
 			.given()

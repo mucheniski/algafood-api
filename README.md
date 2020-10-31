@@ -30,6 +30,8 @@ Projeto do curso Especialista REST - Algaworks
 
 **Testes - Modulo 10**
 
+O ideal é testar somente o que agrega valor ao projeto, ou seja, ecrever apenas testes que garantam que o projeto não quebre.
+
 Todo teste é dividido em 3 partes
 1. Cenário
 2. Açao

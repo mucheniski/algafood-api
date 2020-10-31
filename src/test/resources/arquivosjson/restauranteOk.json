@@ -1,0 +1,7 @@
+{
+	"nome": "Restaurante Teste",
+	"taxaFrete": 5.0,
+	"cozinha": {
+		"id": 1
+	}
+}
