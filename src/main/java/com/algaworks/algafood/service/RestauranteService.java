@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
@@ -44,12 +45,14 @@ public class RestauranteService {
 				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
 	}
 	
+	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Cozinha cozinha = cozinhaService.buscarPorId(restaurante.getCozinha().getId());
 		restaurante.setCozinha(cozinha);
 		return restauranteRepository.save(restaurante);
 	}
 	
+	@Transactional
 	public void remover(Long restauranteId) {
 		try {
 			restauranteRepository.deleteById(restauranteId);
@@ -61,7 +64,7 @@ public class RestauranteService {
 			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
 		
 		}
-	}
+	}	
 	
 	public void mergeCampos(Map<String, Object> camposAtualizados, Restaurante restauranteAtual, HttpServletRequest request) {
 		
