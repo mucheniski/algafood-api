@@ -29,8 +29,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.algaworks.algafood.validations.Grupos;
 import com.algaworks.algafood.validations.Multiplo;
 import com.algaworks.algafood.validations.ValorZeroIncluiDescricao;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -58,9 +56,6 @@ public class Restaurante {
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
-//	@JsonIgnore
-//	@JsonIgnoreProperties("hibernateLazyInitializer")
-	@JsonIgnoreProperties(value = "nome", allowGetters = true) // Ignorat apenas o nome da cozinha na hora de desserializar o JSON do restaurante, na hora de serializar não, permite os getters
 	@Valid // Faz a validação em cascata das propriedades da cozinha mapeadas aqui, como no caso o ID
 	@ConvertGroup(from = Default.class, to = Grupos.CozinhaId.class) // Converte a validação apenas para o cadastro de restaurante
 	@NotNull
@@ -68,7 +63,6 @@ public class Restaurante {
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
-	@JsonIgnore
 	@Embedded // Essa propriedade é um tipo incorporado de uma classe embeddable
 	private Endereco endereco;	
 	
@@ -80,12 +74,9 @@ public class Restaurante {
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "rastaurante")
 	private List<Produto> produtos = new ArrayList<>();
-	
-	
-	@JsonIgnore
+		
 	@ManyToMany
 	@JoinTable(
 			name = "restaurante_forma_pagamento",
