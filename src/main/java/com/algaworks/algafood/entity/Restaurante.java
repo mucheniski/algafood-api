@@ -30,6 +30,7 @@ import com.algaworks.algafood.validations.Grupos;
 import com.algaworks.algafood.validations.Multiplo;
 import com.algaworks.algafood.validations.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -59,6 +60,7 @@ public class Restaurante {
 	
 //	@JsonIgnore
 //	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@JsonIgnoreProperties(value = "nome", allowGetters = true) // Ignorat apenas o nome da cozinha na hora de desserializar o JSON do restaurante, na hora de serializar não, permite os getters
 	@Valid // Faz a validação em cascata das propriedades da cozinha mapeadas aqui, como no caso o ID
 	@ConvertGroup(from = Default.class, to = Grupos.CozinhaId.class) // Converte a validação apenas para o cadastro de restaurante
 	@NotNull

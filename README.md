@@ -53,3 +53,5 @@ Um teste não pode depender da execução ou não execução de outro teste, dev
 **Boas práticas para API - Modulo 11**
 
 @Transactional: Essa anotação do sprint (org.springframework.transaction.annotation.Transactional) faz com que seja aberta uma transação na base de dados sempre que um método que manipula dados for chamado, a implementação do Spring Data JPA que é a classe SimpleJpaRepository já tem as operações como save, delete, update marcadas com @Transactional, porém como boa prática é interessante marcar os métodos dos nossos services que manipulam dados na base também, assim garantimos que não haja inconstência nos dados caso dê algúm problema e uma das operações e precise ser feito um rollback.
+
+Desserialização é de JSON para Objeto, serialização é de Objeto para JSON.
