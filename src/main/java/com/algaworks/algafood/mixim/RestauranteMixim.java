@@ -1,6 +1,5 @@
 package com.algaworks.algafood.mixim;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +16,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * (RestauranteMixim) */
 public class RestauranteMixim {
 	
-	@JsonIgnoreProperties(value = "nome", allowGetters = true) // Ignorat apenas o nome da cozinha na hora de desserializar o JSON do restaurante, na hora de serializar não, permite os getters
+	@JsonIgnoreProperties(value = "nome", allowGetters = true) // Ignorar apenas o nome da cozinha na hora de desserializar o JSON do restaurante, na hora de serializar não, permite os getters
 	private Cozinha cozinha;
 	
 	@JsonIgnore
 	private Endereco endereco;	
 	
 	// @JsonIgnore
-	private LocalDateTime dataCadastro;	
+	// private LocalDateTime dataCadastro;	
 	
 	// @JsonIgnore
-	private LocalDateTime dataAtualizacao;
+	// private LocalDateTime dataAtualizacao;
 	
 	@JsonIgnore
 	private List<Produto> produtos = new ArrayList<>();	
