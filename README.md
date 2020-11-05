@@ -62,3 +62,9 @@ TimeZone é o fuso horário utilizado em cada região do globo terrestre de acor
 UTC é a referência de horário principal de onde todas as demais regiões do mundo se baseiam, coincide com o GMT.
 GMT é a TimeZone da linha principal do mundo (Prime Meridian ou Meridiano de Greenwich), é onde se inicia o TimeZone com 0, países que ficam à esqueda (Oeste) tem seus TimeZone's diminuídos em horas e países à direita (Leste) tem seus TimeZone's acrescidos em horas.
 ![](/img/WorldTimes.png)
+
+1 - Usar ISO-8601 para formatar data/hora, é um padrão bem definido de representação de datas e horas, evitando problemas principalmente quando existem TimeZones diferentes envolvidos na API. 
+ex: 2020-11-05T06:40:30Z, com o Z no final significa que está exatamente no UTC, sem nenhum offset, também pode ser especificado com o offset do UTC 2020-11-05T06:41:15-03:00 (nesse caso seria o horário seis e quarenta e um usando como referência o offset de Brasilia que é menos três horas).
+2 - A API deve aceitar qualquer TimeZone de entrada e converter para o TimeZone que ela está usando.
+3 - Armazene Data Hora sempre em UTC sem nenhum offset.
+4 - Retone a Data Hora em UTC, caso o consumidor queira mostrar em um TimeZone específico ele retorna no front.
