@@ -57,3 +57,8 @@ Um teste não pode depender da execução ou não execução de outro teste, dev
 Desserialização é de JSON para Objeto, serialização é de Objeto para JSON.
 
 Mixim é uma classe que possui propriedades de uma outra classe original onde podem ser colocadas anotações que queremos deixar separadas da classe original para que fique mais coeso, como por exemplo anotações Jackson que são referêntes à API em classes de domínio, o ideal é colocar as anotações Jackson em uma classe mixim. (RestauranteMixim)  
+
+TimeZone é o fuso horário utilizado em cada região do globo terrestre de acordo com o UTC, a diferença desses horários é chamada de offset.
+UTC é a referência de horário principal de onde todas as demais regiões do mundo se baseiam, coincide com o GMT.
+GMT é a TimeZone da linha principal do mundo (Prime Meridian ou Meridiano de Greenwich), é onde se inicia o TimeZone com 0, países que ficam à esqueda (Oeste) tem seus TimeZone's diminuídos em horas e países à direita (Leste) tem seus TimeZone's acrescidos em horas.
+![](/img/WorldTimes.png)
