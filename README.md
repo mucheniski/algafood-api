@@ -68,3 +68,5 @@ ex: 2020-11-05T06:40:30Z, com o Z no final significa que está exatamente no UTC
 2 - A API deve aceitar qualquer TimeZone de entrada e converter para o TimeZone que ela está usando.
 3 - Armazene Data Hora sempre em UTC sem nenhum offset.
 4 - Retone a Data Hora em UTC, caso o consumidor queira mostrar em um TimeZone específico ele retorna no front.
+5 - Não inclua horário se não for necessário, é permitido armazenar apenas data.
+O trabalho de calcular o TimeZone geralmente é do Frontend, a api deve salvar e retornar sempre em UTC.

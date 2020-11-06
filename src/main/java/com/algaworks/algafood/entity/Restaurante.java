@@ -1,7 +1,7 @@
 package com.algaworks.algafood.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,11 +68,11 @@ public class Restaurante {
 	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime dataCadastro;	
+	private OffsetDateTime dataCadastro;	// O OffsetDateTime possui o offset para ser apresentado no retorno da API ex "2020-11-06T06:51:52-03:00"
 	
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime dataAtualizacao;
+	private OffsetDateTime dataAtualizacao;
 	
 	@OneToMany(mappedBy = "rastaurante")
 	private List<Produto> produtos = new ArrayList<>();

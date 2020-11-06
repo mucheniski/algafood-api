@@ -23,10 +23,10 @@ public class RestauranteMixim {
 	private Endereco endereco;	
 	
 	// @JsonIgnore
-	// private LocalDateTime dataCadastro;	
+	// private OffsetDateTime dataCadastro;	
 	
 	// @JsonIgnore
-	// private LocalDateTime dataAtualizacao;
+	// private OffsetDateTime dataAtualizacao;
 	
 	@JsonIgnore
 	private List<Produto> produtos = new ArrayList<>();	
