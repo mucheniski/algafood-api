@@ -1,6 +1,6 @@
 package com.algaworks.algafood.exception;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -171,7 +171,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 			object = Problema.builder()
 					.titulo(status.getReasonPhrase())
 					.status(status.value())
-					.dataHoraAtual(LocalDateTime.now())
+					.dataHoraAtual(OffsetDateTime.now())
 					.build();
 			
 		} else if (object instanceof String) {
@@ -179,7 +179,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 			object = Problema.builder()
 					.titulo((String) object )
 					.status(status.value())
-					.dataHoraAtual(LocalDateTime.now())
+					.dataHoraAtual(OffsetDateTime.now())
 					.build();
 			
 		}
@@ -197,7 +197,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 					   .tipo(tipoProblema.getUri())
 					   .titulo(tipoProblema.getTitulo())
 					   .detalhe(detalhe)
-					   .dataHoraAtual(LocalDateTime.now());
+					   .dataHoraAtual(OffsetDateTime.now());
 	}
 	
 	private ResponseEntity<Object> tratarInvalidFormatException(InvalidFormatException causaRaiz, HttpHeaders headers, HttpStatus status, WebRequest request) {
