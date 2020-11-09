@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.dto.RestauranteDTO;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
@@ -42,6 +43,15 @@ public class RestauranteController {
 		return restauranteRepository.findAllCustom();
 	}
 	
+	@GetMapping("/{restauranteId}")
+	public RestauranteDTO buscarPorId(@PathVariable Long restauranteId) {
+		Restaurante restaurante = restauranteService.buscarPorId(restauranteId);
+		
+		RestauranteDTO restauranteDTO = null; // Converter da entidade Restaurante para RestauranteModel
+		
+		return restauranteDTO;
+	}
+	
 	@GetMapping("/taxa-frete")
 	public List<Restaurante> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
@@ -60,11 +70,6 @@ public class RestauranteController {
 	@GetMapping("/nome-cozinha")
 	public List<Restaurante> listarPorNomeECozinha(String nome, Long cozinhaId) {
 		return restauranteRepository.consultarPorNome(nome, cozinhaId);
-	}
-	
-	@GetMapping("/{restauranteId}")
-	public Restaurante buscarPorId(@PathVariable Long restauranteId) {
-		return restauranteService.buscarPorId(restauranteId);
 	}
 	
 	@GetMapping("/primeiro")

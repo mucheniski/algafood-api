@@ -70,3 +70,5 @@ ex: 2020-11-05T06:40:30Z, com o Z no final significa que está exatamente no UTC
 4 - Retone a Data Hora em UTC, caso o consumidor queira mostrar em um TimeZone específico ele retorna no front.
 5 - Não inclua horário se não for necessário, é permitido armazenar apenas data.
 O trabalho de calcular o TimeZone geralmente é do Frontend, a api deve salvar e retornar sempre em UTC.
+
+DTO - Data Transfer Object, é o padrão usado para representação dos recursos, para que fique separado das classes de domínio.
