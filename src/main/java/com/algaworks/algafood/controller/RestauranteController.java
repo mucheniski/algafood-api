@@ -3,7 +3,7 @@ package com.algaworks.algafood.controller;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.dto.CozinhaDTO;
 import com.algaworks.algafood.dto.RestauranteDTO;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
@@ -39,57 +40,54 @@ public class RestauranteController {
 	private RestauranteService restauranteService;
 	
 	@GetMapping
-	public List<Restaurante> listar() {
-		return restauranteRepository.findAllCustom();
+	public List<RestauranteDTO> listar() {
+		return converterListaParaDTO(restauranteRepository.findAllCustom());
 	}
 	
 	@GetMapping("/{restauranteId}")
 	public RestauranteDTO buscarPorId(@PathVariable Long restauranteId) {
-		Restaurante restaurante = restauranteService.buscarPorId(restauranteId);
-		
-		RestauranteDTO restauranteDTO = null; // Converter da entidade Restaurante para RestauranteModel
-		
-		return restauranteDTO;
+		Restaurante restaurante = restauranteService.buscarPorId(restauranteId);		
+		return converterParaDTO(restaurante);
 	}
 	
 	@GetMapping("/taxa-frete")
-	public List<Restaurante> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
+	public List<RestauranteDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
+		return converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
 	}
 	
 	@GetMapping("/nome-taxa-frete")
-	public List<Restaurante> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal);
+	public List<RestauranteDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+		return converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
 	}
 	
 	@GetMapping("/com-frete-gratis")
-	public List<Restaurante> comFreteGratis(String nome) {	
-		return restauranteRepository.findComFreteGratis(nome);
+	public List<RestauranteDTO> comFreteGratis(String nome) {	
+		return converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
 	}
 	
 	@GetMapping("/nome-cozinha")
-	public List<Restaurante> listarPorNomeECozinha(String nome, Long cozinhaId) {
-		return restauranteRepository.consultarPorNome(nome, cozinhaId);
+	public List<RestauranteDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
+		return converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
 	}
 	
 	@GetMapping("/primeiro")
-	public Optional<Restaurante> primeiroRestaurante() {
-		return restauranteRepository.buscarPrimeiro();
+	public RestauranteDTO primeiroRestaurante() {
+		return converterParaDTO(restauranteRepository.buscarPrimeiro().get());
 	}	
 	
 	@PostMapping	
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante salvar(@RequestBody @Valid Restaurante restaurante) {
-		return restauranteService.salvar(restaurante);
+	public RestauranteDTO salvar(@RequestBody @Valid Restaurante restaurante) {
+		return converterParaDTO(restauranteService.salvar(restaurante));
 	}
 	
 	@PutMapping("/{restauranteId}")
-	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restauranteRecebida) {
+	public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restauranteRecebida) {
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
 		BeanUtils.copyProperties(restauranteRecebida, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 		
 		try {
-			return restauranteService.salvar(restauranteAtual);
+			return converterParaDTO(restauranteService.salvar(restauranteAtual));
 			
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
@@ -98,7 +96,7 @@ public class RestauranteController {
 	}	
 	
 	@PatchMapping("/{restauranteId}")
-	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody @Valid Map<String, Object> camposAtualizados, HttpServletRequest request) {		
+	public RestauranteDTO atualizarParcial(@PathVariable Long restauranteId, @RequestBody @Valid Map<String, Object> camposAtualizados, HttpServletRequest request) {		
 		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId); 
 		restauranteService.mergeCampos(camposAtualizados, restauranteAtual, request);			
 		restauranteService.valida(restauranteAtual, "restaurante");
@@ -110,6 +108,25 @@ public class RestauranteController {
 			throw new NegocioException(e.getMessage());
 		}
 		
+	}
+	
+	private RestauranteDTO converterParaDTO(Restaurante restaurante) {
+		CozinhaDTO cozinhaDTO = new CozinhaDTO();
+		cozinhaDTO.setId(restaurante.getCozinha().getId());
+		cozinhaDTO.setNome(restaurante.getCozinha().getNome());
+		
+		RestauranteDTO restauranteDTO = new RestauranteDTO();
+		restauranteDTO.setId(restaurante.getId());
+		restauranteDTO.setNome(restaurante.getNome());
+		restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
+		restauranteDTO.setCozinhaDTO(cozinhaDTO);
+		return restauranteDTO;
+	}
+	
+	private List<RestauranteDTO> converterListaParaDTO(List<Restaurante> restaurantes) {
+		return restaurantes.stream()
+							.map(restaurante -> converterParaDTO(restaurante))
+							.collect(Collectors.toList());
 	}
 	
 }
