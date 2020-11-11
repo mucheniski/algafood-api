@@ -17,7 +17,6 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 
-import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
@@ -105,21 +104,6 @@ public class RestauranteService {
 		if (beanPropertyBindingResult.hasErrors()) {
 			throw new ValidacaoException(beanPropertyBindingResult);
 		}
-	}
-		
-	public Restaurante converterParaObjeto(RestauranteEntradaDTO restauranteEntradaDTO) {
-		// TODO: Refatorar para builder do lombok
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteEntradaDTO.getNome());
-		restaurante.setTaxaFrete(restauranteEntradaDTO.getTaxaFrete());
-		
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteEntradaDTO.getCozinha().getId());
-		
-		restaurante.setCozinha(cozinha);
-		
-		return restaurante;
-		
 	}
 	
 }

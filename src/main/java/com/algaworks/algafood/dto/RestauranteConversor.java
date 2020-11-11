@@ -5,13 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 
 /*
  * Classe que converte Entidades para DTO
  * */
 @Component
-public class RestauranteConversorParaDTO {
+public class RestauranteConversor {
 	
 	public RestauranteRetornoDTO converterParaDTO(Restaurante restaurante) {
 		CozinhaDTO cozinhaDTO = new CozinhaDTO();
@@ -30,6 +31,21 @@ public class RestauranteConversorParaDTO {
 		return restaurantes.stream()
 							.map(restaurante -> converterParaDTO(restaurante))
 							.collect(Collectors.toList());
+	}
+	
+	public Restaurante converterParaObjeto(RestauranteEntradaDTO restauranteEntradaDTO) {
+		// TODO: Refatorar para builder do lombok
+		Restaurante restaurante = new Restaurante();
+		restaurante.setNome(restauranteEntradaDTO.getNome());
+		restaurante.setTaxaFrete(restauranteEntradaDTO.getTaxaFrete());
+		
+		Cozinha cozinha = new Cozinha();
+		cozinha.setId(restauranteEntradaDTO.getCozinha().getId());
+		
+		restaurante.setCozinha(cozinha);
+		
+		return restaurante;
+		
 	}
 
 }
