@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.dto.RestauranteConversorParaDTO;
 import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Restaurante;
@@ -36,40 +37,43 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteService restauranteService;
 	
+	@Autowired
+	private RestauranteConversorParaDTO restauranteConversorParaDTO;
+	
 	@GetMapping
 	public List<RestauranteRetornoDTO> listar() {
-		return restauranteService.converterListaParaDTO(restauranteRepository.findAllCustom());
+		return restauranteConversorParaDTO.converterListaParaDTO(restauranteRepository.findAllCustom());
 	}
 	
 	@GetMapping("/{restauranteId}")
 	public RestauranteRetornoDTO buscarPorId(@PathVariable Long restauranteId) {
 		Restaurante restaurante = restauranteService.buscarPorId(restauranteId);		
-		return restauranteService.converterParaDTO(restaurante);
+		return restauranteConversorParaDTO.converterParaDTO(restaurante);
 	}
 	
 	@GetMapping("/taxa-frete")
 	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteService.converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
+		return restauranteConversorParaDTO.converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
 	}
 	
 	@GetMapping("/nome-taxa-frete")
 	public List<RestauranteRetornoDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteService.converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
+		return restauranteConversorParaDTO.converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
 	}
 	
 	@GetMapping("/com-frete-gratis")
 	public List<RestauranteRetornoDTO> comFreteGratis(String nome) {	
-		return restauranteService.converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
+		return restauranteConversorParaDTO.converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
 	}
 	
 	@GetMapping("/nome-cozinha")
 	public List<RestauranteRetornoDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
-		return restauranteService.converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
+		return restauranteConversorParaDTO.converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
 	}
 	
 	@GetMapping("/primeiro")
 	public RestauranteRetornoDTO primeiroRestaurante() {
-		return restauranteService.converterParaDTO(restauranteRepository.buscarPrimeiro().get());
+		return restauranteConversorParaDTO.converterParaDTO(restauranteRepository.buscarPrimeiro().get());
 	}	
 	
 	@PostMapping	
@@ -77,7 +81,7 @@ public class RestauranteController {
 	public RestauranteRetornoDTO salvar(@RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {
 		try {
 			Restaurante restaurante = restauranteService.converterParaObjeto(restauranteEntradaDTO);
-			return restauranteService.converterParaDTO(restauranteService.salvar(restaurante));
+			return restauranteConversorParaDTO.converterParaDTO(restauranteService.salvar(restaurante));
 		} catch (CozinhaNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -92,7 +96,7 @@ public class RestauranteController {
 		BeanUtils.copyProperties(restauranteRecebido, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
 		
 		try {
-			return restauranteService.converterParaDTO(restauranteService.salvar(restauranteAtual));
+			return restauranteConversorParaDTO.converterParaDTO(restauranteService.salvar(restauranteAtual));
 			
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());

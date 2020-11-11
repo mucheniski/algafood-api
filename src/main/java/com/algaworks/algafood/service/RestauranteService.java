@@ -1,9 +1,7 @@
 package com.algaworks.algafood.service;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,9 +17,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 
-import com.algaworks.algafood.dto.CozinhaDTO;
 import com.algaworks.algafood.dto.RestauranteEntradaDTO;
-import com.algaworks.algafood.dto.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
@@ -110,26 +106,7 @@ public class RestauranteService {
 			throw new ValidacaoException(beanPropertyBindingResult);
 		}
 	}
-	
-	public RestauranteRetornoDTO converterParaDTO(Restaurante restaurante) {
-		CozinhaDTO cozinhaDTO = new CozinhaDTO();
-		cozinhaDTO.setId(restaurante.getCozinha().getId());
-		cozinhaDTO.setNome(restaurante.getCozinha().getNome());
 		
-		RestauranteRetornoDTO restauranteDTO = new RestauranteRetornoDTO();
-		restauranteDTO.setId(restaurante.getId());
-		restauranteDTO.setNome(restaurante.getNome());
-		restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
-		restauranteDTO.setCozinhaDTO(cozinhaDTO);
-		return restauranteDTO;
-	}
-	
-	public List<RestauranteRetornoDTO> converterListaParaDTO(List<Restaurante> restaurantes) {
-		return restaurantes.stream()
-							.map(restaurante -> converterParaDTO(restaurante))
-							.collect(Collectors.toList());
-	}
-	
 	public Restaurante converterParaObjeto(RestauranteEntradaDTO restauranteEntradaDTO) {
 		// TODO: Refatorar para builder do lombok
 		Restaurante restaurante = new Restaurante();
