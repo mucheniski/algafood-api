@@ -3,9 +3,10 @@ package com.algaworks.algafood.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 
 /*
@@ -14,17 +15,11 @@ import com.algaworks.algafood.entity.Restaurante;
 @Component
 public class RestauranteConversor {
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	public RestauranteRetornoDTO converterParaDTO(Restaurante restaurante) {
-		CozinhaDTO cozinhaDTO = new CozinhaDTO();
-		cozinhaDTO.setId(restaurante.getCozinha().getId());
-		cozinhaDTO.setNome(restaurante.getCozinha().getNome());
-		
-		RestauranteRetornoDTO restauranteDTO = new RestauranteRetornoDTO();
-		restauranteDTO.setId(restaurante.getId());
-		restauranteDTO.setNome(restaurante.getNome());
-		restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
-		restauranteDTO.setCozinhaDTO(cozinhaDTO);
-		return restauranteDTO;
+		return modelMapper.map(restaurante, RestauranteRetornoDTO.class); // Atribui corretamente as propriedades de restaurante para o DTO.
 	}
 	
 	public List<RestauranteRetornoDTO> converterListaParaDTO(List<Restaurante> restaurantes) {
@@ -34,18 +29,7 @@ public class RestauranteConversor {
 	}
 	
 	public Restaurante converterParaObjeto(RestauranteEntradaDTO restauranteEntradaDTO) {
-		// TODO: Refatorar para builder do lombok
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteEntradaDTO.getNome());
-		restaurante.setTaxaFrete(restauranteEntradaDTO.getTaxaFrete());
-		
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteEntradaDTO.getCozinha().getId());
-		
-		restaurante.setCozinha(cozinha);
-		
-		return restaurante;
-		
+		return modelMapper.map(restauranteEntradaDTO, Restaurante.class);		
 	}
 
 }

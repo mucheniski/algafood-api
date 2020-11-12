@@ -73,3 +73,5 @@ O trabalho de calcular o TimeZone geralmente é do Frontend, a api deve salvar e
 
 DTO - Data Transfer Object, é o padrão usado para representação dos recursos, para que fique separado das classes de domínio.
 Eu posso ter mais de um DTO para representar o mesmo recurso, por exemplo, caso nesse projeto eu queira retornar um Restaurante com dados resumidos, posso criar um DTO de retorno específico para isso e um completo.
+
+@Bean - Quando é injetado algum componente que não faz parte do Spring, é preciso criar uma classe de configuração e uma instância com as anotações do spring, para que fiquem disponíveis sempre que o projeto inicia, como no caso do ModelMapper.
