@@ -78,3 +78,8 @@ Eu posso ter mais de um DTO para representar o mesmo recurso, por exemplo, caso 
 
 Funcionamento do ModelMapper - Ele transforma todas as propriedades das classes em tokens, depois compara os tokens de origem e destino, seguindo as regras 1 - Os nomes de tokens de origem precisam ser iguais aos tokens de destino, 2 - Não importa a ordem em que os tokens estejam. 3 - O nome da propriedade de origem, deve ter ao menos um token de correspondência.
 Explicado na aula 11.15. Entendendo a estratégia padrão do ModelMapper para correspondência de propriedades
+
+SnakeCase - Usa todas as palavras em minúsculo com separação por underline ex: valor_de_frete.
+No spring o padrão é lowerCammelCase, caso queira ser alterado basta adicionar em application.properties
+spring.jackson.property-naming-strategy=SNAKE_CASE, porém é recomendado manter o padrão do spring pois é 
+o mais comun utilizado com JSON.
