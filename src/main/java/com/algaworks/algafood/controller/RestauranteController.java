@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,15 +88,10 @@ public class RestauranteController {
 	
 	@PutMapping("/{restauranteId}")
 	public RestauranteRetornoDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {
-		
-		Restaurante restauranteRecebido = restauranteConversor.converterParaObjeto(restauranteEntradaDTO);
-		Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
-		
-		BeanUtils.copyProperties(restauranteRecebido, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-		
 		try {
-			return restauranteConversor.converterParaDTO(restauranteService.salvar(restauranteAtual));
-			
+			Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
+			restauranteConversor.copiarParaObjeto(restauranteEntradaDTO, restauranteAtual);
+			return restauranteConversor.converterParaDTO(restauranteService.salvar(restauranteAtual));			
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
