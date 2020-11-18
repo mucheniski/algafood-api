@@ -29,8 +29,8 @@ public class RestauranteConversor {
 	
 	public List<RestauranteRetornoDTO> converterListaParaDTO(List<Restaurante> restaurantes) {
 		return restaurantes.stream()
-							.map(restaurante -> converterParaDTO(restaurante))
-							.collect(Collectors.toList());
+								.map(restaurante -> converterParaDTO(restaurante))
+								.collect(Collectors.toList());
 	}
 	
 	/*

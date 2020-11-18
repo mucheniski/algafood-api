@@ -1,11 +1,9 @@
 package com.algaworks.algafood.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,54 +13,52 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.entity.Cozinha;
-import com.algaworks.algafood.repository.CozinhaRepository;
+import com.algaworks.algafood.dto.CozinhaEntradaDTO;
+import com.algaworks.algafood.dto.CozinhaRetornoDTO;
 import com.algaworks.algafood.service.CozinhaService;
 
+//TODO: Revisar se realmente é necessário um DTO de entrada e outro de Retorno.
 @RestController
 @RequestMapping("/cozinhas")
 public class CozinhaController {
-
-	@Autowired
-	private CozinhaRepository cozinhaRepository;
+	
 	
 	@Autowired
 	private CozinhaService cozinhaService;
 	
 	@GetMapping
-	public List<Cozinha> listar() {		
-		return cozinhaRepository.findAll();
+	public List<CozinhaRetornoDTO> listar() {
+		return cozinhaService.listar();
 	}
 	
 	@GetMapping("/nome")
-	public List<Cozinha> listarPorNome(String nome) {		
-		return cozinhaRepository.findByNome(nome);
+	public List<CozinhaRetornoDTO> listarPorNome(@RequestParam String nome) {	
+		return cozinhaService.listarPorNome(nome);
 	}
 	
 	@GetMapping("/{cozinhaId}")
-	public Cozinha buscar(@PathVariable Long cozinhaId) {		
-		return cozinhaService.buscarPorId(cozinhaId);	
+	public CozinhaRetornoDTO buscarPorId(@PathVariable Long cozinhaId) {
+		return cozinhaService.buscarPorId(cozinhaId);
 	}
 	
 	@GetMapping("/primeiro")
-	public Optional<Cozinha> primeiroRestaurante() {
-		return cozinhaRepository.buscarPrimeiro();
+	public CozinhaRetornoDTO bucarPrimeiro() {
+		return cozinhaService.bucarPrimeiro();		
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha salvar(@RequestBody @Valid Cozinha cozinha) {
-		return cozinhaService.salvar(cozinha);
+	public CozinhaRetornoDTO salvar(@RequestBody @Valid CozinhaEntradaDTO cozinhaEntradaDTO) {
+		return cozinhaService.salvar(cozinhaEntradaDTO);
 	}
 	
 	@PutMapping("/{cozinhaId}")
-	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid Cozinha cozinhaRecebida) {
-		Cozinha cozinhaAtual = cozinhaService.buscarPorId(cozinhaId);		
-		BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-		return cozinhaService.salvar(cozinhaAtual);
+	public CozinhaRetornoDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaEntradaDTO cozinhaEntradaDTO) {
+		return cozinhaService.atualizar(cozinhaId, cozinhaEntradaDTO);
 	}	
 
 	@DeleteMapping("/{cozinhaId}")

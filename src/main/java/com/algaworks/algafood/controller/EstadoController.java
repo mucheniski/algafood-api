@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.entity.Estado;
-import com.algaworks.algafood.repository.EstadoRepository;
+import com.algaworks.algafood.dto.EstadoDTO;
 import com.algaworks.algafood.service.EstadoService;
 
 @RestController
@@ -26,27 +24,27 @@ import com.algaworks.algafood.service.EstadoService;
 public class EstadoController {
 
 	@Autowired
-	private EstadoRepository estadoRepository;
-	
-	@Autowired
 	private EstadoService estadoService;
 	
 	@GetMapping
-	public List<Estado> listar() {
-		return estadoRepository.findAll();
+	public List<EstadoDTO> listar() {
+		return estadoService.listar();
+	}
+	
+	@GetMapping("/{estadoId}")
+	public EstadoDTO buscarPorId(@PathVariable Long estadoId) {
+		return estadoService.buscarPorId(estadoId);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado salvar(@RequestBody @Valid Estado estado) {
-		return estadoService.salvar(estado);
+	public EstadoDTO salvar(@RequestBody @Valid EstadoDTO estadoDTO) {
+		return estadoService.salvar(estadoDTO);
 	}
 	
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@PathVariable Long estadoId, @RequestBody @Valid Estado estadoRecebida) {
-		Estado estadoAtual = estadoService.buscarPorId(estadoId);
-		BeanUtils.copyProperties(estadoRecebida, estadoAtual, "id"); // Do terceiro parâmetro em diante passamos o que queremos que seja ignorado
-		return estadoService.salvar(estadoAtual);
+	public EstadoDTO atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoDTO estadoDTO) {		
+		return estadoService.atualizar(estadoId, estadoDTO);
 	}
 	
 	@DeleteMapping("/{estadoId}")

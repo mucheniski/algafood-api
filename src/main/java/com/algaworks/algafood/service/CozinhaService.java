@@ -1,14 +1,21 @@
 package com.algaworks.algafood.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.dto.CozinhaConversor;
+import com.algaworks.algafood.dto.CozinhaEntradaDTO;
+import com.algaworks.algafood.dto.CozinhaRetornoDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.repository.CozinhaRepository;
 
 @Service
@@ -19,14 +26,48 @@ public class CozinhaService {
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
-	public Cozinha buscarPorId(Long cozinhaId) {
-		return cozinhaRepository.findById(cozinhaId)
-				.orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId) );
+	@Autowired
+	private CozinhaConversor cozinhaConversor;
+	
+	public List<CozinhaRetornoDTO> listar() {
+		return cozinhaConversor.converterListaParaDTO(cozinhaRepository.findAll());
+	}
+	
+	public List<CozinhaRetornoDTO> listarPorNome(String nome) {		
+		List<Cozinha> cozinhas = cozinhaRepository.findByNome(nome);
+		return cozinhaConversor.converterListaParaDTO(cozinhas);
+	}
+	
+	public CozinhaRetornoDTO buscarPorId(Long cozinhaId) {
+		Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+				.orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));		
+		return cozinhaConversor.converterParaDTO(cozinha);
+	}
+	
+	public CozinhaRetornoDTO bucarPrimeiro() {		
+		Optional<Cozinha> cozinha = cozinhaRepository.buscarPrimeiro();
+		return cozinhaConversor.converterParaDTO(cozinha.get());
 	}
 	
 	@Transactional
-	public Cozinha salvar(Cozinha cozinha) {
-		return cozinhaRepository.save(cozinha);
+	public CozinhaRetornoDTO salvar(CozinhaEntradaDTO cozinhaEntradaDTO) {
+		try {
+			Cozinha cozinha = cozinhaConversor.converterParaObjeto(cozinhaEntradaDTO);
+			return cozinhaConversor.converterParaDTO(cozinhaRepository.save(cozinha));
+		} catch (Exception e) {
+			throw new NegocioException(e.getMessage());
+		}		
+	}
+	
+	@Transactional
+	public CozinhaRetornoDTO atualizar(Long cozinhaId, CozinhaEntradaDTO cozinhaEntradaDTO) {
+		try {
+			Cozinha cozinhaAtual = cozinhaRepository.findById(cozinhaId).get();	
+			cozinhaConversor.copiarParaObjeto(cozinhaEntradaDTO, cozinhaAtual);
+			return cozinhaConversor.converterParaDTO(cozinhaRepository.save(cozinhaAtual));
+		} catch (Exception e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 	
 	@Transactional

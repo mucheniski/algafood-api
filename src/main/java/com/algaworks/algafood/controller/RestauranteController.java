@@ -16,86 +16,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.RestauranteConversor;
 import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.RestauranteRetornoDTO;
-import com.algaworks.algafood.entity.Restaurante;
-import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
-import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
-import com.algaworks.algafood.exception.NegocioException;
-import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
+
+// TODO: Revisar se realmente é necessário um DTO de entrada e outro de Retorno.
 
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
 
 	@Autowired
-	private RestauranteRepository restauranteRepository;
-	
-	@Autowired
 	private RestauranteService restauranteService;
-	
-	@Autowired
-	private RestauranteConversor restauranteConversor;
 	
 	@GetMapping
 	public List<RestauranteRetornoDTO> listar() {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findAllCustom());
+		return restauranteService.listar();
 	}
 	
 	@GetMapping("/{restauranteId}")
 	public RestauranteRetornoDTO buscarPorId(@PathVariable Long restauranteId) {
-		Restaurante restaurante = restauranteService.buscarPorId(restauranteId);		
-		return restauranteConversor.converterParaDTO(restaurante);
+		return restauranteService.buscarPorId(restauranteId);		
 	}
 	
 	@GetMapping("/taxa-frete")
 	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
+		return restauranteService.listarPorTaxaFrete(taxaInicial, taxaFinal);		
 	}
 	
 	@GetMapping("/nome-taxa-frete")
 	public List<RestauranteRetornoDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
+		return restauranteService.listarPorNomeTaxaFrete(nome, taxaInicial, taxaFinal);
 	}
 	
 	@GetMapping("/com-frete-gratis")
 	public List<RestauranteRetornoDTO> comFreteGratis(String nome) {	
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
+		return restauranteService.comFreteGratis(nome);
 	}
 	
 	@GetMapping("/nome-cozinha")
 	public List<RestauranteRetornoDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
+		return restauranteService.listarPorNomeECozinha(nome, cozinhaId);
 	}
 	
 	@GetMapping("/primeiro")
-	public RestauranteRetornoDTO primeiroRestaurante() {
-		return restauranteConversor.converterParaDTO(restauranteRepository.buscarPrimeiro().get());
+	public RestauranteRetornoDTO buscarPrimeiro() {
+		return restauranteService.buscarPrimeiro();
 	}	
 	
 	@PostMapping	
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteRetornoDTO salvar(@RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {
-		try {
-			Restaurante restaurante = restauranteConversor.converterParaObjeto(restauranteEntradaDTO);
-			return restauranteConversor.converterParaDTO(restauranteService.salvar(restaurante));
-		} catch (CozinhaNaoEncotradaException e) {
-			throw new NegocioException(e.getMessage());
-		}
+		return restauranteService.salvar(restauranteEntradaDTO);	
 	}
 	
 	@PutMapping("/{restauranteId}")
-	public RestauranteRetornoDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {
-		try {
-			Restaurante restauranteAtual = restauranteService.buscarPorId(restauranteId);
-			restauranteConversor.copiarParaObjeto(restauranteEntradaDTO, restauranteAtual);
-			return restauranteConversor.converterParaDTO(restauranteService.salvar(restauranteAtual));			
-		} catch (EntidadeNaoEncotradaException e) {
-			throw new NegocioException(e.getMessage());
-		}
-		
+	public RestauranteRetornoDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {		
+		return restauranteService.atualizar(restauranteId, restauranteEntradaDTO);		
 	}
 	
 }

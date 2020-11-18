@@ -1,7 +1,10 @@
 package com.algaworks.algafood.service;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,11 +20,17 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 
+import com.algaworks.algafood.dto.RestauranteConversor;
+import com.algaworks.algafood.dto.RestauranteEntradaDTO;
+import com.algaworks.algafood.dto.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradaException;
 import com.algaworks.algafood.exception.ValidacaoException;
+import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,21 +44,66 @@ public class RestauranteService {
 	private RestauranteRepository restauranteRepository;
 	
 	@Autowired
-	private CozinhaService cozinhaService;
+	private CozinhaRepository cozinhaRepository;
 	
 	@Autowired
 	private SmartValidator smartValidator; // Validador do spring.framework
 	
-	public Restaurante buscarPorId(Long restauranteId) {
-		return restauranteRepository.findById(restauranteId)
+	@Autowired
+	private RestauranteConversor restauranteConversor;
+	
+	public List<RestauranteRetornoDTO> listar() {
+		return restauranteConversor.converterListaParaDTO(restauranteRepository.findAllCustom());
+	}
+	
+	public RestauranteRetornoDTO buscarPorId(Long restauranteId) {
+		Restaurante restaurante = restauranteRepository.findById(restauranteId)
 				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
+		return restauranteConversor.converterParaDTO(restaurante);
+	}
+	
+	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
+		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
+	}	
+	
+	public List<RestauranteRetornoDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
+	}
+	
+	public List<RestauranteRetornoDTO> comFreteGratis(String nome) {	
+		return restauranteConversor.converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
+	}
+	
+	public List<RestauranteRetornoDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
+		return restauranteConversor.converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
+	}
+	
+	public RestauranteRetornoDTO buscarPrimeiro() {
+		return restauranteConversor.converterParaDTO(restauranteRepository.buscarPrimeiro().get());
 	}
 	
 	@Transactional
-	public Restaurante salvar(Restaurante restaurante) {
-		Cozinha cozinha = cozinhaService.buscarPorId(restaurante.getCozinha().getId());
-		restaurante.setCozinha(cozinha);
-		return restauranteRepository.save(restaurante);
+	public RestauranteRetornoDTO salvar(RestauranteEntradaDTO restauranteEntradaDTO) {
+		try {
+			Restaurante restaurante = restauranteConversor.converterParaObjeto(restauranteEntradaDTO);			
+			Optional<Cozinha> cozinha = cozinhaRepository.findById(restauranteEntradaDTO.getCozinha().getId());
+			restaurante.setCozinha(cozinha.get());
+			return restauranteConversor.converterParaDTO(restauranteRepository.save(restaurante));
+		} catch (Exception e) {
+			throw new NegocioException(e.getMessage());
+		}
+	}
+	
+	// TODO: O nome da cozinha está retornando null depois da atualização
+	@Transactional
+	public RestauranteRetornoDTO atualizar(Long restauranteId, RestauranteEntradaDTO restauranteEntradaDTO) {
+		try {
+			Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).get();
+			restauranteConversor.copiarParaObjeto(restauranteEntradaDTO, restauranteAtual);
+			return restauranteConversor.converterParaDTO(restauranteRepository.save(restauranteAtual));			
+		} catch (EntidadeNaoEncotradaException e) {
+			throw new NegocioException(e.getMessage());
+		}		
 	}
 	
 	@Transactional

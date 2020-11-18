@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.entity.Cidade;
-import com.algaworks.algafood.exception.EstadoNaoEncotradaException;
-import com.algaworks.algafood.exception.NegocioException;
-import com.algaworks.algafood.repository.CidadeRepository;
+import com.algaworks.algafood.dto.CidadeDTO;
 import com.algaworks.algafood.service.CidadeService;
 
 @RestController
@@ -28,44 +24,27 @@ import com.algaworks.algafood.service.CidadeService;
 public class CidadeController {
 
 	@Autowired
-	private CidadeRepository cidadeRepository;
-
-	@Autowired
 	private CidadeService cidadeService;
 
 	@GetMapping
-	public List<Cidade> listar() {
-		return cidadeRepository.findAll();
+	public List<CidadeDTO> listar() {
+		return cidadeService.listar();
 	}
 
 	@GetMapping("/{cidadeId}")
-	public Cidade buscarPorId(@PathVariable Long cidadeId) {
+	public CidadeDTO buscarPorId(@PathVariable Long cidadeId) {
 		return cidadeService.buscarPorId(cidadeId);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
-		try {
-			return cidadeService.salvar(cidade);
-		} catch (EstadoNaoEncotradaException e) {
-
-			throw new NegocioException(e.getMessage());
-		}
+	public CidadeDTO adicionar(@RequestBody @Valid CidadeDTO cidadeDTO) {
+		return cidadeService.salvar(cidadeDTO);
 	}
 
 	@PutMapping("/{cidadeId}")
-	public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody @Valid Cidade cidadeRecebida) {
-		Cidade cidadeAtual = cidadeService.buscarPorId(cidadeId);
-		BeanUtils.copyProperties(cidadeRecebida, cidadeAtual, "id", "estado"); // Do terceiro parâmetro em diante passamos o queremos que seja ignorado
-		
-		try {
-			return cidadeService.salvar(cidadeAtual);
-
-		} catch (EstadoNaoEncotradaException e) {
-			throw new NegocioException(e.getMessage());
-		}
-
+	public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeDTO cidadeRecebida) {
+		return cidadeService.atualizar(cidadeId, cidadeRecebida);
 	}
 
 	@DeleteMapping("/{cidadeId}")

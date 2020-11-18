@@ -1,17 +1,17 @@
 package com.algaworks.algafood.dto;
 
-import java.math.BigDecimal;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RestauranteRetornoDTO {
+public class CozinhaEntradaDTO {
 	
 	private Long id;
+	
+	@NotBlank
 	private String nome;
-	private BigDecimal taxaFrete;
-	private CozinhaEntradaDTO cozinha;
-
+	
 }
