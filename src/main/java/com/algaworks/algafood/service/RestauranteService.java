@@ -110,7 +110,7 @@ public class RestauranteService {
 	public void remover(Long restauranteId) {
 		try {
 			restauranteRepository.deleteById(restauranteId);
-			
+			restauranteRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new RestauranteNaoEncotradaException(restauranteId);
 		

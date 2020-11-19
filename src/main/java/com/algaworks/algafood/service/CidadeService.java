@@ -70,7 +70,8 @@ public class CidadeService {
 	@Transactional
 	public void remover(Long cidadeId) {
 		try {
-			cidadeRepository.deleteById(cidadeId);	
+			cidadeRepository.deleteById(cidadeId);
+			cidadeRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new CidadeNaoEncotradaException(cidadeId);
 		

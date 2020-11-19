@@ -75,12 +75,17 @@ public class CozinhaService {
 		try {
 			cozinhaRepository.deleteById(cozinhaId);
 			
+			/*
+			 * Força a execução na base de dados antes do commit no final do método anotado com @Transactional
+			 * Não faz o commit, esse é feito ao final do método por causa do @Transactional, o flush apenas executa
+			 * as operações que o repository colocou na fila do JPA.
+			 */
+			cozinhaRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new CozinhaNaoEncotradaException(cozinhaId);
 		
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO, cozinhaId));
-		
+			throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO, cozinhaId));		
 		}
 	}
 	
