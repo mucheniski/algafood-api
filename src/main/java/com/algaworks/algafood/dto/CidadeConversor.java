@@ -8,13 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.entity.Cidade;
-import com.algaworks.algafood.entity.Estado;
 
 @Component
 public class CidadeConversor {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private EstadoConversor estadoConversor;
 
 	public CidadeDTO converterParaDTO(Cidade cidade) {
 		return modelMapper.map(cidade, CidadeDTO.class);
@@ -31,10 +33,8 @@ public class CidadeConversor {
 	}
 	
 	public void copiarParaObjeto(CidadeDTO cidadeDTO, Cidade cidade) {
-		cidadeDTO.setId(cidade.getId());
-
-		// Mesmo caso citado no RestauranteConversor sobre a instancia de uma nova Cozinha
-		cidade.setEstado(new Estado());
+		cidadeDTO.setId(cidade.getId());		
+		cidadeDTO.setEstado(estadoConversor.converterParaDTO(cidade.getEstado()));
 		modelMapper.map(cidadeDTO, cidade);
 	}
 	

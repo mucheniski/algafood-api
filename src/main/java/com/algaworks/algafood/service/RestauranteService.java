@@ -25,6 +25,7 @@ import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
+import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
@@ -99,6 +100,13 @@ public class RestauranteService {
 	public RestauranteRetornoDTO atualizar(Long restauranteId, RestauranteEntradaDTO restauranteEntradaDTO) {
 		try {
 			Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).get();
+			
+			if (restauranteEntradaDTO.getCozinha() != null) {
+				Long cozinhaId = restauranteEntradaDTO.getCozinha().getId();
+				Cozinha novaCozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
+				restauranteAtual.setCozinha(novaCozinha);
+			}
+			
 			restauranteConversor.copiarParaObjeto(restauranteEntradaDTO, restauranteAtual);
 			return restauranteConversor.converterParaDTO(restauranteRepository.save(restauranteAtual));			
 		} catch (EntidadeNaoEncotradaException e) {

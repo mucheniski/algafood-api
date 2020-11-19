@@ -56,10 +56,18 @@ public class CidadeService {
 		}		
 	}
 	
-	// TODO: O nome do estado está retornando null no json depois da atualização
+	@Transactional
 	public CidadeDTO atualizar(Long cidadeId, CidadeDTO cidadeDTO) {		
 		try {
 			Cidade cidadeAtual = cidadeRepository.findById(cidadeId).get();
+			
+			// Se quiser alterar o estado, basta passar o novo estado.id no JSON de CidadeDTO
+			if (cidadeDTO.getEstado() != null) {
+				Long estadoId = cidadeDTO.getEstado().getId();				
+				Estado novoEstado = estadoRepository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncotradaException(estadoId));
+				cidadeAtual.setEstado(novoEstado);
+			}
+			
 			cidadeConversor.copiarParaObjeto(cidadeDTO, cidadeAtual);
 			return cidadeConversor.converterParaDTO(cidadeRepository.save(cidadeAtual));
 		} catch (EstadoNaoEncotradaException e) {
