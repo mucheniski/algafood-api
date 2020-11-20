@@ -59,7 +59,7 @@ public class CidadeService {
 	@Transactional
 	public CidadeDTO atualizar(Long cidadeId, CidadeDTO cidadeDTO) {		
 		try {
-			Cidade cidadeAtual = cidadeRepository.findById(cidadeId).get();
+			Cidade cidadeAtual = cidadeRepository.findById(cidadeId).orElseThrow(() -> new CidadeNaoEncotradaException(cidadeId));
 			
 			// Se quiser alterar o estado, basta passar o novo estado.id no JSON de CidadeDTO
 			if (cidadeDTO.getEstado() != null) {

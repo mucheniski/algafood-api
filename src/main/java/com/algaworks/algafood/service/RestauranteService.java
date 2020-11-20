@@ -1,28 +1,16 @@
 package com.algaworks.algafood.service;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.SmartValidator;
 
 import com.algaworks.algafood.dto.RestauranteConversor;
-import com.algaworks.algafood.dto.RestauranteEntradaDTO;
-import com.algaworks.algafood.dto.RestauranteRetornoDTO;
+import com.algaworks.algafood.dto.RestauranteDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
@@ -30,11 +18,8 @@ import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradaException;
-import com.algaworks.algafood.exception.ValidacaoException;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.repository.RestauranteRepository;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class RestauranteService {
@@ -48,66 +33,63 @@ public class RestauranteService {
 	private CozinhaRepository cozinhaRepository;
 	
 	@Autowired
-	private SmartValidator smartValidator; // Validador do spring.framework
-	
-	@Autowired
 	private RestauranteConversor restauranteConversor;
 	
-	public List<RestauranteRetornoDTO> listar() {
+	public List<RestauranteDTO> listar() {
 		return restauranteConversor.converterListaParaDTO(restauranteRepository.findAllCustom());
 	}
 	
-	public RestauranteRetornoDTO buscarPorId(Long restauranteId) {
+	public RestauranteDTO buscarPorId(Long restauranteId) {
 		Restaurante restaurante = restauranteRepository.findById(restauranteId)
 				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
 		return restauranteConversor.converterParaDTO(restaurante);
 	}
 	
-	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
+	public List<RestauranteDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
 	}	
 	
-	public List<RestauranteRetornoDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+	public List<RestauranteDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
 	}
 	
-	public List<RestauranteRetornoDTO> comFreteGratis(String nome) {	
+	public List<RestauranteDTO> comFreteGratis(String nome) {	
 		return restauranteConversor.converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
 	}
 	
-	public List<RestauranteRetornoDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
+	public List<RestauranteDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
 		return restauranteConversor.converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
 	}
 	
-	public RestauranteRetornoDTO buscarPrimeiro() {
+	public RestauranteDTO buscarPrimeiro() {
 		return restauranteConversor.converterParaDTO(restauranteRepository.buscarPrimeiro().get());
 	}
 	
 	@Transactional
-	public RestauranteRetornoDTO salvar(RestauranteEntradaDTO restauranteEntradaDTO) {
+	public RestauranteDTO salvar(RestauranteDTO restauranteDTO) {
 		try {
-			Restaurante restaurante = restauranteConversor.converterParaObjeto(restauranteEntradaDTO);			
-			Optional<Cozinha> cozinha = cozinhaRepository.findById(restauranteEntradaDTO.getCozinha().getId());
-			restaurante.setCozinha(cozinha.get());
+			Restaurante restaurante = restauranteConversor.converterParaObjeto(restauranteDTO);	
+			Long cozinhaId = restauranteDTO.getCozinha().getId();
+			Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
+			restaurante.setCozinha(cozinha);
 			return restauranteConversor.converterParaDTO(restauranteRepository.save(restaurante));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
 	
-	// TODO: O nome da cozinha está retornando null depois da atualização
 	@Transactional
-	public RestauranteRetornoDTO atualizar(Long restauranteId, RestauranteEntradaDTO restauranteEntradaDTO) {
+	public RestauranteDTO atualizar(Long restauranteId, RestauranteDTO restauranteDTO) {
 		try {
-			Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).get();
+			Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId));
 			
-			if (restauranteEntradaDTO.getCozinha() != null) {
-				Long cozinhaId = restauranteEntradaDTO.getCozinha().getId();
+			if (restauranteDTO.getCozinha() != null) {
+				Long cozinhaId = restauranteDTO.getCozinha().getId();
 				Cozinha novaCozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
 				restauranteAtual.setCozinha(novaCozinha);
-			}
+			}	
 			
-			restauranteConversor.copiarParaObjeto(restauranteEntradaDTO, restauranteAtual);
+			restauranteConversor.copiarParaObjeto(restauranteDTO, restauranteAtual);
 			return restauranteConversor.converterParaDTO(restauranteRepository.save(restauranteAtual));			
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
@@ -127,45 +109,5 @@ public class RestauranteService {
 		
 		}
 	}	
-	
-	public void mergeCampos(Map<String, Object> camposAtualizados, Restaurante restauranteAtual, HttpServletRequest request) {
-		
-		ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
-		
-		try {
-			
-			ObjectMapper objectMapper = new ObjectMapper(); // Converte JSON em Java e Java em JSON		
-			objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true); // Confiruado para dar erro quando for passado algum objeto que está marcado com @Jsonignore
-			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Falha caso a propriedade não exista
-			Restaurante restauranteOrigem = objectMapper.convertValue(camposAtualizados, Restaurante.class);		
-			
-			System.out.println(restauranteOrigem);
-			
-			camposAtualizados.forEach((chaveCampo, valorCampo) -> {
-				Field campo = ReflectionUtils.findField(Restaurante.class, chaveCampo); // Busca na classe Restaurante um campo com o nome passado na chaveCampo
-				campo.setAccessible(true); // Torna a variável que é private acessível aqui.			
-				Object novoValor = ReflectionUtils.getField(campo, restauranteOrigem);		
-				ReflectionUtils.setField(campo, restauranteAtual, novoValor);			
-			});
-			
-		} catch (IllegalArgumentException e) {
-			Throwable causaRaiz = ExceptionUtils.getRootCause(e);
-			throw new HttpMessageNotReadableException(e.getMessage(), causaRaiz, serverHttpRequest);
-		}
-		
-	}
-	
-	public void valida(Restaurante restauranteAtual, String objectName) {
-		/*
-		 * Classe que implementa BidingResult que extende de Erros para poder ser usada
-		 * como parâmetro no método validade abaixo.
-		 * */
-		BeanPropertyBindingResult beanPropertyBindingResult = new BeanPropertyBindingResult(restauranteAtual, objectName);		
-		smartValidator.validate(restauranteAtual, beanPropertyBindingResult);
-		
-		if (beanPropertyBindingResult.hasErrors()) {
-			throw new ValidacaoException(beanPropertyBindingResult);
-		}
-	}
 	
 }

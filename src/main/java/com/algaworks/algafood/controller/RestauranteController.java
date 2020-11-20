@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.RestauranteEntradaDTO;
-import com.algaworks.algafood.dto.RestauranteRetornoDTO;
+import com.algaworks.algafood.dto.RestauranteDTO;
 import com.algaworks.algafood.service.RestauranteService;
 
 // TODO: Revisar se realmente é necessário um DTO de entrada e outro de Retorno.
@@ -30,49 +29,49 @@ public class RestauranteController {
 	private RestauranteService restauranteService;
 	
 	@GetMapping
-	public List<RestauranteRetornoDTO> listar() {
+	public List<RestauranteDTO> listar() {
 		return restauranteService.listar();
 	}
 	
 	@GetMapping("/{restauranteId}")
-	public RestauranteRetornoDTO buscarPorId(@PathVariable Long restauranteId) {
+	public RestauranteDTO buscarPorId(@PathVariable Long restauranteId) {
 		return restauranteService.buscarPorId(restauranteId);		
 	}
 	
 	@GetMapping("/taxa-frete")
-	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
+	public List<RestauranteDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteService.listarPorTaxaFrete(taxaInicial, taxaFinal);		
 	}
 	
 	@GetMapping("/nome-taxa-frete")
-	public List<RestauranteRetornoDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+	public List<RestauranteDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteService.listarPorNomeTaxaFrete(nome, taxaInicial, taxaFinal);
 	}
 	
 	@GetMapping("/com-frete-gratis")
-	public List<RestauranteRetornoDTO> comFreteGratis(String nome) {	
+	public List<RestauranteDTO> comFreteGratis(String nome) {	
 		return restauranteService.comFreteGratis(nome);
 	}
 	
 	@GetMapping("/nome-cozinha")
-	public List<RestauranteRetornoDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
+	public List<RestauranteDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
 		return restauranteService.listarPorNomeECozinha(nome, cozinhaId);
 	}
 	
 	@GetMapping("/primeiro")
-	public RestauranteRetornoDTO buscarPrimeiro() {
+	public RestauranteDTO buscarPrimeiro() {
 		return restauranteService.buscarPrimeiro();
 	}	
 	
 	@PostMapping	
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestauranteRetornoDTO salvar(@RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {
-		return restauranteService.salvar(restauranteEntradaDTO);	
+	public RestauranteDTO salvar(@RequestBody @Valid RestauranteDTO restauranteDTO) {
+		return restauranteService.salvar(restauranteDTO);	
 	}
 	
 	@PutMapping("/{restauranteId}")
-	public RestauranteRetornoDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteEntradaDTO restauranteEntradaDTO) {		
-		return restauranteService.atualizar(restauranteId, restauranteEntradaDTO);		
+	public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteDTO restauranteDTO) {		
+		return restauranteService.atualizar(restauranteId, restauranteDTO);		
 	}
 	
 }

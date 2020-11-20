@@ -23,7 +23,7 @@ public class ConversorDTO {
 		Object classeRetornada = null;
 		
 		if (classeRecebida instanceof Restaurante) {
-			classeRetornada = RestauranteRetornoDTO.class;
+			classeRetornada = RestauranteDTO.class;
 		}
 		
 		return classeRetornada;

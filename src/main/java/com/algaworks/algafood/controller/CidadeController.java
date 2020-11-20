@@ -43,8 +43,8 @@ public class CidadeController {
 	}
 
 	@PutMapping("/{cidadeId}")
-	public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeDTO cidadeRecebida) {
-		return cidadeService.atualizar(cidadeId, cidadeRecebida);
+	public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeDTO cidadeDTO) {
+		return cidadeService.atualizar(cidadeId, cidadeDTO);
 	}
 
 	@DeleteMapping("/{cidadeId}")

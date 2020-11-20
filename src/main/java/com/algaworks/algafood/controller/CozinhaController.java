@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.CozinhaEntradaDTO;
-import com.algaworks.algafood.dto.CozinhaRetornoDTO;
+import com.algaworks.algafood.dto.CozinhaDTO;
 import com.algaworks.algafood.service.CozinhaService;
 
 //TODO: Revisar se realmente é necessário um DTO de entrada e outro de Retorno.
@@ -31,34 +30,34 @@ public class CozinhaController {
 	private CozinhaService cozinhaService;
 	
 	@GetMapping
-	public List<CozinhaRetornoDTO> listar() {
+	public List<CozinhaDTO> listar() {
 		return cozinhaService.listar();
 	}
 	
 	@GetMapping("/nome")
-	public List<CozinhaRetornoDTO> listarPorNome(@RequestParam String nome) {	
+	public List<CozinhaDTO> listarPorNome(@RequestParam String nome) {	
 		return cozinhaService.listarPorNome(nome);
 	}
 	
 	@GetMapping("/{cozinhaId}")
-	public CozinhaRetornoDTO buscarPorId(@PathVariable Long cozinhaId) {
+	public CozinhaDTO buscarPorId(@PathVariable Long cozinhaId) {
 		return cozinhaService.buscarPorId(cozinhaId);
 	}
 	
 	@GetMapping("/primeiro")
-	public CozinhaRetornoDTO bucarPrimeiro() {
+	public CozinhaDTO bucarPrimeiro() {
 		return cozinhaService.bucarPrimeiro();		
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CozinhaRetornoDTO salvar(@RequestBody @Valid CozinhaEntradaDTO cozinhaEntradaDTO) {
-		return cozinhaService.salvar(cozinhaEntradaDTO);
+	public CozinhaDTO salvar(@RequestBody @Valid CozinhaDTO cozinhaDTO) {
+		return cozinhaService.salvar(cozinhaDTO);
 	}
 	
 	@PutMapping("/{cozinhaId}")
-	public CozinhaRetornoDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaEntradaDTO cozinhaEntradaDTO) {
-		return cozinhaService.atualizar(cozinhaId, cozinhaEntradaDTO);
+	public CozinhaDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaDTO cozinhaDTO) {
+		return cozinhaService.atualizar(cozinhaId, cozinhaDTO);
 	}	
 
 	@DeleteMapping("/{cozinhaId}")

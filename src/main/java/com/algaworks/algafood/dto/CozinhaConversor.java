@@ -15,23 +15,23 @@ public class CozinhaConversor {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public CozinhaRetornoDTO converterParaDTO(Cozinha cozinha) {
-		return modelMapper.map(cozinha, CozinhaRetornoDTO.class);
+	public CozinhaDTO converterParaDTO(Cozinha cozinha) {
+		return modelMapper.map(cozinha, CozinhaDTO.class);
 	}
 	
-	public List<CozinhaRetornoDTO> converterListaParaDTO(List<Cozinha> cozinhas) {
+	public List<CozinhaDTO> converterListaParaDTO(List<Cozinha> cozinhas) {
 		return cozinhas.stream()
 						.map(cozinha -> converterParaDTO(cozinha))
 						.collect(Collectors.toList());
 	}
 	
-	public Cozinha converterParaObjeto(CozinhaEntradaDTO cozinhaEntradaDTO) {
-		return modelMapper.map(cozinhaEntradaDTO, Cozinha.class);
+	public Cozinha converterParaObjeto(CozinhaDTO cozinhaDTO) {
+		return modelMapper.map(cozinhaDTO, Cozinha.class);
 	}
 	
-	public void copiarParaObjeto(CozinhaEntradaDTO cozinhaEntradaDTO, Cozinha cozinha) {
-		cozinhaEntradaDTO.setId(cozinha.getId());
-		modelMapper.map(cozinhaEntradaDTO, cozinha);
+	public void copiarParaObjeto(CozinhaDTO cozinhaDTO, Cozinha cozinha) {
+		cozinhaDTO.setId(cozinha.getId());
+		modelMapper.map(cozinhaDTO, cozinha);
 	}
 	
 }

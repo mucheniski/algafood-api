@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.dto.CozinhaConversor;
-import com.algaworks.algafood.dto.CozinhaEntradaDTO;
-import com.algaworks.algafood.dto.CozinhaRetornoDTO;
+import com.algaworks.algafood.dto.CozinhaDTO;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
@@ -29,30 +28,30 @@ public class CozinhaService {
 	@Autowired
 	private CozinhaConversor cozinhaConversor;
 	
-	public List<CozinhaRetornoDTO> listar() {
+	public List<CozinhaDTO> listar() {
 		return cozinhaConversor.converterListaParaDTO(cozinhaRepository.findAll());
 	}
 	
-	public List<CozinhaRetornoDTO> listarPorNome(String nome) {		
+	public List<CozinhaDTO> listarPorNome(String nome) {		
 		List<Cozinha> cozinhas = cozinhaRepository.findByNome(nome);
 		return cozinhaConversor.converterListaParaDTO(cozinhas);
 	}
 	
-	public CozinhaRetornoDTO buscarPorId(Long cozinhaId) {
+	public CozinhaDTO buscarPorId(Long cozinhaId) {
 		Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
 				.orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));		
 		return cozinhaConversor.converterParaDTO(cozinha);
 	}
 	
-	public CozinhaRetornoDTO bucarPrimeiro() {		
+	public CozinhaDTO bucarPrimeiro() {		
 		Optional<Cozinha> cozinha = cozinhaRepository.buscarPrimeiro();
 		return cozinhaConversor.converterParaDTO(cozinha.get());
 	}
 	
 	@Transactional
-	public CozinhaRetornoDTO salvar(CozinhaEntradaDTO cozinhaEntradaDTO) {
+	public CozinhaDTO salvar(CozinhaDTO cozinhaDTO) {
 		try {
-			Cozinha cozinha = cozinhaConversor.converterParaObjeto(cozinhaEntradaDTO);
+			Cozinha cozinha = cozinhaConversor.converterParaObjeto(cozinhaDTO);
 			return cozinhaConversor.converterParaDTO(cozinhaRepository.save(cozinha));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
@@ -60,10 +59,10 @@ public class CozinhaService {
 	}
 	
 	@Transactional
-	public CozinhaRetornoDTO atualizar(Long cozinhaId, CozinhaEntradaDTO cozinhaEntradaDTO) {
+	public CozinhaDTO atualizar(Long cozinhaId, CozinhaDTO cozinhaDTO) {
 		try {
 			Cozinha cozinhaAtual = cozinhaRepository.findById(cozinhaId).get();	
-			cozinhaConversor.copiarParaObjeto(cozinhaEntradaDTO, cozinhaAtual);
+			cozinhaConversor.copiarParaObjeto(cozinhaDTO, cozinhaAtual);
 			return cozinhaConversor.converterParaDTO(cozinhaRepository.save(cozinhaAtual));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
