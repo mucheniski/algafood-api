@@ -1,4 +1,4 @@
-CREATE TABLE algafood2.pedido (
+CREATE TABLE pedido (
 	id BIGINT auto_increment NOT NULL,
 	sub_total DECIMAL(10,2) NOT NULL,
 	taxa_frete DECIMAL(10,2) NOT NULL,
@@ -18,15 +18,15 @@ CREATE TABLE algafood2.pedido (
 	endereco_bairro varchar(100) NOT NULL,
 	usuario_cliente_id BIGINT NOT NULL,
 	CONSTRAINT pedido_pK PRIMARY KEY (id),
-	CONSTRAINT pedido_usuario_fk FOREIGN KEY (usuario_cliente_id) REFERENCES algafooddev.usuario(id),
-	CONSTRAINT pedido_restaurante_fk FOREIGN KEY (restaurante_id) REFERENCES algafooddev.restaurante(id),
-	CONSTRAINT pedido_forma_pagamento_fk FOREIGN KEY (forma_pagamento_id) REFERENCES algafooddev.forma_pagamento(id)
+	CONSTRAINT pedido_usuario_fk FOREIGN KEY (usuario_cliente_id) REFERENCES algafood2.usuario(id),
+	CONSTRAINT pedido_restaurante_fk FOREIGN KEY (restaurante_id) REFERENCES algafood2.restaurante(id),
+	CONSTRAINT pedido_forma_pagamento_fk FOREIGN KEY (forma_pagamento_id) REFERENCES algafood2.forma_pagamento(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE algafood2.item_pedido (
+CREATE TABLE item_pedido (
 	id BIGINT auto_increment NOT NULL,
 	quantidade SMALLINT NOT NULL,
 	preco_unitario DECIMAL(10,2) NOT NULL,
@@ -36,8 +36,8 @@ CREATE TABLE algafood2.item_pedido (
 	pedido_id BIGINT NOT NULL,
 	CONSTRAINT item_pedido_pk PRIMARY KEY (id),
     unique key uk_item_pedido_produto (pedido_id, produto_id),
-	CONSTRAINT item_pedido_produto_fk FOREIGN KEY (produto_id) REFERENCES algafooddev.produto(id),
-	CONSTRAINT item_pedido_pedido_fk FOREIGN KEY (pedido_id) REFERENCES algafooddev.Pedido(id)
+	CONSTRAINT item_pedido_produto_fk FOREIGN KEY (produto_id) REFERENCES algafood2.produto(id),
+	CONSTRAINT item_pedido_pedido_fk FOREIGN KEY (pedido_id) REFERENCES algafood2.pedido(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4

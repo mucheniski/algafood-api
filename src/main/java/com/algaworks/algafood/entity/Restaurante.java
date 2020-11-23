@@ -60,6 +60,8 @@ public class Restaurante {
 	@Embedded // Essa propriedade é um tipo incorporado de uma classe embeddable
 	private Endereco endereco;	
 	
+	private Boolean ativo = Boolean.TRUE;
+	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime dataCadastro;	// O OffsetDateTime possui o offset para ser apresentado no retorno da API ex "2020-11-06T06:51:52-03:00"
@@ -78,5 +80,15 @@ public class Restaurante {
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id")
 	)
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+	
+	// TODO: refatorar para gravar a data da atualização
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	// TODO: refatorar para gravar a data da atualização
+	public void desativar() {
+		setAtivo(false);
+	}
 		
 }

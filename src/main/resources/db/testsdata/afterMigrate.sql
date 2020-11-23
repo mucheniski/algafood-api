@@ -41,9 +41,9 @@ INSERT INTO algafood2.cidade (nome, estado_id) VALUES('Campinas', 2);
 
 
 
-insert into algafood2.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, cidade_id, cep, logradouro, numero, bairro) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
-insert into algafood2.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp);
-insert into algafood2.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp);
+insert into algafood2.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, cidade_id, cep, logradouro, numero, bairro, ativo) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', true);
+insert into algafood2.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true);
+insert into algafood2.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true);
 
 
 

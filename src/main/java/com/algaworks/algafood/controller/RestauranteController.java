@@ -74,4 +74,16 @@ public class RestauranteController {
 		return restauranteService.atualizar(restauranteId, restauranteDTO);		
 	}
 	
+	@PutMapping("/{restauranteId}/ativar")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativar(@PathVariable Long restauranteId) {
+		restauranteService.ativar(restauranteId);
+	}
+	
+	@PutMapping("/{restauranteId}/desativar")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void desativar(@PathVariable Long restauranteId) {
+		restauranteService.desativar(restauranteId);
+	}
+	
 }

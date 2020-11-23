@@ -108,6 +108,32 @@ public class RestauranteService {
 			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
 		
 		}
-	}	
+	}
+	
+	@Transactional
+	public void ativar(Long restauranteId) {
+		Restaurante restaurante = restauranteRepository.findById(restauranteId)
+				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
+		
+		/*
+		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
+		 * o contexto de persistência do JPA já gerencia o que foi retornado, assim qualquer alteração que for feita
+		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente.
+		 */
+		restaurante.ativar();
+	}
+	
+	@Transactional
+	public void desativar(Long restauranteId) {
+		Restaurante restaurante = restauranteRepository.findById(restauranteId)
+				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
+		
+		/*
+		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
+		 * o contexto de persistência do JPA já gerencia o que foi retornado, assim qualquer alteração que for feita
+		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente.
+		 */
+		restaurante.desativar();
+	}
 	
 }

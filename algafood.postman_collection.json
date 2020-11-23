@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "c739d555-7498-46cd-b195-62ecc7236662",
+		"name": "algafood",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "restaurante",
+			"item": [
+				{
+					"name": "Buscar Todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desativar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/desativar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"desativar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ativar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/ativar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"ativar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
