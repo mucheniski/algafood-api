@@ -21,7 +21,7 @@ import com.algaworks.algafood.repository.CozinhaRepository;
 public class CozinhaService {
 
 	private static final String MSG_COZINHA_EM_USO = "Cozinha id %d não pode ser removida, está em uso!";
-
+	// TODO: Refatorar os nomes para repository e conversor
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	

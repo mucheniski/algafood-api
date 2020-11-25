@@ -25,7 +25,7 @@ import com.algaworks.algafood.repository.RestauranteRepository;
 public class RestauranteService {
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "	Restaurante id %d não pode ser removida, está em uso!";
-
+	// TODO: Refatorar os nomes para repository e conversor
 	@Autowired
 	private RestauranteRepository restauranteRepository;
 	

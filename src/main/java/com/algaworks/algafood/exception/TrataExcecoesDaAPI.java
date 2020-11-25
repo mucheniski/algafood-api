@@ -139,8 +139,7 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		
 		List<Problema.Objeto> objetosComProblema = 
 				bindingResult.getAllErrors().stream().map(objectError -> { 
-					String mensagem = messageSource.getMessage(objectError, new Locale ("pt", "BR"));	
-					
+					String mensagem = messageSource.getMessage(objectError, new Locale ("pt", "BR"));						
 					String nome = objectError.getObjectName();
 					
 					if (objectError instanceof FieldError) {

@@ -16,41 +16,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.CidadeDTO;
-import com.algaworks.algafood.service.CidadeService;
+import com.algaworks.algafood.dto.FormaPagamentoDTO;
+import com.algaworks.algafood.service.FormaPagamentoService;
 
 @RestController
-@RequestMapping("/cidades")
-public class CidadeController {
-
+@RequestMapping("/formas-pagamento")
+public class FormaPagamentoController {
+	
 	@Autowired
-	private CidadeService cidadeService;
-
+	private FormaPagamentoService service;
+	
 	@GetMapping
-	public List<CidadeDTO> listar() {
-		return cidadeService.listar();
+	public List<FormaPagamentoDTO> listar() {
+		return service.listar();
 	}
-
-	@GetMapping("/{cidadeId}")
-	public CidadeDTO buscarPorId(@PathVariable Long cidadeId) {
-		return cidadeService.buscarPorId(cidadeId);
+	
+	@GetMapping("/{id}")
+	public FormaPagamentoDTO buscarPorId(@PathVariable Long id) {
+		return service.buscarPorId(id);
 	}
-
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public CidadeDTO salvar(@RequestBody @Valid CidadeDTO cidadeDTO) {
-		return cidadeService.salvar(cidadeDTO);
+	public FormaPagamentoDTO adicionar(@RequestBody @Valid FormaPagamentoDTO dto) {
+		return service.salvar(dto);
 	}
-
-	@PutMapping("/{cidadeId}")
-	public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeDTO cidadeDTO) {
-		return cidadeService.atualizar(cidadeId, cidadeDTO);
+	
+	@PutMapping("/{id}")
+	public FormaPagamentoDTO atualizar(@PathVariable Long id, @RequestBody @Valid FormaPagamentoDTO dto) {
+		return service.atualizar(id, dto);
 	}
-
+	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@DeleteMapping("/{cidadeId}")
-	public void remover(@PathVariable Long cidadeId) {
-		cidadeService.remover(cidadeId);
+	@DeleteMapping("/{id}")
+	public void remover(@PathVariable Long id) {
+		service.remover(id);
 	}
 
 }

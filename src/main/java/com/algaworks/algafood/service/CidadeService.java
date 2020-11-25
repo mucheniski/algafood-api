@@ -24,7 +24,7 @@ import com.algaworks.algafood.repository.EstadoRepository;
 public class CidadeService {
 	
 	private static final String MSG_CIDADE_EM_USO = "Cidade com id %d não pode ser removida, está em uso!";
-
+	// TODO: Refatorar os nomes para repository e conversor
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	

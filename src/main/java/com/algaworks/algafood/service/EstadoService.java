@@ -19,7 +19,7 @@ import com.algaworks.algafood.repository.EstadoRepository;
 public class EstadoService {
 	
 	private static final String MSG_ESTADO_EM_USO = "Estado com id %d não pode ser removido, está em uso!";
-		
+	// TODO: Refatorar os nomes para repository e conversor	
 	@Autowired
 	private EstadoRepository estadoRepository;
 	
