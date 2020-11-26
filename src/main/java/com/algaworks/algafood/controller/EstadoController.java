@@ -24,33 +24,33 @@ import com.algaworks.algafood.service.EstadoService;
 public class EstadoController {
 
 	@Autowired
-	private EstadoService estadoService;
+	private EstadoService service;
 	
 	@GetMapping
 	public List<EstadoDTO> listar() {
-		return estadoService.listar();
+		return service.listar();
 	}
 	
-	@GetMapping("/{estadoId}")
-	public EstadoDTO buscarPorId(@PathVariable Long estadoId) {
-		return estadoService.buscarPorId(estadoId);
+	@GetMapping("/{id}")
+	public EstadoDTO buscarPorId(@PathVariable Long id) {
+		return service.buscarPorId(id);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public EstadoDTO salvar(@RequestBody @Valid EstadoDTO estadoDTO) {
-		return estadoService.salvar(estadoDTO);
+	public EstadoDTO salvar(@RequestBody @Valid EstadoDTO dto) {
+		return service.salvar(dto);
 	}
 	
-	@PutMapping("/{estadoId}")
-	public EstadoDTO atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoDTO estadoDTO) {		
-		return estadoService.atualizar(estadoId, estadoDTO);
+	@PutMapping("/{id}")
+	public EstadoDTO atualizar(@PathVariable Long id, @RequestBody @Valid EstadoDTO dto) {		
+		return service.atualizar(id, dto);
 	}
 	
-	@DeleteMapping("/{estadoId}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long estadoId) {
-		estadoService.remover(estadoId);			
+	public void remover(@PathVariable Long id) {
+		service.remover(id);			
 	}
 	
 }

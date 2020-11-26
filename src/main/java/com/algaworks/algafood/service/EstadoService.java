@@ -19,47 +19,46 @@ import com.algaworks.algafood.repository.EstadoRepository;
 public class EstadoService {
 	
 	private static final String MSG_ESTADO_EM_USO = "Estado com id %d não pode ser removido, está em uso!";
-	// TODO: Refatorar os nomes para repository e conversor	
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private EstadoRepository reposiroty;
 	
 	@Autowired
-	private EstadoConversor estadoConversor;
+	private EstadoConversor conversor;
 	
 	public List<EstadoDTO> listar() {
-		return estadoConversor.converterListaParaDTO(estadoRepository.findAll());
+		return conversor.converterListaParaDTO(reposiroty.findAll());
 	}
 	
-	public EstadoDTO buscarPorId(Long estadoId)	{
-		Estado estado = estadoRepository.findById(estadoId)
-				.orElseThrow(() -> new EstadoNaoEncotradaException(estadoId) );
-		return estadoConversor.converterParaDTO(estado);
-	}
-	
-	@Transactional
-	public EstadoDTO salvar(EstadoDTO estadoDTO) {
-		Estado estado = estadoConversor.converterParaObjeto(estadoDTO);
-		return estadoConversor.converterParaDTO(estadoRepository.save(estado));
+	public EstadoDTO buscarPorId(Long id)	{
+		Estado estado = reposiroty.findById(id)
+				.orElseThrow(() -> new EstadoNaoEncotradaException(id) );
+		return conversor.converterParaDTO(estado);
 	}
 	
 	@Transactional
-	public EstadoDTO atualizar(Long estadoId, EstadoDTO estadoDTO) {
-		Estado estadoAtual = estadoRepository.findById(estadoId).get();
-		estadoConversor.copiarParaObjeto(estadoDTO, estadoAtual);
-		return estadoConversor.converterParaDTO(estadoRepository.save(estadoAtual));
+	public EstadoDTO salvar(EstadoDTO dto) {
+		Estado estado = conversor.converterParaObjeto(dto);
+		return conversor.converterParaDTO(reposiroty.save(estado));
 	}
 	
 	@Transactional
-	public void remover(Long estadoId) {
+	public EstadoDTO atualizar(Long id, EstadoDTO dto) {
+		Estado estadoAtual = reposiroty.findById(id).get();
+		conversor.copiarParaObjeto(dto, estadoAtual);
+		return conversor.converterParaDTO(reposiroty.save(estadoAtual));
+	}
+	
+	@Transactional
+	public void remover(Long id) {
 		try {
-			estadoRepository.deleteById(estadoId);
-			estadoRepository.flush();
+			reposiroty.deleteById(id);
+			reposiroty.flush();
 			
 		} catch (EmptyResultDataAccessException e) {
-			throw new EstadoNaoEncotradaException(estadoId);
+			throw new EstadoNaoEncotradaException(id);
 			
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format(MSG_ESTADO_EM_USO, estadoId));
+			throw new EntidadeEmUsoException(String.format(MSG_ESTADO_EM_USO, id));
 			
 		}
 	}

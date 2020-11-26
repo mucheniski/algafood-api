@@ -9,7 +9,7 @@
 			"name": "restaurante",
 			"item": [
 				{
-					"name": "Buscar Todos",
+					"name": "listar",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -61,6 +61,132 @@
 								"restaurantes",
 								"1",
 								"ativar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "formaPamaneto",
+			"item": [
+				{
+					"name": "listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/formas-pagamento",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"formas-pagamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/formas-pagamento/11",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"formas-pagamento",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "salvar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"pix\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/formas-pagamento",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"formas-pagamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"pix atualizado\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/formas-pagamento/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"formas-pagamento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remover",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/formas-pagamento/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"formas-pagamento",
+								"4"
 							]
 						}
 					},

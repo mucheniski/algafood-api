@@ -26,64 +26,64 @@ import com.algaworks.algafood.service.RestauranteService;
 public class RestauranteController {
 
 	@Autowired
-	private RestauranteService restauranteService;
+	private RestauranteService service;
 	
 	@GetMapping
 	public List<RestauranteDTO> listar() {
-		return restauranteService.listar();
+		return service.listar();
 	}
 	
-	@GetMapping("/{restauranteId}")
-	public RestauranteDTO buscarPorId(@PathVariable Long restauranteId) {
-		return restauranteService.buscarPorId(restauranteId);		
+	@GetMapping("/{id}")
+	public RestauranteDTO buscarPorId(@PathVariable Long id) {
+		return service.buscarPorId(id);		
 	}
 	
 	@GetMapping("/taxa-frete")
 	public List<RestauranteDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteService.listarPorTaxaFrete(taxaInicial, taxaFinal);		
+		return service.listarPorTaxaFrete(taxaInicial, taxaFinal);		
 	}
 	
 	@GetMapping("/nome-taxa-frete")
 	public List<RestauranteDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteService.listarPorNomeTaxaFrete(nome, taxaInicial, taxaFinal);
+		return service.listarPorNomeTaxaFrete(nome, taxaInicial, taxaFinal);
 	}
 	
 	@GetMapping("/com-frete-gratis")
 	public List<RestauranteDTO> comFreteGratis(String nome) {	
-		return restauranteService.comFreteGratis(nome);
+		return service.comFreteGratis(nome);
 	}
 	
 	@GetMapping("/nome-cozinha")
 	public List<RestauranteDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
-		return restauranteService.listarPorNomeECozinha(nome, cozinhaId);
+		return service.listarPorNomeECozinha(nome, cozinhaId);
 	}
 	
 	@GetMapping("/primeiro")
 	public RestauranteDTO buscarPrimeiro() {
-		return restauranteService.buscarPrimeiro();
+		return service.buscarPrimeiro();
 	}	
 	
 	@PostMapping	
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestauranteDTO salvar(@RequestBody @Valid RestauranteDTO restauranteDTO) {
-		return restauranteService.salvar(restauranteDTO);	
+	public RestauranteDTO salvar(@RequestBody @Valid RestauranteDTO dto) {
+		return service.salvar(dto);	
 	}
 	
-	@PutMapping("/{restauranteId}")
-	public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteDTO restauranteDTO) {		
-		return restauranteService.atualizar(restauranteId, restauranteDTO);		
+	@PutMapping("/{id}")
+	public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteDTO dto) {		
+		return service.atualizar(id, dto);		
 	}
 	
-	@PutMapping("/{restauranteId}/ativar")
+	@PutMapping("/{id}/ativar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativar(@PathVariable Long restauranteId) {
-		restauranteService.ativar(restauranteId);
+	public void ativar(@PathVariable Long id) {
+		service.ativar(id);
 	}
 	
-	@PutMapping("/{restauranteId}/desativar")
+	@PutMapping("/{id}/desativar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void desativar(@PathVariable Long restauranteId) {
-		restauranteService.desativar(restauranteId);
+	public void desativar(@PathVariable Long id) {
+		service.desativar(id);
 	}
 	
 }

@@ -26,65 +26,65 @@ public class CidadeService {
 	private static final String MSG_CIDADE_EM_USO = "Cidade com id %d não pode ser removida, está em uso!";
 	// TODO: Refatorar os nomes para repository e conversor
 	@Autowired
-	private CidadeRepository cidadeRepository;
+	private CidadeRepository repository;
 	
 	@Autowired
 	private EstadoRepository estadoRepository;
 	
 	@Autowired
-	private CidadeConversor cidadeConversor;
+	private CidadeConversor conversor;
 	
 	public List<CidadeDTO> listar() {
-		return cidadeConversor.converterListaParaDTO(cidadeRepository.findAll());
+		return conversor.converterListaParaDTO(repository.findAll());
 	}
 	
-	public CidadeDTO buscarPorId(Long cidadeId) {
-		Cidade cidade = cidadeRepository.findById(cidadeId)
-				.orElseThrow(() -> new CidadeNaoEncotradaException(cidadeId));		
-		return cidadeConversor.converterParaDTO(cidade);
+	public CidadeDTO buscarPorId(Long id) {
+		Cidade cidade = repository.findById(id)
+				.orElseThrow(() -> new CidadeNaoEncotradaException(id));		
+		return conversor.converterParaDTO(cidade);
 	}
 	
 	@Transactional
-	public CidadeDTO salvar(CidadeDTO cidadeDTO) {		
+	public CidadeDTO salvar(CidadeDTO dto) {		
 		try {
-			Cidade cidade = cidadeConversor.converterParaObjeto(cidadeDTO);
-			Optional<Estado> estado = estadoRepository.findById(cidadeDTO.getEstado().getId());
+			Cidade cidade = conversor.converterParaObjeto(dto);
+			Optional<Estado> estado = estadoRepository.findById(dto.getEstado().getId());
 			cidade.setEstado(estado.get());
-			return cidadeConversor.converterParaDTO(cidadeRepository.save(cidade));
+			return conversor.converterParaDTO(repository.save(cidade));
 		} catch (EstadoNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}		
 	}
 	
 	@Transactional
-	public CidadeDTO atualizar(Long cidadeId, CidadeDTO cidadeDTO) {		
+	public CidadeDTO atualizar(Long id, CidadeDTO dto) {		
 		try {
-			Cidade cidadeAtual = cidadeRepository.findById(cidadeId).orElseThrow(() -> new CidadeNaoEncotradaException(cidadeId));
+			Cidade cidadeAtual = repository.findById(id).orElseThrow(() -> new CidadeNaoEncotradaException(id));
 			
 			// Se quiser alterar o estado, basta passar o novo estado.id no JSON de CidadeDTO
-			if (cidadeDTO.getEstado() != null) {
-				Long estadoId = cidadeDTO.getEstado().getId();				
+			if (dto.getEstado() != null) {
+				Long estadoId = dto.getEstado().getId();				
 				Estado novoEstado = estadoRepository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncotradaException(estadoId));
 				cidadeAtual.setEstado(novoEstado);
 			}
 			
-			cidadeConversor.copiarParaObjeto(cidadeDTO, cidadeAtual);
-			return cidadeConversor.converterParaDTO(cidadeRepository.save(cidadeAtual));
+			conversor.copiarParaObjeto(dto, cidadeAtual);
+			return conversor.converterParaDTO(repository.save(cidadeAtual));
 		} catch (EstadoNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
 	
 	@Transactional
-	public void remover(Long cidadeId) {
+	public void remover(Long id) {
 		try {
-			cidadeRepository.deleteById(cidadeId);
-			cidadeRepository.flush();
+			repository.deleteById(id);
+			repository.flush();
 		} catch (EmptyResultDataAccessException e) {
-			throw new CidadeNaoEncotradaException(cidadeId);
+			throw new CidadeNaoEncotradaException(id);
 		
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format(MSG_CIDADE_EM_USO, cidadeId) );			
+			throw new EntidadeEmUsoException(String.format(MSG_CIDADE_EM_USO, id) );			
 		}
 	}
 

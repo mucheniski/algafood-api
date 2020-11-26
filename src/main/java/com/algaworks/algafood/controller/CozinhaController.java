@@ -27,43 +27,43 @@ public class CozinhaController {
 	
 	
 	@Autowired
-	private CozinhaService cozinhaService;
+	private CozinhaService service;
 	
 	@GetMapping
 	public List<CozinhaDTO> listar() {
-		return cozinhaService.listar();
+		return service.listar();
 	}
 	
 	@GetMapping("/nome")
 	public List<CozinhaDTO> listarPorNome(@RequestParam String nome) {	
-		return cozinhaService.listarPorNome(nome);
+		return service.listarPorNome(nome);
 	}
 	
-	@GetMapping("/{cozinhaId}")
-	public CozinhaDTO buscarPorId(@PathVariable Long cozinhaId) {
-		return cozinhaService.buscarPorId(cozinhaId);
+	@GetMapping("/{id}")
+	public CozinhaDTO buscarPorId(@PathVariable Long id) {
+		return service.buscarPorId(id);
 	}
 	
 	@GetMapping("/primeiro")
 	public CozinhaDTO bucarPrimeiro() {
-		return cozinhaService.bucarPrimeiro();		
+		return service.bucarPrimeiro();		
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CozinhaDTO salvar(@RequestBody @Valid CozinhaDTO cozinhaDTO) {
-		return cozinhaService.salvar(cozinhaDTO);
+	public CozinhaDTO salvar(@RequestBody @Valid CozinhaDTO dto) {
+		return service.salvar(dto);
 	}
 	
-	@PutMapping("/{cozinhaId}")
-	public CozinhaDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaDTO cozinhaDTO) {
-		return cozinhaService.atualizar(cozinhaId, cozinhaDTO);
+	@PutMapping("/{id}")
+	public CozinhaDTO atualizar(@PathVariable Long id, @RequestBody @Valid CozinhaDTO dto) {
+		return service.atualizar(id, dto);
 	}	
 
-	@DeleteMapping("/{cozinhaId}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long cozinhaId) {		
-		cozinhaService.remover(cozinhaId);		
+	public void remover(@PathVariable Long id) {		
+		service.remover(id);		
 	}
 	
 }

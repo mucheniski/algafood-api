@@ -24,33 +24,33 @@ import com.algaworks.algafood.service.CidadeService;
 public class CidadeController {
 
 	@Autowired
-	private CidadeService cidadeService;
+	private CidadeService service;
 
 	@GetMapping
 	public List<CidadeDTO> listar() {
-		return cidadeService.listar();
+		return service.listar();
 	}
 
 	@GetMapping("/{cidadeId}")
-	public CidadeDTO buscarPorId(@PathVariable Long cidadeId) {
-		return cidadeService.buscarPorId(cidadeId);
+	public CidadeDTO buscarPorId(@PathVariable Long id) {
+		return service.buscarPorId(id);
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public CidadeDTO salvar(@RequestBody @Valid CidadeDTO cidadeDTO) {
-		return cidadeService.salvar(cidadeDTO);
+	public CidadeDTO salvar(@RequestBody @Valid CidadeDTO dto) {
+		return service.salvar(dto);
 	}
 
 	@PutMapping("/{cidadeId}")
-	public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeDTO cidadeDTO) {
-		return cidadeService.atualizar(cidadeId, cidadeDTO);
+	public CidadeDTO atualizar(@PathVariable Long id, @RequestBody @Valid CidadeDTO dto) {
+		return service.atualizar(id, dto);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{cidadeId}")
-	public void remover(@PathVariable Long cidadeId) {
-		cidadeService.remover(cidadeId);
+	public void remover(@PathVariable Long id) {
+		service.remover(id);
 	}
 
 }

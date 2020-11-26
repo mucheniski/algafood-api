@@ -25,95 +25,93 @@ import com.algaworks.algafood.repository.RestauranteRepository;
 public class RestauranteService {
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "	Restaurante id %d não pode ser removida, está em uso!";
-	// TODO: Refatorar os nomes para repository e conversor
 	@Autowired
-	private RestauranteRepository restauranteRepository;
+	private RestauranteRepository repository;
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
 	@Autowired
-	private RestauranteConversor restauranteConversor;
+	private RestauranteConversor conversor;
 	
 	public List<RestauranteDTO> listar() {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findAllCustom());
+		return conversor.converterListaParaDTO(repository.findAllCustom());
 	}
 	
-	public RestauranteDTO buscarPorId(Long restauranteId) {
-		Restaurante restaurante = restauranteRepository.findById(restauranteId)
-				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
-		return restauranteConversor.converterParaDTO(restaurante);
+	public RestauranteDTO buscarPorId(Long id) {
+		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+		return conversor.converterParaDTO(restaurante);
 	}
 	
 	public List<RestauranteDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
+		return conversor.converterListaParaDTO(repository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
 	}	
 	
 	public List<RestauranteDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
+		return conversor.converterListaParaDTO(repository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
 	}
 	
 	public List<RestauranteDTO> comFreteGratis(String nome) {	
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.findComFreteGratis(nome));
+		return conversor.converterListaParaDTO(repository.findComFreteGratis(nome));
 	}
 	
 	public List<RestauranteDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
-		return restauranteConversor.converterListaParaDTO(restauranteRepository.consultarPorNome(nome, cozinhaId));
+		return conversor.converterListaParaDTO(repository.consultarPorNome(nome, cozinhaId));
 	}
 	
 	public RestauranteDTO buscarPrimeiro() {
-		return restauranteConversor.converterParaDTO(restauranteRepository.buscarPrimeiro().get());
+		return conversor.converterParaDTO(repository.buscarPrimeiro().get());
 	}
 	
 	@Transactional
-	public RestauranteDTO salvar(RestauranteDTO restauranteDTO) {
+	public RestauranteDTO salvar(RestauranteDTO dto) {
 		try {
-			Restaurante restaurante = restauranteConversor.converterParaObjeto(restauranteDTO);	
-			Long cozinhaId = restauranteDTO.getCozinha().getId();
+			Restaurante restaurante = conversor.converterParaObjeto(dto);	
+			Long cozinhaId = dto.getCozinha().getId();
 			Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
 			restaurante.setCozinha(cozinha);
-			return restauranteConversor.converterParaDTO(restauranteRepository.save(restaurante));
+			return conversor.converterParaDTO(repository.save(restaurante));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
 	
 	@Transactional
-	public RestauranteDTO atualizar(Long restauranteId, RestauranteDTO restauranteDTO) {
+	public RestauranteDTO atualizar(Long id, RestauranteDTO dto) {
 		try {
-			Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId));
+			Restaurante restauranteAtual = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id));
 			
-			if (restauranteDTO.getCozinha() != null) {
-				Long cozinhaId = restauranteDTO.getCozinha().getId();
+			if (dto.getCozinha() != null) {
+				Long cozinhaId = dto.getCozinha().getId();
 				Cozinha novaCozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
 				restauranteAtual.setCozinha(novaCozinha);
 			}	
 			
-			restauranteConversor.copiarParaObjeto(restauranteDTO, restauranteAtual);
-			return restauranteConversor.converterParaDTO(restauranteRepository.save(restauranteAtual));			
+			conversor.copiarParaObjeto(dto, restauranteAtual);
+			return conversor.converterParaDTO(repository.save(restauranteAtual));			
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}		
 	}
 	
 	@Transactional
-	public void remover(Long restauranteId) {
+	public void remover(Long id) {
 		try {
-			restauranteRepository.deleteById(restauranteId);
-			restauranteRepository.flush();
+			repository.deleteById(id);
+			repository.flush();
 		} catch (EmptyResultDataAccessException e) {
-			throw new RestauranteNaoEncotradaException(restauranteId);
+			throw new RestauranteNaoEncotradaException(id);
 		
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
+			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, id));
 		
 		}
 	}
 	
 	@Transactional
-	public void ativar(Long restauranteId) {
-		Restaurante restaurante = restauranteRepository.findById(restauranteId)
-				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
+	public void ativar(Long id) {
+		Restaurante restaurante = repository.findById(id)
+				.orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
 		
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
@@ -124,9 +122,9 @@ public class RestauranteService {
 	}
 	
 	@Transactional
-	public void desativar(Long restauranteId) {
-		Restaurante restaurante = restauranteRepository.findById(restauranteId)
-				.orElseThrow(() -> new RestauranteNaoEncotradaException(restauranteId) );
+	public void desativar(Long id) {
+		Restaurante restaurante = repository.findById(id)
+				.orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
 		
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
