@@ -9,6 +9,34 @@
 			"name": "restaurante",
 			"item": [
 				{
+					"name": "salvar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Novo Postman\",\n    \"taxaFrete\": 10,\n    \"cozinha\": {\n        \"id\": 1\n    },\n    \"endereco\": {\n        \"cep\": \"38400-999\",\n        \"logradouro\": \"Rua João Pinheiro postman\",\n        \"numero\": \"1000\",\n        \"complemento\": null,\n        \"bairro\": \"Centro\",\n        \"cidade\": {\n            \"id\": 2\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "listar",
 					"request": {
 						"method": "GET",
@@ -21,6 +49,25 @@
 							"port": "8080",
 							"path": [
 								"restaurantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1"
 							]
 						}
 					},
@@ -61,6 +108,34 @@
 								"restaurantes",
 								"1",
 								"ativar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Atualizado Postman\",\n    \"taxaFrete\": 10,\n    \"cozinha\": {\n        \"id\": 1\n    },\n    \"endereco\": {\n        \"cep\": \"38400-999\",\n        \"logradouro\": \"Rua João Pinheiro postman\",\n        \"numero\": \"1000\",\n        \"complemento\": null,\n        \"bairro\": \"Centro\",\n        \"cidade\": {\n            \"id\": 2\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1"
 							]
 						}
 					},

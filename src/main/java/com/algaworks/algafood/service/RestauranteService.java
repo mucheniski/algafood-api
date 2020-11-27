@@ -11,13 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.dto.RestauranteConversor;
 import com.algaworks.algafood.dto.RestauranteDTO;
+import com.algaworks.algafood.dto.RestauranteEntradaDTO;
+import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
+import com.algaworks.algafood.exception.CidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradaException;
+import com.algaworks.algafood.repository.CidadeRepository;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.repository.RestauranteRepository;
 
@@ -30,6 +34,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	
 	@Autowired
 	private RestauranteConversor conversor;
@@ -64,12 +71,19 @@ public class RestauranteService {
 	}
 	
 	@Transactional
-	public RestauranteDTO salvar(RestauranteDTO dto) {
+	public RestauranteDTO salvar(RestauranteEntradaDTO dto) {
 		try {
 			Restaurante restaurante = conversor.converterParaObjeto(dto);	
+			
 			Long cozinhaId = dto.getCozinha().getId();
+			Long cidadeId = dto.getEndereco().getCidade().getId();
+			
 			Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
+			Cidade cidade = cidadeRepository.findById(cidadeId).orElseThrow(() -> new CidadeNaoEncotradaException(cidadeId));
+			
 			restaurante.setCozinha(cozinha);
+			restaurante.getEndereco().setCidade(cidade);
+			
 			return conversor.converterParaDTO(repository.save(restaurante));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
@@ -77,18 +91,24 @@ public class RestauranteService {
 	}
 	
 	@Transactional
-	public RestauranteDTO atualizar(Long id, RestauranteDTO dto) {
+	public RestauranteDTO atualizar(Long id, RestauranteEntradaDTO dto) {
 		try {
 			Restaurante restauranteAtual = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id));
 			
 			if (dto.getCozinha() != null) {
 				Long cozinhaId = dto.getCozinha().getId();
-				Cozinha novaCozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
-				restauranteAtual.setCozinha(novaCozinha);
+				Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncotradaException(cozinhaId));
+				restauranteAtual.setCozinha(cozinha);
 			}	
 			
+			if (dto.getEndereco() != null) {
+				Long cidadeId = dto.getEndereco().getCidade().getId();
+				Cidade cidade = cidadeRepository.findById(cidadeId).orElseThrow(() -> new CidadeNaoEncotradaException(cidadeId));
+				restauranteAtual.getEndereco().setCidade(cidade);
+			}
+			
 			conversor.copiarParaObjeto(dto, restauranteAtual);
-			return conversor.converterParaDTO(repository.save(restauranteAtual));			
+			return conversor.converterParaDTO(repository.save(restauranteAtual));		
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}		

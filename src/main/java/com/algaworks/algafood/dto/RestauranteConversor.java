@@ -17,9 +17,7 @@ public class RestauranteConversor {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	@Autowired
-	private CozinhaConversor cozinhaConversor;
+
 	
 	/*
 	 * Recebe uma entidade e instancia um DTO à partir da entidade 
@@ -38,7 +36,7 @@ public class RestauranteConversor {
 	/*
 	 * Recebe um DTO e instancia uma entidade à partir desse DTO.
 	 */
-	public Restaurante converterParaObjeto(RestauranteDTO restauranteEntradaDTO) {
+	public Restaurante converterParaObjeto(RestauranteEntradaDTO restauranteEntradaDTO) {
 		return modelMapper.map(restauranteEntradaDTO, Restaurante.class);		
 	}
 	
@@ -47,10 +45,8 @@ public class RestauranteConversor {
 	 * porque no caso não precisamos ficar passando mais as propriedades que precisam ser ignoradas para
 	 * não retornarem como null, o ModelMapper já tem a inteligência para validar isso.
 	 */
-	public void copiarParaObjeto(RestauranteDTO restauranteDTO, Restaurante restaurante) {
-		restauranteDTO.setId(restaurante.getId());
-		restauranteDTO.setCozinha(cozinhaConversor.converterParaDTO(restaurante.getCozinha()));
-		modelMapper.map(restauranteDTO, restaurante);
+	public void copiarParaObjeto(RestauranteEntradaDTO dto, Restaurante restaurante) {
+		modelMapper.map(dto, restaurante);
 	}
 
 }

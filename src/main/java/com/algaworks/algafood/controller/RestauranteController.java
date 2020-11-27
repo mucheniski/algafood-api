@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.dto.RestauranteDTO;
+import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.service.RestauranteService;
 
 // TODO: Revisar se realmente é necessário um DTO de entrada e outro de Retorno.
@@ -65,12 +66,12 @@ public class RestauranteController {
 	
 	@PostMapping	
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestauranteDTO salvar(@RequestBody @Valid RestauranteDTO dto) {
+	public RestauranteDTO salvar(@RequestBody @Valid RestauranteEntradaDTO dto) {
 		return service.salvar(dto);	
 	}
 	
 	@PutMapping("/{id}")
-	public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteDTO dto) {		
+	public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteEntradaDTO dto) {		
 		return service.atualizar(id, dto);		
 	}
 	
