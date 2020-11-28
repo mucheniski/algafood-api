@@ -7,8 +7,8 @@ public class CidadeNaoEncotradaException extends EntidadeNaoEncotradaException {
 		super(mensagem);		
 	}
 	
-	public CidadeNaoEncotradaException(Long cidadeId) {
-		this(String.format("Não existe Cidade com id %d", cidadeId));
+	public CidadeNaoEncotradaException(Long id) {
+		this(String.format("Não existe Cidade com id %d", id));
 	}
 	
 }

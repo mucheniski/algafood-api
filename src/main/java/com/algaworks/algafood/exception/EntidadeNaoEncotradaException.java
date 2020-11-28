@@ -6,4 +6,5 @@ public abstract class EntidadeNaoEncotradaException extends NegocioException {
 	public EntidadeNaoEncotradaException(String mensagem) {
 		super(mensagem);		
 	}
+	
 }
