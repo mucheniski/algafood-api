@@ -1,7 +1,6 @@
 package com.algaworks.algafood.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,12 +8,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.dto.CidadeConversor;
 import com.algaworks.algafood.dto.CidadeDTO;
+import com.algaworks.algafood.dto.conversor.CidadeConversor;
 import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Estado;
 import com.algaworks.algafood.exception.CidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.EstadoNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.repository.CidadeRepository;
@@ -46,14 +46,17 @@ public class CidadeService {
 	
 	@Transactional
 	public CidadeDTO salvar(CidadeDTO dto) {		
-		try {
+		
+		try {				
+			Long estadoId = dto.getEstado().getId();
+			Estado estado = estadoRepository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncotradaException(estadoId));
 			Cidade cidade = conversor.converterParaObjeto(dto);
-			Optional<Estado> estado = estadoRepository.findById(dto.getEstado().getId());
-			cidade.setEstado(estado.get());
+			cidade.setEstado(estado);
 			return conversor.converterParaDTO(repository.save(cidade));
-		} catch (EstadoNaoEncotradaException e) {
+		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}		
+		
 	}
 	
 	@Transactional

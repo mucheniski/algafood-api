@@ -9,9 +9,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.dto.RestauranteConversor;
-import com.algaworks.algafood.dto.RestauranteDTO;
+import com.algaworks.algafood.dto.RestauranteRetornoDTO;
 import com.algaworks.algafood.dto.RestauranteEntradaDTO;
+import com.algaworks.algafood.dto.conversor.RestauranteConversor;
 import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.Restaurante;
@@ -41,37 +41,37 @@ public class RestauranteService {
 	@Autowired
 	private RestauranteConversor conversor;
 	
-	public List<RestauranteDTO> listar() {
+	public List<RestauranteRetornoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAllCustom());
 	}
 	
-	public RestauranteDTO buscarPorId(Long id) {
+	public RestauranteRetornoDTO buscarPorId(Long id) {
 		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
 		return conversor.converterParaDTO(restaurante);
 	}
 	
-	public List<RestauranteDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
+	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return conversor.converterListaParaDTO(repository.findByTaxaFreteBetween(taxaInicial, taxaFinal));
 	}	
 	
-	public List<RestauranteDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
+	public List<RestauranteRetornoDTO> listarPorNomeTaxaFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return conversor.converterListaParaDTO(repository.findByNomeTaxaFrete(nome, taxaInicial, taxaFinal));
 	}
 	
-	public List<RestauranteDTO> comFreteGratis(String nome) {	
+	public List<RestauranteRetornoDTO> comFreteGratis(String nome) {	
 		return conversor.converterListaParaDTO(repository.findComFreteGratis(nome));
 	}
 	
-	public List<RestauranteDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
+	public List<RestauranteRetornoDTO> listarPorNomeECozinha(String nome, Long cozinhaId) {
 		return conversor.converterListaParaDTO(repository.consultarPorNome(nome, cozinhaId));
 	}
 	
-	public RestauranteDTO buscarPrimeiro() {
+	public RestauranteRetornoDTO buscarPrimeiro() {
 		return conversor.converterParaDTO(repository.buscarPrimeiro().get());
 	}
 	
 	@Transactional
-	public RestauranteDTO salvar(RestauranteEntradaDTO dto) {
+	public RestauranteRetornoDTO salvar(RestauranteEntradaDTO dto) {
 		try {
 			Restaurante restaurante = conversor.converterParaObjeto(dto);	
 			
@@ -91,7 +91,7 @@ public class RestauranteService {
 	}
 	
 	@Transactional
-	public RestauranteDTO atualizar(Long id, RestauranteEntradaDTO dto) {
+	public RestauranteRetornoDTO atualizar(Long id, RestauranteEntradaDTO dto) {
 		try {
 			Restaurante restauranteAtual = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id));
 			

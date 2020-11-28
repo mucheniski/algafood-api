@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto;
+package com.algaworks.algafood.dto.conversor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.dto.RestauranteRetornoDTO;
+import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.entity.Restaurante;
 
 /*
@@ -23,11 +25,11 @@ public class RestauranteConversor {
 	 * Recebe uma entidade e instancia um DTO à partir da entidade 
 	 * Atribui corretamente as propriedades de restaurante para o DTO.
 	 */
-	public RestauranteDTO converterParaDTO(Restaurante restaurante) {
-		return modelMapper.map(restaurante, RestauranteDTO.class);
+	public RestauranteRetornoDTO converterParaDTO(Restaurante restaurante) {
+		return modelMapper.map(restaurante, RestauranteRetornoDTO.class);
 	}
 	
-	public List<RestauranteDTO> converterListaParaDTO(List<Restaurante> restaurantes) {
+	public List<RestauranteRetornoDTO> converterListaParaDTO(List<Restaurante> restaurantes) {
 		return restaurantes.stream()
 								.map(restaurante -> converterParaDTO(restaurante))
 								.collect(Collectors.toList());

@@ -10,8 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.algaworks.algafood.dto.FormaPagamentoConversor;
 import com.algaworks.algafood.dto.FormaPagamentoDTO;
+import com.algaworks.algafood.dto.conversor.FormaPagamentoConversor;
 import com.algaworks.algafood.entity.FormaPagamento;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.FormaPagamentoNaoEncontradaException;

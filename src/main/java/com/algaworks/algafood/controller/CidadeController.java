@@ -31,7 +31,7 @@ public class CidadeController {
 		return service.listar();
 	}
 
-	@GetMapping("/{cidadeId}")
+	@GetMapping("/{id}")
 	public CidadeDTO buscarPorId(@PathVariable Long id) {
 		return service.buscarPorId(id);
 	}
@@ -42,13 +42,13 @@ public class CidadeController {
 		return service.salvar(dto);
 	}
 
-	@PutMapping("/{cidadeId}")
+	@PutMapping("/{id}")
 	public CidadeDTO atualizar(@PathVariable Long id, @RequestBody @Valid CidadeDTO dto) {
 		return service.atualizar(id, dto);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@DeleteMapping("/{cidadeId}")
+	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {
 		service.remover(id);
 	}

@@ -9,8 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.dto.CozinhaConversor;
 import com.algaworks.algafood.dto.CozinhaDTO;
+import com.algaworks.algafood.dto.conversor.CozinhaConversor;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;

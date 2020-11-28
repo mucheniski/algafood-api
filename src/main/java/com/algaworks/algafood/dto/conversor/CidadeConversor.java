@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto;
+package com.algaworks.algafood.dto.conversor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.dto.CidadeDTO;
 import com.algaworks.algafood.entity.Cidade;
 
 @Component

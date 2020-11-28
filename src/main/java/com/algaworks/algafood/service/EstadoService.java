@@ -8,8 +8,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.dto.EstadoConversor;
 import com.algaworks.algafood.dto.EstadoDTO;
+import com.algaworks.algafood.dto.conversor.EstadoConversor;
 import com.algaworks.algafood.entity.Estado;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EstadoNaoEncotradaException;
