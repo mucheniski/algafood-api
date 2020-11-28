@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,42 +15,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.entrada.GrupoEntradaDTO;
-import com.algaworks.algafood.dto.retorno.GrupoRetornoDTO;
-import com.algaworks.algafood.service.GrupoService;
+import com.algaworks.algafood.dto.entrada.UsuarioAtualizaSenhaDTO;
+import com.algaworks.algafood.dto.entrada.UsuarioEntradaDTO;
+import com.algaworks.algafood.dto.entrada.UsuarioEntradaSemSenhaDTO;
+import com.algaworks.algafood.dto.retorno.UsuarioRetornoDTO;
+import com.algaworks.algafood.service.UsuarioService;
 
 @RestController
-@RequestMapping("/grupos")
-public class GrupoController {
+@RequestMapping("/usuarios")
+public class UsuarioController {
 	
 	@Autowired
-	private GrupoService service;
+	private UsuarioService service;
 	
 	@GetMapping
-	public List<GrupoRetornoDTO> listar() {
+	public List<UsuarioRetornoDTO> listar() {
 		return service.listar();
 	}
 	
 	@GetMapping("/{id}")
-	public GrupoRetornoDTO buscarPorId(@PathVariable Long id) {
+	public UsuarioRetornoDTO buscarPorId(@PathVariable Long id) {
 		return service.buscarPorId(id);
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public GrupoRetornoDTO salvar(@RequestBody @Valid GrupoEntradaDTO dto) {
+	public UsuarioRetornoDTO salvar(@RequestBody @Valid UsuarioEntradaDTO dto) {
 		return service.salvar(dto);
 	}
 	
 	@PutMapping("/{id}")
-	public GrupoRetornoDTO atualizar(@PathVariable Long id, @RequestBody @Valid GrupoEntradaDTO dto) {
+	public UsuarioRetornoDTO atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioEntradaSemSenhaDTO dto) {
 		return service.atualizar(id, dto);
 	}
 	
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@DeleteMapping("/{id}")
-	public void remover(@PathVariable Long id) {
-		service.remover(id);
+	@PutMapping("/{id}/atualiza-senha")
+	public UsuarioRetornoDTO atualizaSenha(@PathVariable Long id, @RequestBody @Valid UsuarioAtualizaSenhaDTO dto) {
+		return service.atualizaSenha(id, dto);
 	}
 
 }

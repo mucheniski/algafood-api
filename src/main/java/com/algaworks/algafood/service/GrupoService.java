@@ -9,9 +9,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.algaworks.algafood.dto.GrupoEntradaDTO;
-import com.algaworks.algafood.dto.GrupoRetornoDTO;
 import com.algaworks.algafood.dto.conversor.GrupoConversor;
+import com.algaworks.algafood.dto.entrada.GrupoEntradaDTO;
+import com.algaworks.algafood.dto.retorno.GrupoRetornoDTO;
 import com.algaworks.algafood.entity.Grupo;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.GrupoNaoEncontradoException;

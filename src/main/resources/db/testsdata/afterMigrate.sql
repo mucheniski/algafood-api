@@ -50,3 +50,6 @@ INSERT INTO restaurante_forma_pagamento (rastaurante_id, forma_pagamento_id) VAL
 
 INSERT INTO grupo (nome) VALUES('Administradores');
 INSERT INTO grupo (nome) VALUES('Usuarios');
+
+INSERT INTO usuario (data_cadastro, email, nome, senha) VALUES(utc_timestamp, 'usuario1@teste.com', 'Usuario1', '1234');
+INSERT INTO usuario (data_cadastro, email, nome, senha) VALUES(utc_timestamp, 'usuario2@teste.com', 'Usuario2', '1234');

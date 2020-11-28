@@ -7,8 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.algaworks.algafood.dto.GrupoEntradaDTO;
-import com.algaworks.algafood.dto.GrupoRetornoDTO;
+import com.algaworks.algafood.dto.entrada.GrupoEntradaDTO;
+import com.algaworks.algafood.dto.retorno.GrupoRetornoDTO;
 import com.algaworks.algafood.entity.Grupo;
 
 @Component

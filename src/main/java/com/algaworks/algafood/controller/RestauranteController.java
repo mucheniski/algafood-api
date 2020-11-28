@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.RestauranteRetornoDTO;
-import com.algaworks.algafood.dto.RestauranteEntradaDTO;
+import com.algaworks.algafood.dto.entrada.RestauranteEntradaDTO;
+import com.algaworks.algafood.dto.retorno.RestauranteRetornoDTO;
 import com.algaworks.algafood.service.RestauranteService;
 
 @RestController

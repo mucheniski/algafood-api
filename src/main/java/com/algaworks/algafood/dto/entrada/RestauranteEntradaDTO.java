@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto;
+package com.algaworks.algafood.dto.entrada;
 
 import java.math.BigDecimal;
 
