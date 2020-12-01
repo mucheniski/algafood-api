@@ -1,11 +1,14 @@
 package com.algaworks.algafood.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.algaworks.algafood.entity.Usuario;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends CustomJpaRepository<Usuario, Long> {
 
+	Optional<Usuario> findByEmail(String email);
+	
 }
