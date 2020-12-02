@@ -1,5 +1,6 @@
 package com.algaworks.algafood.dto.conversor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class FormaPagamentoConversor {
 		return modelMapper.map(formaPagamento, FormaPagamentoDTO.class);
 	}
 	
-	public List<FormaPagamentoDTO> converterListaParaDTO(List<FormaPagamento> formasPagamento) {
+	public List<FormaPagamentoDTO> converterListaParaDTO(Collection<FormaPagamento> formasPagamento) {
 		return formasPagamento.stream()
 						.map(formaPagamento -> converterParaDTO(formaPagamento))
 						.collect(Collectors.toList());

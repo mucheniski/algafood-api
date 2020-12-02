@@ -14,6 +14,7 @@ import com.algaworks.algafood.dto.entrada.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.retorno.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Cozinha;
+import com.algaworks.algafood.entity.FormaPagamento;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.CidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
@@ -41,13 +42,20 @@ public class RestauranteService {
 	@Autowired
 	private RestauranteConversor conversor;
 	
+	@Autowired
+	private FormaPagamentoService formaPagamentoService;
+	
 	public List<RestauranteRetornoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAllCustom());
 	}
 	
-	public RestauranteRetornoDTO buscarPorId(Long id) {
-		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+	public RestauranteRetornoDTO buscarDtoPorId(Long id) {
+		Restaurante restaurante = buscarPorId(id);
 		return conversor.converterParaDTO(restaurante);
+	}
+	
+	public Restaurante buscarPorId(Long id) {
+		return repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
 	}
 	
 	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
@@ -152,6 +160,32 @@ public class RestauranteService {
 		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente.
 		 */
 		restaurante.desativar();
+	}
+	
+	@Transactional
+	public void desvincularFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscarPorId(formaPagamentoId);
+		
+		/*
+		 * Não precisa chamar o save por causa do contesto de transação, como está anotado com @Transactional
+		 * sempre que houver alteração na entidade Restaurante as alterações serão persistidas na base pelo
+		 * gerenciador do Spring Data JPA quando for sincronizar as informações.
+		 */
+		restaurante.desvincularFormaPagamento(formaPagamento);
+	}
+	
+	@Transactional
+	public void vincularFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscarPorId(formaPagamentoId);
+		
+		/*
+		 * Não precisa chamar o save por causa do contesto de transação, como está anotado com @Transactional
+		 * sempre que houver alteração na entidade Restaurante as alterações serão persistidas na base pelo
+		 * gerenciador do Spring Data JPA quando for sincronizar as informações.
+		 */
+		restaurante.vincularFormaPagamento(formaPagamento);
 	}
 	
 }

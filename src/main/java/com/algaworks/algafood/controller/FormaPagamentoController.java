@@ -32,8 +32,8 @@ public class FormaPagamentoController {
 	}
 	
 	@GetMapping("/{id}")
-	public FormaPagamentoDTO buscarPorId(@PathVariable Long id) {
-		return service.buscarPorId(id);
+	public FormaPagamentoDTO buscarDtoPorId(@PathVariable Long id) {
+		return service.buscarDtoPorId(id);
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)

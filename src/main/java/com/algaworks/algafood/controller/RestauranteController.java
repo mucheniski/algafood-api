@@ -34,7 +34,7 @@ public class RestauranteController {
 	
 	@GetMapping("/{id}")
 	public RestauranteRetornoDTO buscarPorId(@PathVariable Long id) {
-		return service.buscarPorId(id);		
+		return service.buscarDtoPorId(id);		
 	}
 	
 	@GetMapping("/taxa-frete")

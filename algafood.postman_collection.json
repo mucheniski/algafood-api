@@ -55,6 +55,68 @@
 					"response": []
 				},
 				{
+					"name": "listar formas pagamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/2/formas-pagamento",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"2",
+								"formas-pagamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desvincular forma pagamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/2/formas-pagamento/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"2",
+								"formas-pagamento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vincular forma pagamento Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/2/formas-pagamento/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"2",
+								"formas-pagamento",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "buscar por ID",
 					"request": {
 						"method": "GET",
@@ -631,7 +693,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Nome Postman\",\n    \"email\": \"ponstman@teste.com\",\n    \"senha\": \"1234\"\n}",
+							"raw": "{\n    \"nome\": \"Nome Postman222\",\n    \"email\": \"ponstman@teste.com\",\n    \"senha\": \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -658,7 +720,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"atualizado\",\n    \"email\": \"teste@teste.com\"\n}",
+							"raw": "{\n    \"nome\": \"atualizado\",\n    \"email\": \"ponstman@teste.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -666,14 +728,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/usuarios/2",
+							"raw": "localhost:8080/usuarios/3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"2"
+								"3"
 							]
 						}
 					},

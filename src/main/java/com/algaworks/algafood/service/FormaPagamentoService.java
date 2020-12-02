@@ -33,9 +33,13 @@ public class FormaPagamentoService {
 		return conversor.converterListaParaDTO(repository.findAll());		
 	}
 		
-	public FormaPagamentoDTO buscarPorId(Long id) {
-		FormaPagamento formaPagamento = repository.findById(id).orElseThrow(() -> new FormaPagamentoNaoEncontradaException(id));
+	public FormaPagamentoDTO buscarDtoPorId(Long id) {
+		FormaPagamento formaPagamento = buscarPorId(id);
 		return conversor.converterParaDTO(formaPagamento);
+	}
+	
+	public FormaPagamento buscarPorId(Long id) {
+		return repository.findById(id).orElseThrow(() -> new FormaPagamentoNaoEncontradaException(id));
 	}
 
 	@Transactional

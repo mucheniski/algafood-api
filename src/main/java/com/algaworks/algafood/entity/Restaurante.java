@@ -3,7 +3,9 @@ package com.algaworks.algafood.entity;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -79,7 +81,7 @@ public class Restaurante {
 			joinColumns = @JoinColumn(name = "rastaurante_id"),
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id")
 	)
-	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+	private Set<FormaPagamento> formasPagamento = new HashSet();
 	
 	// TODO: refatorar para gravar a data da atualização
 	public void ativar() {
@@ -89,6 +91,22 @@ public class Restaurante {
 	// TODO: refatorar para gravar a data da atualização
 	public void desativar() {
 		setAtivo(false);
+	}
+	
+	/*
+	 * Retorna um boolean true se foi adicionado e false se não foi
+	 * faz parta dos métodos de collections do java.
+	 */
+	public boolean vincularFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().add(formaPagamento);
+	}
+	
+	/*
+	 * Retorna um boolean true se foi adicionado e false se não foi
+	 * faz parta dos métodos de collections do java.
+	 */
+	public boolean desvincularFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().remove(formaPagamento);
 	}
 		
 }
