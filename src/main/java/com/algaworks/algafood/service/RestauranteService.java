@@ -149,7 +149,7 @@ public class RestauranteService {
 	
 	@Transactional
 	public void ativar(Long id) {
-		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+		Restaurante restaurante = buscarPorId(id);
 		
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
@@ -161,7 +161,7 @@ public class RestauranteService {
 	
 	@Transactional
 	public void desativar(Long id) {
-		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+		Restaurante restaurante = buscarPorId(id);
 		
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
@@ -224,6 +224,18 @@ public class RestauranteService {
 		Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
 		produtoConversor.copiarParaObjeto(produtoDTO, produto);
 		return produtoConversor.converterParaDTO(produto);
+	}
+
+	@Transactional
+	public void abrir(Long id) {
+		Restaurante restaurante = buscarPorId(id);
+		restaurante.abrir();
+	}
+
+	@Transactional
+	public void fechar(Long id) {
+		Restaurante restaurante = buscarPorId(id);
+		restaurante.fechar();
 	}
 	
 }

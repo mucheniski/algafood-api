@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c739d555-7498-46cd-b195-62ecc7236662",
+		"_postman_id": "3064d811-6c76-4a90-a4ce-56e58790cbf5",
 		"name": "algafood",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -298,6 +298,46 @@
 								"restaurantes",
 								"1",
 								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "abertura",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/abertura",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"abertura"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fechamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/fechamento",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"fechamento"
 							]
 						}
 					},

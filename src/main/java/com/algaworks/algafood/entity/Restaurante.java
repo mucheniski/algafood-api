@@ -64,6 +64,8 @@ public class Restaurante {
 	
 	private Boolean ativo = Boolean.TRUE;
 	
+	private Boolean aberto = Boolean.TRUE;
+	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime dataCadastro;	// O OffsetDateTime possui o offset para ser apresentado no retorno da API ex "2020-11-06T06:51:52-03:00"
@@ -115,6 +117,14 @@ public class Restaurante {
 	
 	public void removerProduto(Produto produto) {
 		this.produtos.remove(produto);
+	}
+	
+	public void fechar() {
+		setAberto(false);
+	}
+	
+	public void abrir() {
+		setAberto(true);
 	}
 		
 }
