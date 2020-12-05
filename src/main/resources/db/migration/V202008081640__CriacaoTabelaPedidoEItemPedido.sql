@@ -23,8 +23,8 @@ CREATE TABLE pedido (
 	CONSTRAINT pedido_forma_pagamento_fk FOREIGN KEY (forma_pagamento_id) REFERENCES algafood2.forma_pagamento(id)
 )
 ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci;
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci;
 
 CREATE TABLE item_pedido (
 	id BIGINT auto_increment NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE item_pedido (
 	CONSTRAINT item_pedido_pedido_fk FOREIGN KEY (pedido_id) REFERENCES algafood2.pedido(id)
 )
 ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci;
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci;
 
 

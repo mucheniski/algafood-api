@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+    # Descrevendo o serviço do banco de dados.
+    banco:
+        image: mysql:5.7
+        container_name: bancomysql
+        ports:
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: algafood2
+            MYSQL_USER: developer
+            MYSQL_PASSWORD: developer        
+        networks: 
+            - aplicacao-network
+networks:
+    aplicacao-network:
+        driver: bridge

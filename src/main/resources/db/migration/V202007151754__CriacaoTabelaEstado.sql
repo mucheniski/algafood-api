@@ -5,8 +5,8 @@ CREATE TABLE estado (
 	CONSTRAINT estado_PK PRIMARY KEY (id)
 )
 ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci;
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci;
 
 -- Inser dos nomes na tabela estado
 INSERT INTO estado(nome) SELECT DISTINCT nome_estado FROM cidade;
