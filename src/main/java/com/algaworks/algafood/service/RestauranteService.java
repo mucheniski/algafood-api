@@ -9,12 +9,15 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.dto.ProdutoDTO;
+import com.algaworks.algafood.dto.conversor.ProdutoConversor;
 import com.algaworks.algafood.dto.conversor.RestauranteConversor;
 import com.algaworks.algafood.dto.entrada.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.retorno.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.FormaPagamento;
+import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.CidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
@@ -26,10 +29,12 @@ import com.algaworks.algafood.repository.CidadeRepository;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.repository.RestauranteRepository;
 
+// TODO: Apos terminar o curso, mover todos os métodos para os services, chamar apenas services aqui o único repository deve ser o do Restaurante.
 @Service
 public class RestauranteService {
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "	Restaurante id %d não pode ser removida, está em uso!";
+	
 	@Autowired
 	private RestauranteRepository repository;
 	
@@ -44,6 +49,12 @@ public class RestauranteService {
 	
 	@Autowired
 	private FormaPagamentoService formaPagamentoService;
+	
+	@Autowired
+	private ProdutoConversor produtoConversor;
+	
+	@Autowired
+	private ProdutoService produtoService;
 	
 	public List<RestauranteRetornoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAllCustom());
@@ -138,8 +149,7 @@ public class RestauranteService {
 	
 	@Transactional
 	public void ativar(Long id) {
-		Restaurante restaurante = repository.findById(id)
-				.orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
 		
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
@@ -151,8 +161,7 @@ public class RestauranteService {
 	
 	@Transactional
 	public void desativar(Long id) {
-		Restaurante restaurante = repository.findById(id)
-				.orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+		Restaurante restaurante = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
 		
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
@@ -186,6 +195,35 @@ public class RestauranteService {
 		 * gerenciador do Spring Data JPA quando for sincronizar as informações.
 		 */
 		restaurante.vincularFormaPagamento(formaPagamento);
+	}
+
+	public List<ProdutoDTO> listarProdutos(Long restauranteId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		return produtoConversor.converterListaParaDTO(restaurante.getProdutos());
+	}
+
+	public ProdutoDTO buscarProdutoPorRestaurante(Long restauranteId, Long produtoId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
+		return produtoConversor.converterParaDTO(produto);
+	}
+
+	@Transactional
+	public ProdutoDTO adicionarProduto(ProdutoDTO produtoDTO, Long restauranteId) {
+		Restaurante restaurante = buscarPorId(restauranteId);		
+		Produto produto = produtoConversor.converterParaObjeto(produtoDTO);
+		produto.setRastaurante(restaurante);
+		produtoService.salvar(produto);
+		restaurante.adicionarProduto(produto);
+		return produtoConversor.converterParaDTO(produto);
+	}
+	
+	@Transactional
+	public ProdutoDTO atualizarProduto(Long restauranteId, Long produtoId, ProdutoDTO produtoDTO) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
+		produtoConversor.copiarParaObjeto(produtoDTO, produto);
+		return produtoConversor.converterParaDTO(produto);
 	}
 	
 }

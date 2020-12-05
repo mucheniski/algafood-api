@@ -29,9 +29,8 @@ public class EstadoService {
 		return conversor.converterListaParaDTO(reposiroty.findAll());
 	}
 	
-	public EstadoDTO buscarPorId(Long id)	{
-		Estado estado = reposiroty.findById(id)
-				.orElseThrow(() -> new EstadoNaoEncotradaException(id) );
+	public EstadoDTO buscarDtoPorId(Long id)	{
+		Estado estado = reposiroty.findById(id).orElseThrow(() -> new EstadoNaoEncotradaException(id) );
 		return conversor.converterParaDTO(estado);
 	}
 	

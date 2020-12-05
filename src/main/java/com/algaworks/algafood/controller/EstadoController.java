@@ -32,8 +32,8 @@ public class EstadoController {
 	}
 	
 	@GetMapping("/{id}")
-	public EstadoDTO buscarPorId(@PathVariable Long id) {
-		return service.buscarPorId(id);
+	public EstadoDTO buscarDtoPorId(@PathVariable Long id) {
+		return service.buscarDtoPorId(id);
 	}
 	
 	@PostMapping

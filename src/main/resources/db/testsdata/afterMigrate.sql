@@ -43,6 +43,10 @@ INSERT INTO forma_pagamento (descricao) VALUES('Dinheiro');
 INSERT INTO forma_pagamento (descricao) VALUES('Boleto');
 INSERT INTO forma_pagamento (descricao) VALUES('Cartão');
 
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES(true, 'Comida Tailandesa 1', 'Thai 1', 10.0, 1);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES(true, 'Comida Tailandesa 2', 'Thai 2', 15.0, 1);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES(true, 'Comida Indiana 1', 'Indi 1', 20.0, 3);
+
 INSERT INTO permissao (descricao, nome) VALUES('consulta produtos', 'Permite apenas a consulta de produtos');
 INSERT INTO permissao (descricao, nome) VALUES('gerencia produtos', 'Permissão total sobre produtos');
 

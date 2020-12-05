@@ -108,5 +108,13 @@ public class Restaurante {
 	public boolean desvincularFormaPagamento(FormaPagamento formaPagamento) {
 		return getFormasPagamento().remove(formaPagamento);
 	}
+	
+	public void adicionarProduto(Produto produto) {
+		this.produtos.add(produto);
+	}
+	
+	public void removerProduto(Produto produto) {
+		this.produtos.remove(produto);
+	}
 		
 }
