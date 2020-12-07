@@ -7,5 +7,5 @@ import com.algaworks.algafood.entity.Permissao;
 
 @Repository
 public interface PermissaoRepository extends JpaRepository<Permissao, Long> {
-
+	
 }

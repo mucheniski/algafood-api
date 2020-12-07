@@ -38,8 +38,7 @@ public class CozinhaService {
 	}
 	
 	public CozinhaDTO buscarPorId(Long id) {
-		Cozinha cozinha = respository.findById(id)
-				.orElseThrow(() -> new CozinhaNaoEncotradaException(id));		
+		Cozinha cozinha = respository.findById(id).orElseThrow(() -> new CozinhaNaoEncotradaException(id));		
 		return conversor.converterParaDTO(cozinha);
 	}
 	

@@ -184,6 +184,7 @@ public class RestauranteService {
 		restaurante.desvincularFormaPagamento(formaPagamento);
 	}
 	
+	// TODO: não está com idempotencia, verificar
 	@Transactional
 	public void vincularFormaPagamento(Long restauranteId, Long formaPagamentoId) {
 		Restaurante restaurante = buscarPorId(restauranteId);

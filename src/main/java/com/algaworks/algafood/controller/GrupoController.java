@@ -34,7 +34,7 @@ public class GrupoController {
 	
 	@GetMapping("/{id}")
 	public GrupoRetornoDTO buscarPorId(@PathVariable Long id) {
-		return service.buscarPorId(id);
+		return service.buscarDtoPorId(id);
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)

@@ -36,4 +36,12 @@ public class Grupo {
 	)
 	private List<Permissao> permissoes = new ArrayList<>();
 	
+	public void desvincularPermissao(Permissao permissao) {
+		this.permissoes.remove(permissao);
+	}
+	
+	public void vincularPermissao(Permissao permisssao) {
+		this.permissoes.add(permisssao);
+	}
+	
 }
