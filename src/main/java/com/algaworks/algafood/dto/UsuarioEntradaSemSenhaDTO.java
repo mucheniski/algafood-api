@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto.entrada;
+package com.algaworks.algafood.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

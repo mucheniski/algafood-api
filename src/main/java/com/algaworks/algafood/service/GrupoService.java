@@ -10,11 +10,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algafood.dto.GrupoDTO;
 import com.algaworks.algafood.dto.PermissaoDTO;
 import com.algaworks.algafood.dto.conversor.GrupoConversor;
 import com.algaworks.algafood.dto.conversor.PermissaoConversor;
-import com.algaworks.algafood.dto.entrada.GrupoEntradaDTO;
-import com.algaworks.algafood.dto.retorno.GrupoRetornoDTO;
 import com.algaworks.algafood.entity.Grupo;
 import com.algaworks.algafood.entity.Permissao;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
@@ -38,23 +37,27 @@ public class GrupoService {
 	@Autowired
 	private PermissaoService permissaoService;
 	
-	public List<GrupoRetornoDTO> listar() {
+	public List<GrupoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAll());
 	}
+	
+	public Grupo buscarPorId(Long id) {
+		return repository.findById(id).orElseThrow(() -> new GrupoNaoEncontradoException(id));
+	}
 
-	public GrupoRetornoDTO buscarDtoPorId(Long id) {		
+	public GrupoDTO buscarDtoPorId(Long id) {		
 		Grupo grupo = buscarPorId(id);
 		return conversor.converterParaDTO(grupo);
 	}
 
 	@Transactional
-	public GrupoRetornoDTO salvar(GrupoEntradaDTO dto) {		
+	public GrupoDTO salvar(GrupoDTO dto) {		
 		Grupo grupo = conversor.converterParaObjeto(dto);
 		return conversor.converterParaDTO(repository.save(grupo));
 	}
 
 	@Transactional
-	public GrupoRetornoDTO atualizar(Long id, GrupoEntradaDTO dto) {
+	public GrupoDTO atualizar(Long id, GrupoDTO dto) {
 		Grupo grupo = buscarPorId(id);
 		conversor.copiarParaObjeto(dto, grupo);
 		return conversor.converterParaDTO(grupo);
@@ -71,19 +74,15 @@ public class GrupoService {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(MGS_GRUPO_EM_USO, id) );			
 		}		
-	}	
-	
-	public Grupo buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(() -> new GrupoNaoEncontradoException(id));
 	}
 
 	public List<PermissaoDTO> listaPermissoesPorGrupo(Long grupoId) {
-		List<PermissaoDTO> produtos = new ArrayList<>();
+		List<PermissaoDTO> permissoes = new ArrayList<>();
 		Grupo grupo = buscarPorId(grupoId); 
 		if(!grupo.getPermissoes().isEmpty()) {
-			produtos = permissaoConversor.converterListaParaDTO(grupo.getPermissoes());
+			permissoes = permissaoConversor.converterListaParaDTO(grupo.getPermissoes());
 		}
-		return produtos;	
+		return permissoes;	
 	}
 
 	@Transactional
@@ -99,6 +98,10 @@ public class GrupoService {
 		Grupo grupo = buscarPorId(grupoId);
 		Permissao permissao = permissaoService.buscarPorId(permissaoId);		
 		grupo.vincularPermissao(permissao);		
+	}
+
+	public List<GrupoDTO> converterListaParaDTO(List<Grupo> grupos) {		
+		return conversor.converterListaParaDTO(grupos);
 	}
 
 }

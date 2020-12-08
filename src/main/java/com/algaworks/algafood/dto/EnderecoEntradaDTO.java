@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto.entrada;
+package com.algaworks.algafood.dto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

@@ -7,9 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.algaworks.algafood.dto.entrada.UsuarioEntradaDTO;
-import com.algaworks.algafood.dto.entrada.UsuarioEntradaSemSenhaDTO;
-import com.algaworks.algafood.dto.retorno.UsuarioRetornoDTO;
+import com.algaworks.algafood.dto.UsuarioEntradaDTO;
+import com.algaworks.algafood.dto.UsuarioEntradaSemSenhaDTO;
+import com.algaworks.algafood.dto.UsuarioRetornoDTO;
 import com.algaworks.algafood.entity.Usuario;
 
 @Component

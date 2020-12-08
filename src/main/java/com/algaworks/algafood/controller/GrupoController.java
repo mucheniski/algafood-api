@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.entrada.GrupoEntradaDTO;
-import com.algaworks.algafood.dto.retorno.GrupoRetornoDTO;
+import com.algaworks.algafood.dto.GrupoDTO;
 import com.algaworks.algafood.service.GrupoService;
 
 @RestController
@@ -28,23 +27,23 @@ public class GrupoController {
 	private GrupoService service;
 	
 	@GetMapping
-	public List<GrupoRetornoDTO> listar() {
+	public List<GrupoDTO> listar() {
 		return service.listar();
 	}
 	
 	@GetMapping("/{id}")
-	public GrupoRetornoDTO buscarPorId(@PathVariable Long id) {
+	public GrupoDTO buscarPorId(@PathVariable Long id) {
 		return service.buscarDtoPorId(id);
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public GrupoRetornoDTO salvar(@RequestBody @Valid GrupoEntradaDTO dto) {
+	public GrupoDTO salvar(@RequestBody @Valid GrupoDTO dto) {
 		return service.salvar(dto);
 	}
 	
 	@PutMapping("/{id}")
-	public GrupoRetornoDTO atualizar(@PathVariable Long id, @RequestBody @Valid GrupoEntradaDTO dto) {
+	public GrupoDTO atualizar(@PathVariable Long id, @RequestBody @Valid GrupoDTO dto) {
 		return service.atualizar(id, dto);
 	}
 	

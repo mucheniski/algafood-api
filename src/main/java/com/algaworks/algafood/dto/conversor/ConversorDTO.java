@@ -3,7 +3,7 @@ package com.algaworks.algafood.dto.conversor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.algaworks.algafood.dto.retorno.RestauranteRetornoDTO;
+import com.algaworks.algafood.dto.RestauranteRetornoDTO;
 import com.algaworks.algafood.entity.Restaurante;
 
 /*

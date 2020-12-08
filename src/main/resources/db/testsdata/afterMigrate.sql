@@ -61,3 +61,7 @@ INSERT INTO algafood2.grupo_permissao (grupo_id, permissao_id) VALUES(2, 1);
 
 INSERT INTO usuario (data_cadastro, email, nome, senha) VALUES(utc_timestamp, 'usuario1@teste.com', 'Usuario1', '1234');
 INSERT INTO usuario (data_cadastro, email, nome, senha) VALUES(utc_timestamp, 'usuario2@teste.com', 'Usuario2', '1234');
+
+INSERT INTO usuario_grupo (usuario_id, grupo_id) VALUES(1, 1);
+INSERT INTO usuario_grupo (usuario_id, grupo_id) VALUES(1, 2);
+INSERT INTO usuario_grupo (usuario_id, grupo_id) VALUES(2, 2);

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.entrada.UsuarioAtualizaSenhaDTO;
-import com.algaworks.algafood.dto.entrada.UsuarioEntradaDTO;
-import com.algaworks.algafood.dto.entrada.UsuarioEntradaSemSenhaDTO;
-import com.algaworks.algafood.dto.retorno.UsuarioRetornoDTO;
+import com.algaworks.algafood.dto.UsuarioAtualizaSenhaDTO;
+import com.algaworks.algafood.dto.UsuarioEntradaDTO;
+import com.algaworks.algafood.dto.UsuarioEntradaSemSenhaDTO;
+import com.algaworks.algafood.dto.UsuarioRetornoDTO;
 import com.algaworks.algafood.service.UsuarioService;
 
 @RestController
@@ -35,7 +35,7 @@ public class UsuarioController {
 	
 	@GetMapping("/{id}")
 	public UsuarioRetornoDTO buscarPorId(@PathVariable Long id) {
-		return service.buscarPorId(id);
+		return service.buscarDtoPorId(id);
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)

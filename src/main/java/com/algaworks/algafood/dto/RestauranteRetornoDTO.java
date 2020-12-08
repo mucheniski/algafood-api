@@ -1,9 +1,6 @@
-package com.algaworks.algafood.dto.retorno;
+package com.algaworks.algafood.dto;
 
 import java.math.BigDecimal;
-
-import com.algaworks.algafood.dto.CozinhaDTO;
-import com.algaworks.algafood.dto.EnderecoDTO;
 
 import lombok.Getter;
 import lombok.Setter;

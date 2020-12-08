@@ -49,5 +49,12 @@ public class Usuario {
 	)
 	private List<Grupo> grupos = new ArrayList<>();
 	
+	public void vincularGrupo(Grupo grupo) {
+		this.grupos.add(grupo);
+	}
+	
+	public void desvincularGrupo(Grupo grupo) {
+		this.grupos.remove(grupo);
+	}
 	
 }

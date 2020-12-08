@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto.entrada;
+package com.algaworks.algafood.dto;
 
 import javax.validation.constraints.NotBlank;
 
@@ -7,9 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GrupoEntradaDTO {
+public class GrupoDTO {
+
+	private Long id;
 	
 	@NotBlank
 	private String nome;
-
+	
 }

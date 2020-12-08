@@ -1,4 +1,4 @@
-package com.algaworks.algafood.dto.retorno;
+package com.algaworks.algafood.dto;
 
 import lombok.Getter;
 import lombok.Setter;

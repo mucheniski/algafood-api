@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +10,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algafood.dto.GrupoDTO;
+import com.algaworks.algafood.dto.UsuarioAtualizaSenhaDTO;
+import com.algaworks.algafood.dto.UsuarioEntradaDTO;
+import com.algaworks.algafood.dto.UsuarioEntradaSemSenhaDTO;
+import com.algaworks.algafood.dto.UsuarioRetornoDTO;
 import com.algaworks.algafood.dto.conversor.UsuarioConversor;
-import com.algaworks.algafood.dto.entrada.UsuarioAtualizaSenhaDTO;
-import com.algaworks.algafood.dto.entrada.UsuarioEntradaDTO;
-import com.algaworks.algafood.dto.entrada.UsuarioEntradaSemSenhaDTO;
-import com.algaworks.algafood.dto.retorno.UsuarioRetornoDTO;
+import com.algaworks.algafood.entity.Grupo;
 import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.UsuarioNaoEncontradoException;
@@ -29,12 +32,19 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioConversor conversor;
 	
+	@Autowired
+	private GrupoService grupoService;
+	
 	public List<UsuarioRetornoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAll()); 
 	}
+	
+	public Usuario buscarPorId(Long id) {
+		return repository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
+	}
 
-	public UsuarioRetornoDTO buscarPorId(Long id) {
-		return conversor.converterParaDTO(buscar(id));
+	public UsuarioRetornoDTO buscarDtoPorId(Long id) {
+		return conversor.converterParaDTO(buscarPorId(id));
 	}
 
 	@Transactional
@@ -47,7 +57,7 @@ public class UsuarioService {
 
 	@Transactional
 	public UsuarioRetornoDTO atualizar(Long id, UsuarioEntradaSemSenhaDTO dto) {		
-		Usuario usuario = buscar(id);
+		Usuario usuario = buscarPorId(id);
 		conversor.copiarParaObjeto(dto, usuario);		
 		return conversor.converterParaDTO(salvarNaBase(usuario));
 	}	
@@ -55,7 +65,7 @@ public class UsuarioService {
 	@Transactional
 	public UsuarioRetornoDTO atualizaSenha(Long id, @Valid UsuarioAtualizaSenhaDTO dto) {
 		
-		Usuario usuario = buscar(id);
+		Usuario usuario = buscarPorId(id);
 		
 		if (!usuario.getSenha().equals(dto.getSenhaAtual())) {
 			throw new UsuarioSenhaAtualizacaoException("A senha atual digitada não confere, por favor verifique");
@@ -69,10 +79,6 @@ public class UsuarioService {
 		usuario.setSenha(dto.getSenhaNova());
 		
 		return conversor.converterParaDTO(repository.save(usuario));
-	}
-	
-	private Usuario buscar(Long id) {
-		return repository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 	}
 	
 	private Usuario salvarNaBase(Usuario usuario) {
@@ -89,5 +95,31 @@ public class UsuarioService {
 		}
 		return repository.save(usuario);
 		
+	}
+
+	public List<GrupoDTO> listarGruposPorUsuario(Long usuarioId) {
+		Usuario usuario = buscarPorId(usuarioId);
+		List<GrupoDTO> grupos = new ArrayList<>();
+		
+		if (!usuario.getGrupos().isEmpty()) {
+			grupos = grupoService.converterListaParaDTO(usuario.getGrupos());
+		}
+		
+		return grupos;
+	}
+
+	// TODO: não está com idempotencia, verificar
+	@Transactional
+	public void vincularGrupoAoUsuario(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscarPorId(usuarioId);
+		Grupo grupo = grupoService.buscarPorId(grupoId);
+		usuario.vincularGrupo(grupo);
+	}
+	
+	@Transactional
+	public void desvincularGrupoAoUsuario(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscarPorId(usuarioId);
+		Grupo grupo = grupoService.buscarPorId(grupoId);
+		usuario.desvincularGrupo(grupo);
 	}
 }
