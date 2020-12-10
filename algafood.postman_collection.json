@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3064d811-6c76-4a90-a4ce-56e58790cbf5",
+		"_postman_id": "c739d555-7498-46cd-b195-62ecc7236662",
 		"name": "algafood",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -66,6 +66,26 @@
 					"response": []
 				},
 				{
+					"name": "listar responsaveis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/responsaveis",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"responsaveis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "listar produtos",
 					"request": {
 						"method": "GET",
@@ -122,6 +142,50 @@
 								"2",
 								"formas-pagamento",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vincular responsavel",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/responsaveis/2/vincular",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"responsaveis",
+								"2",
+								"vincular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desvincular responsavel",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/responsaveis/2/desvincular",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"responsaveis",
+								"2",
+								"desvincular"
 							]
 						}
 					},
@@ -298,46 +362,6 @@
 								"restaurantes",
 								"1",
 								"produtos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "abertura",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/abertura",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"abertura"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "fechamento",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/fechamento",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"fechamento"
 							]
 						}
 					},
@@ -710,6 +734,26 @@
 					"response": []
 				},
 				{
+					"name": "listar permissoes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/grupos/2/permissoes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grupos",
+								"2",
+								"permissoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "salvar",
 					"request": {
 						"method": "POST",
@@ -759,6 +803,50 @@
 							"path": [
 								"grupos",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desvincular permissao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/grupos/2/permissoes/1/desvincular",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grupos",
+								"2",
+								"permissoes",
+								"1",
+								"desvincular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vincular permissao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/grupos/2/permissoes/1/vincular",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grupos",
+								"2",
+								"permissoes",
+								"1",
+								"vincular"
 							]
 						}
 					},
@@ -882,25 +970,6 @@
 					"response": []
 				},
 				{
-					"name": "remover",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/grupos/100",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"grupos",
-								"100"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "atualizar-senha",
 					"request": {
 						"method": "PUT",
@@ -924,6 +993,89 @@
 								"usuarios",
 								"2",
 								"atualiza-senha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vincular grupo ao usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/2/grupos/1/vincular",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"2",
+								"grupos",
+								"1",
+								"vincular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desvincular grupo ao usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/2/grupos/1/desvincular",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"2",
+								"grupos",
+								"1",
+								"desvincular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remover",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/grupos/100",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grupos",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar grupos por usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/2/grupos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"2",
+								"grupos"
 							]
 						}
 					},

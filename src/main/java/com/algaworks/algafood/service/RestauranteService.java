@@ -1,6 +1,7 @@
 package com.algaworks.algafood.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.algaworks.algafood.dto.ProdutoDTO;
 import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.RestauranteRetornoDTO;
+import com.algaworks.algafood.dto.UsuarioRetornoDTO;
 import com.algaworks.algafood.dto.conversor.ProdutoConversor;
 import com.algaworks.algafood.dto.conversor.RestauranteConversor;
+import com.algaworks.algafood.dto.conversor.UsuarioConversor;
 import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.FormaPagamento;
 import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
+import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.exception.CidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
@@ -55,6 +59,12 @@ public class RestauranteService {
 	
 	@Autowired
 	private ProdutoService produtoService;
+	
+	@Autowired
+	private UsuarioConversor usuarioConversor;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	public List<RestauranteRetornoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAllCustom());
@@ -237,6 +247,32 @@ public class RestauranteService {
 	public void fechar(Long id) {
 		Restaurante restaurante = buscarPorId(id);
 		restaurante.fechar();
+	}
+
+	public List<UsuarioRetornoDTO> listarResponsaveisPorRestaurante(Long restauranteId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		
+		/*
+		 * Converter Set para List
+		 * https://pt.stackoverflow.com/questions/80413/converter-uma-cole%C3%A7%C3%A3o-do-tipo-set-para-list
+		 */
+		List<Usuario> usuarios = new ArrayList<>(restaurante.getResponsaveis());
+		
+		return usuarioConversor.converterListaParaDTO(usuarios);
+	}
+
+	@Transactional
+	public void vincularResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		Usuario responsavel = usuarioService.buscarPorId(usuarioId);
+		restaurante.vincularResponsavel(responsavel);		
+	}
+	
+	@Transactional
+	public void desvincularResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		Usuario responsavel = usuarioService.buscarPorId(usuarioId);
+		restaurante.desvincularReponsavel(responsavel);		
 	}
 	
 }
