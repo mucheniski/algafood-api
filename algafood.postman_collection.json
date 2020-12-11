@@ -218,14 +218,14 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/desativar",
+							"raw": "localhost:8080/restaurantes/2/desativar",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"restaurantes",
-								"1",
+								"2",
 								"desativar"
 							]
 						}
@@ -247,6 +247,62 @@
 								"restaurantes",
 								"1",
 								"ativar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ativar todos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[1,2,3]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/ativar-todos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"ativar-todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desativar todos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[1,2,3]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/desativar-todos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"desativar-todos"
 							]
 						}
 					},

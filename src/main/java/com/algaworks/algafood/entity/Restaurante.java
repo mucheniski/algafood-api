@@ -48,7 +48,7 @@ public class Restaurante {
 //  @DecimalMin("0") // Valor mínimo para a taxa frete
 //	@NotNull
 //	@PositiveOrZero
-	@Multiplo(numero = 5)
+	@Multiplo(numero = 5) // A taxa frete precisa ser múltiplo de 5
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	

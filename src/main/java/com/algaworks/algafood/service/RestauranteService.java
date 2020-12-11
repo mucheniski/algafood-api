@@ -164,9 +164,25 @@ public class RestauranteService {
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
 		 * o contexto de persistência do JPA já gerencia o que foi retornado, assim qualquer alteração que for feita
-		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente.
+		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente por causa do transactional.
 		 */
 		restaurante.ativar();
+	}
+	
+	/*
+	 * É anotado com transactional para garantir que toda a operação em massa seja feita na mesma transação
+	 * caso de algum erro em um dos registros da lista, toda a operação sofre rollback e assim os dados não
+	 * ficam inconsistentes.
+	 */
+	@Transactional
+	public void ativarTodos(List<Long> ids) {
+		
+		try {
+			ids.forEach(this::ativar);			
+		} catch (RestauranteNaoEncotradaException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+		
 	}
 	
 	@Transactional
@@ -176,9 +192,23 @@ public class RestauranteService {
 		/*
 		 * Não é preciso fazer um save porque à partir do momento que eu busco um registro no banco pelo repository
 		 * o contexto de persistência do JPA já gerencia o que foi retornado, assim qualquer alteração que for feita
-		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente.
+		 * após esse retorno o próprio spring data JPA jà sincroniza com a base e salva automáticamente por causa do transactional.
 		 */
 		restaurante.desativar();
+	}
+	
+	/*
+	 * É anotado com transactional para garantir que toda a operação em massa seja feita na mesma transação
+	 * caso de algum erro em um dos registros da lista, toda a operação sofre rollback e assim os dados não
+	 * ficam inconsistentes.
+	 */
+	@Transactional
+	public void desativarTodos(List<Long> ids) {
+		try {
+			ids.forEach(this::desativar);			
+		} catch (RestauranteNaoEncotradaException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
 	}
 	
 	@Transactional
@@ -274,5 +304,5 @@ public class RestauranteService {
 		Usuario responsavel = usuarioService.buscarPorId(usuarioId);
 		restaurante.desvincularReponsavel(responsavel);		
 	}
-	
+		
 }

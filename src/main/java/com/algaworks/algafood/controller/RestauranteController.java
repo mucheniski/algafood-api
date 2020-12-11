@@ -79,10 +79,22 @@ public class RestauranteController {
 		service.ativar(id);
 	}
 	
+	@PutMapping("/ativar-todos")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativarTodos(@RequestBody List<Long> ids) {
+		service.ativarTodos(ids);
+	}
+	
 	@PutMapping("/{id}/desativar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void desativar(@PathVariable Long id) {
 		service.desativar(id);
+	}
+	
+	@PutMapping("/desativar-todos")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void desativarTodos(@RequestBody List<Long> ids) {
+		service.desativarTodos(ids);
 	}
 	
 	@PutMapping("/{id}/abertura")
