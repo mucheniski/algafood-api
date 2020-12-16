@@ -38,7 +38,7 @@ public class CidadeService {
 		return conversor.converterListaParaDTO(repository.findAll());
 	}
 	
-	public CidadeDTO buscarPorId(Long id) {
+	public CidadeDTO buscarDtoPorId(Long id) {
 		Cidade cidade = repository.findById(id)
 				.orElseThrow(() -> new CidadeNaoEncotradaException(id));		
 		return conversor.converterParaDTO(cidade);

@@ -10,7 +10,7 @@ Projeto do curso Especialista REST - Algaworks
 5. Super poderes do Spring Data JPA
 6. Explorando mais do JPA e Hibernate
 7. Pool de conexões e Flyway
-8. Tratamento e modelagem de erros da API
+[8. Tratamento e modelagem de erros da API](#8.-tratamento-e-modelagem-de-erros-da-api) 
 9. Validações com Bean Validation
 10. Testes de integração
 11. Boas práticas e técnicas para APIs
@@ -28,7 +28,11 @@ Projeto do curso Especialista REST - Algaworks
 23. OAuth2 avançado com JWT e controle de acesso
 24. Deploy em produção
 
-**Testes - Modulo 10**
+#8. Tratamento e modelagem de erros da API
+
+Podem ser criadas anotações personalizadas como por exemplo a anotação @Multiplo
+
+**10. Testes de integração**
 
 O ideal é testar somente o que agrega valor ao projeto, ou seja, ecrever apenas testes que garantam que o projeto não quebre.
 
@@ -50,7 +54,7 @@ São testes onde realmente é feita a chamada http ao serviço REST.
 Ordem dos Testes.
 Um teste não pode depender da execução ou não execução de outro teste, devem sempre funcionar de forma individual.
 
-**Boas práticas para API - Modulo 11**
+**11. Boas práticas e técnicas para APIs**
 
 @Transactional: Essa anotação do sprint (org.springframework.transaction.annotation.Transactional) faz com que seja aberta uma transação na base de dados sempre que um método que manipula dados for chamado, a implementação do Spring Data JPA que é a classe SimpleJpaRepository já tem as operações como save, delete, update marcadas com @Transactional, porém como boa prática é interessante marcar os métodos dos nossos services que manipulam dados na base também, assim garantimos que não haja inconstência nos dados caso dê algúm problema e uma das operações e precise ser feito um rollback.
 Com a anotação, é aberta uma transação no momento da chamada do método no service por exemplo, e não apenas quando for para o repository, o spring data JPA gerencia essas transações e executa na base de dados de acordo com a fila de gerenciamento de transações que ele cria.
@@ -88,7 +92,7 @@ spring.jackson.property-naming-strategy=SNAKE_CASE, porém é recomendado manter
 o mais comun utilizado com JSON.
 
 
-**Modelagem avançada e implementação da API - Módulo 12**
+**12. Modelagem avançada e implementação da API**
 
 Recurso de granularidade grossa é quando no retorno do JSON existem vários objetos aninnhados no mesmo recurso, como por exemplo, Restaurante e Endereços.
 Recurso de granularidade fina é quando cada recurso representa uma parte, por exemplo um recurso /restaurates/1 retorna apenas os dados do restaurante e outro sub-recurso /restaurantes/1/endereco retorna apenas o endereco do restaurante, assim dividos cada um em um recurso.

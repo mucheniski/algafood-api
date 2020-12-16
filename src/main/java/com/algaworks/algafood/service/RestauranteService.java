@@ -28,7 +28,7 @@ import com.algaworks.algafood.exception.CozinhaNaoEncotradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.EntidadeNaoEncotradaException;
 import com.algaworks.algafood.exception.NegocioException;
-import com.algaworks.algafood.exception.RestauranteNaoEncotradaException;
+import com.algaworks.algafood.exception.RestauranteNaoEncotradoException;
 import com.algaworks.algafood.repository.CidadeRepository;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.repository.RestauranteRepository;
@@ -76,7 +76,7 @@ public class RestauranteService {
 	}
 	
 	public Restaurante buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id) );
+		return repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradoException(id) );
 	}
 	
 	public List<RestauranteRetornoDTO> listarPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
@@ -122,7 +122,7 @@ public class RestauranteService {
 	@Transactional
 	public RestauranteRetornoDTO atualizar(Long id, RestauranteEntradaDTO dto) {
 		try {
-			Restaurante restauranteAtual = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradaException(id));
+			Restaurante restauranteAtual = repository.findById(id).orElseThrow(() -> new RestauranteNaoEncotradoException(id));
 			
 			if (dto.getCozinha() != null) {
 				Long cozinhaId = dto.getCozinha().getId();
@@ -149,7 +149,7 @@ public class RestauranteService {
 			repository.deleteById(id);
 			repository.flush();
 		} catch (EmptyResultDataAccessException e) {
-			throw new RestauranteNaoEncotradaException(id);
+			throw new RestauranteNaoEncotradoException(id);
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, id));
@@ -179,7 +179,7 @@ public class RestauranteService {
 		
 		try {
 			ids.forEach(this::ativar);			
-		} catch (RestauranteNaoEncotradaException e) {
+		} catch (RestauranteNaoEncotradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
 		
@@ -206,7 +206,7 @@ public class RestauranteService {
 	public void desativarTodos(List<Long> ids) {
 		try {
 			ids.forEach(this::desativar);			
-		} catch (RestauranteNaoEncotradaException e) {
+		} catch (RestauranteNaoEncotradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
 	}
