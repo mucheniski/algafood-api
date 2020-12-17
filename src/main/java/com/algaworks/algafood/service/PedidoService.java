@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.dto.PedidoDTO;
+import com.algaworks.algafood.dto.PedidoResumoDTO;
 import com.algaworks.algafood.dto.conversor.PedidoConversor;
+import com.algaworks.algafood.dto.conversor.PedidoResumoConversor;
 import com.algaworks.algafood.entity.Pedido;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
@@ -19,6 +21,9 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoConversor conversor;
+	
+	@Autowired
+	private PedidoResumoConversor pedidoResumoConversor;
 
 	public Pedido buscarPorId(Long id) {
 		return repository.findById(id).orElseThrow(() -> new PedidoNaoEncontradoException(id));
@@ -29,8 +34,8 @@ public class PedidoService {
 		return conversor.converterParaDTO(pedido);		
 	}
 
-	public List<PedidoDTO> listar() {
-		return conversor.converterListaParaDTO(repository.findAll());
+	public List<PedidoResumoDTO> listar() {
+		return pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
 	}
 	
 }

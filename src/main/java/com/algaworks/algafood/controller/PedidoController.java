@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.dto.PedidoDTO;
+import com.algaworks.algafood.dto.PedidoResumoDTO;
 import com.algaworks.algafood.service.PedidoService;
 
 @RestController
@@ -24,7 +25,7 @@ public class PedidoController {
 	}
 	
 	@GetMapping
-	public List<PedidoDTO> listar() {
+	public List<PedidoResumoDTO> listar() {
 		return service.listar();
 	}
 	

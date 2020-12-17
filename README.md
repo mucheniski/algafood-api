@@ -1,5 +1,7 @@
 [github-como-fazer-um-readme-md-bonitão] (https://medium.com/@raullesteves/github-como-fazer-um-readme-md-bonit%C3%A3o-c85c8f154f8)
 
+[formatação de readme - Markdown](https://github.com/luong-komorebi/Markdown-Tutorial/blob/master/README_pt-BR.md)
+
 # algafood-api
 Projeto do curso Especialista REST - Algaworks
 
@@ -10,7 +12,7 @@ Projeto do curso Especialista REST - Algaworks
 5. Super poderes do Spring Data JPA
 6. Explorando mais do JPA e Hibernate
 7. Pool de conexões e Flyway
-[8. Tratamento e modelagem de erros da API](#8.-tratamento-e-modelagem-de-erros-da-api) 
+8. Tratamento e modelagem de erros da API
 9. Validações com Bean Validation
 10. Testes de integração
 11. Boas práticas e técnicas para APIs
@@ -28,7 +30,23 @@ Projeto do curso Especialista REST - Algaworks
 23. OAuth2 avançado com JWT e controle de acesso
 24. Deploy em produção
 
-#8. Tratamento e modelagem de erros da API
+**6. Explorando mais do JPA e Hibernate**
+join fetch no jpql serve para que apenas uma consulta seja feita retornando todos os relacionamentos de uma só vez, ao contrário da consulta sem o fetch que faz vários selects separadamente.
+
+Exemplo de output sem o join fetch em get /pedidos
+![](/img/getPedidosSemJoinFetch.png)
+
+
+Exemplo de output com join fetch em jpql.
+	@Query("from Pedido pedido "  
+     + "join fetch pedido.usuarioCliente "
+		 + "join fetch pedido.restaurante restaurante "
+		 + "join fetch restaurante.cozinha ")
+	List<Pedido> buscarTodosResumido();
+![](/img/getPedidosComJoinFetch.png)
+
+
+**8. Tratamento e modelagem de erros da API**
 
 Podem ser criadas anotações personalizadas como por exemplo a anotação @Multiplo
 
@@ -104,4 +122,9 @@ Chunky API é uma API modelada com granulairdade grossa, Chunky (Pedaço Grande)
 Os recursos da nossa API não necessáriamente precisam seguir os nomes dos domínios, podemos ter por exemplo um recurso chamado POST /notificacoes-restaurantes e nesse recurso passarmos um payload com um título e uma mensagem, não necessáriamente armazenando essas notificações na base, pode ser um envio de e-mail para todos os restaurantes por exemplo, e nesse caso não termos uma entidade Notificacao.
 
 Toda vez que tem alguma alteração em uma transação com @Transactional, o JPA faz a sincronização com o banco de dados, mesmo antes do repository.save, caso não aconteça nenhuma exception na transação, ao final é feito o commit e as alterações salvas na base, mesmo sem o save do repository, se ocorrer exception é feito um rollback.
-Para que o JPA não gerencie é preciso usar o método detach
+Para que o JPA não gerencie é preciso usar o método detach.
+
+Singleton Resource é o recurso único, por exemplo quando é feita uma requisição REST em /pedidos/1
+
+@OneToMany por default é Lazy
+@ManyToOne por default é eager
