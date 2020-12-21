@@ -24,7 +24,7 @@ import com.algaworks.algafood.repository.EstadoRepository;
 public class CidadeService {
 	
 	private static final String MSG_CIDADE_EM_USO = "Cidade com id %d não pode ser removida, está em uso!";
-	// TODO: Refatorar os nomes para repository e conversor
+
 	@Autowired
 	private CidadeRepository repository;
 	
@@ -38,9 +38,12 @@ public class CidadeService {
 		return conversor.converterListaParaDTO(repository.findAll());
 	}
 	
+	public Cidade buscarPorId(Long id) {
+		return repository.findById(id).orElseThrow(() -> new CidadeNaoEncotradaException(id));
+	}
+	
 	public CidadeDTO buscarDtoPorId(Long id) {
-		Cidade cidade = repository.findById(id)
-				.orElseThrow(() -> new CidadeNaoEncotradaException(id));		
+		Cidade cidade = buscarPorId(id);	
 		return conversor.converterParaDTO(cidade);
 	}
 	

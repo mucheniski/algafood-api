@@ -5,6 +5,9 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.algaworks.algafood.enuns.StatusPedido;
 
 import lombok.Getter;
@@ -23,10 +26,13 @@ public class PedidoDTO {
 	private OffsetDateTime dataCancelamento;
 	private OffsetDateTime dataEntrega;
 	private UsuarioRetornoDTO usuarioCliente;
-	private EnderecoDTO endereco;
+	private EnderecoPedidoDTO enderecoEntrega;
 	private RestauranteResumoDTO restaurante;
 	private FormaPagamentoDTO formaPagamento;
 	private StatusPedido status;
+	
+	@NotNull
+	@Size(min = 1)
 	private List<ItemPedidoDTO> itens = new ArrayList<>();
 
 }

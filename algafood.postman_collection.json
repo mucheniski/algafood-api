@@ -32,14 +32,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1",
+							"raw": "localhost:8080/restaurantes/2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"restaurantes",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -423,8 +423,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "formaPamaneto",
@@ -549,8 +548,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "cidade",
@@ -650,9 +648,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "listar",
@@ -746,8 +742,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "grupo",
@@ -927,8 +922,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "usuario",
@@ -1137,8 +1131,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Pedido",
@@ -1179,10 +1172,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "criar pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"restaurante\": {\n        \"id\": 2\n    },\n    \"formaPagamento\": {\n        \"id\": 1\n    },\n    \"enderecoEntrega\": {\n        \"cep\": \"86260-000\",\n        \"logradouro\": \"Logradouro\",\n        \"numero\": \"Numero\",\n        \"complemento\": \"Complemento\",\n        \"bairro\": \"Bairro\",\n        \"cidade\": {\n            \"id\": 1\n        }        \n    },\n    \"itens\": [\n        {\n            \"produtoId\": 1,\n            \"quantidade\": 3,\n            \"observacao\": \"observacao\"\n        },\n        {\n            \"produtoId\": 2,\n            \"quantidade\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

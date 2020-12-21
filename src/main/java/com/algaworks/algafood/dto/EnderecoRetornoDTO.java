@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EnderecoDTO {
+public class EnderecoRetornoDTO {
 	
 	private String cep;
 	private String logradouro;

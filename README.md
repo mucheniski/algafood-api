@@ -30,6 +30,16 @@ Projeto do curso Especialista REST - Algaworks
 23. OAuth2 avançado com JWT e controle de acesso
 24. Deploy em produção
 
+**7. Pool de conexões e Flyway**
+O flyway é usado para gerenciamento de criação e migração de tabelas e dados.
+
+<dependency>  
+	<groupId>org.flywaydb</groupId>  
+	<artifactId>flyway-core</artifactId>  
+</dependency>  
+
+
+
 **6. Explorando mais do JPA e Hibernate**
 join fetch no jpql serve para que apenas uma consulta seja feita retornando todos os relacionamentos de uma só vez, ao contrário da consulta sem o fetch que faz vários selects separadamente.
 
@@ -104,6 +114,16 @@ Eu posso ter mais de um DTO para representar o mesmo recurso, por exemplo, caso 
 Funcionamento do ModelMapper - Ele transforma todas as propriedades das classes em tokens, depois compara os tokens de origem e destino, seguindo as regras 1 - Os nomes de tokens de origem precisam ser iguais aos tokens de destino, 2 - Não importa a ordem em que os tokens estejam. 3 - O nome da propriedade de origem, deve ter ao menos um token de correspondência.
 Explicado na aula 11.15. Entendendo a estratégia padrão do ModelMapper para correspondência de propriedades
 
+<!-- http://modelmapper.org/downloads/ -->  
+<dependency>   
+	<groupId>org.modelmapper</groupId>  
+	<artifactId>modelmapper</artifactId>  
+	<version>2.3.0</version> <!-- como o parent não tem o modelmapper, preciso especificar a versão  -->  
+</dependency>  
+
+Após importar as dependências é preciso criar a classe de configuração ModelMapperBean.
+
+
 SnakeCase - Usa todas as palavras em minúsculo com separação por underline ex: valor_de_frete.
 No spring o padrão é lowerCammelCase, caso queira ser alterado basta adicionar em application.properties
 spring.jackson.property-naming-strategy=SNAKE_CASE, porém é recomendado manter o padrão do spring pois é 
@@ -128,3 +148,5 @@ Singleton Resource é o recurso único, por exemplo quando é feita uma requisi�
 
 @OneToMany por default é Lazy
 @ManyToOne por default é eager
+
+cascade = CascadeType.ALL é usado para que o que for alterado em uma entidade se propague para a entidade relacionada, como por exemplo ao salvar um pedido, colocar o cascade nos itens para que os itens sejam salvos também.

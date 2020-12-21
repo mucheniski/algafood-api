@@ -5,8 +5,10 @@ import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.algaworks.algafood.dto.EnderecoDTO;
+import com.algaworks.algafood.dto.EnderecoRetornoDTO;
+import com.algaworks.algafood.dto.ItemPedidoDTO;
 import com.algaworks.algafood.entity.Endereco;
+import com.algaworks.algafood.entity.ItemPedido;
 
 /*
  * Como o ModelMapper não é uma propriedade do Spring, é preciso criar essa classe
@@ -22,11 +24,20 @@ public class ModelMapperBean {
 		ModelMapper modelMapper = new ModelMapper();
 		
 		/*
+		 * Esse método é chamado para que não de erro no cascade de pedido, quando for salvar o pedido
+		 * o modelMapper vai ter um id setado no pedido.id, porém como existe o cascate no list de itens
+		 * vai tentar salvar o id também em itemPedido.id e vai dar erro, por causa do nome da variável
+		 * sendo assim é preciso pular com o skip o setId
+		 */
+		modelMapper.createTypeMap(ItemPedidoDTO.class, ItemPedido.class)
+			.addMappings(mapper -> mapper.skip(ItemPedido::setId));
+		
+		/*
 		 * Método para que o nome do estado possa ser mapeado em EnderecoDTO corretamente.
 		 * Como o getNome do estado não está na Entidade Endereco pois esta aninhado em endereco.cidade.estado
 		 * é preciso fazer esse mapeamento para que o modelMapper busque as informações. 
 		 */
-		TypeMap<Endereco, EnderecoDTO> mapeiaEnderecoParaCidadeResumoDTO = modelMapper.createTypeMap(Endereco.class, EnderecoDTO.class);
+		TypeMap<Endereco, EnderecoRetornoDTO> mapeiaEnderecoParaCidadeResumoDTO = modelMapper.createTypeMap(Endereco.class, EnderecoRetornoDTO.class);
 		
 		/*
 		 * Aqui são passadas expressões lambda para o .addMapping(sourceGetter, destinationSetter)

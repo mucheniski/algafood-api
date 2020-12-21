@@ -143,5 +143,9 @@ public class Restaurante {
 	public void desvincularReponsavel(Usuario responsavel) {
 		this.responsaveis.remove(responsavel);
 	}
+	
+	public boolean validaFormaDePagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().contains(formaPagamento);
+	}
 		
 }

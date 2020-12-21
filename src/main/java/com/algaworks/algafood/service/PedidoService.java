@@ -9,7 +9,14 @@ import com.algaworks.algafood.dto.PedidoDTO;
 import com.algaworks.algafood.dto.PedidoResumoDTO;
 import com.algaworks.algafood.dto.conversor.PedidoConversor;
 import com.algaworks.algafood.dto.conversor.PedidoResumoConversor;
+import com.algaworks.algafood.entity.Cidade;
+import com.algaworks.algafood.entity.FormaPagamento;
 import com.algaworks.algafood.entity.Pedido;
+import com.algaworks.algafood.entity.Produto;
+import com.algaworks.algafood.entity.Restaurante;
+import com.algaworks.algafood.entity.Usuario;
+import com.algaworks.algafood.enuns.StatusPedido;
+import com.algaworks.algafood.exception.FormaPagamentoNaoValidadaException;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
 
@@ -24,6 +31,21 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoResumoConversor pedidoResumoConversor;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
+	private CidadeService cidadeService;
+	
+	@Autowired
+	private RestauranteService restauranteService;
+	
+	@Autowired
+	private FormaPagamentoService formaPagamentoService;
+	
+	@Autowired
+	private ProdutoService produtoService;
 
 	public Pedido buscarPorId(Long id) {
 		return repository.findById(id).orElseThrow(() -> new PedidoNaoEncontradoException(id));
@@ -36,6 +58,55 @@ public class PedidoService {
 
 	public List<PedidoResumoDTO> listar() {
 		return pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
+	}
+
+	public PedidoResumoDTO criarPedido(PedidoDTO dto) {			
+		Pedido pedido = conversor.converterParaObjeto(dto);		
+		pedido = emitir(pedido);		
+		return conversor.converterParaDTOResumido(pedido);		
+	}
+
+	private Pedido emitir(Pedido pedido) {
+		
+		validaPedido(pedido);
+		validaItens(pedido);
+
+		pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
+		pedido.calcularValorTotal();
+		pedido.setStatus(StatusPedido.CRIADO);
+		
+		return repository.save(pedido);
+	}
+
+	private void validaPedido(Pedido pedido) {
+		
+		// TODO: buscar o cliente logado
+		Usuario usuarioCliente = usuarioService.buscarPorId(1L);		
+		pedido.setUsuarioCliente(usuarioCliente);
+		
+		Cidade cidade = cidadeService.buscarPorId(pedido.getEnderecoEntrega().getCidade().getId());
+		Restaurante restaurante = restauranteService.buscarPorId(pedido.getRestaurante().getId());
+		FormaPagamento formaPagamento = formaPagamentoService.buscarPorId(pedido.getFormaPagamento().getId());
+		
+		pedido.getEnderecoEntrega().setCidade(cidade);
+		pedido.setRestaurante(restaurante);
+		pedido.setFormaPagamento(formaPagamento);
+		
+		if (!restaurante.validaFormaDePagamento(formaPagamento)) {
+			throw new FormaPagamentoNaoValidadaException(restaurante, formaPagamento);
+		}
+		
+	}
+	
+	private void validaItens(Pedido pedido) {
+		
+		pedido.getItens().forEach(item -> {
+			Produto produto = produtoService.buscarPorId(item.getProduto().getId());
+			item.setPedido(pedido);
+			item.setProduto(produto);
+			item.setPrecoUnitario(produto.getPreco());
+		});
+		
 	}
 	
 }

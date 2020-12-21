@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.dto.PedidoDTO;
+import com.algaworks.algafood.dto.PedidoResumoDTO;
 import com.algaworks.algafood.entity.Pedido;
 
 @Component
@@ -20,6 +21,10 @@ public class PedidoConversor {
 		return modelMapper.map(pedido, PedidoDTO.class);
 	}
 	
+	public PedidoResumoDTO converterParaDTOResumido(Pedido pedido) {		
+		return modelMapper.map(pedido, PedidoResumoDTO.class);
+	}
+	
 	public List<PedidoDTO> converterListaParaDTO(List<Pedido> pedidos) {
 		return pedidos.stream()
 						.map(pedido -> converterParaDTO(pedido))
@@ -30,10 +35,8 @@ public class PedidoConversor {
 		return modelMapper.map(pedidoDTO, Pedido.class);
 	}
 	
-//	public void copiarParaObjeto(PedidoDTO pedidoDTO, Pedido pedido) {
-//		pedidoDTO.setId(pedido.getId());		
-//		pedidoDTO.setEstado(estadoConversor.converterParaDTO(pedido.getEstado()));
-//		modelMapper.map(pedidoDTO, pedido);
-//	}
+	public void copiarParaObjeto(PedidoDTO pedidoDTO, Pedido pedido) {
+		modelMapper.map(pedidoDTO, pedido);
+	}
 	
 }
