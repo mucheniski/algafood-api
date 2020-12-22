@@ -70,23 +70,6 @@ public class PedidoService {
 		return conversor.converterParaDTOResumido(pedido);		
 	}
 	
-	/*
-	 * Como a operação está dentro de um transactional já vai ser feito o commit, não precisa de save
-	 */
-	@Transactional
-	public void confirmarPedido(Long id) {
-		Pedido pedido = buscarPorId(id);
-		
-		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
-			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de %s para %s", pedido.getId(), pedido.getStatus().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
-		}
-		
-		// TODO: incluir um log de alterações de status de pedido em uma entidade nova
-		pedido.setStatus(StatusPedido.CONFIRMADO);
-		pedido.setDataConfirmacao(OffsetDateTime.now());
-		
-	}
-
 	@Transactional
 	private Pedido emitirPedido(Pedido pedido) {
 		
@@ -98,6 +81,46 @@ public class PedidoService {
 		pedido.setStatus(StatusPedido.CRIADO);
 		
 		return repository.save(pedido);
+	}
+	
+	/*
+	 * Como a operação está dentro de um transactional já vai ser feito o commit, não precisa de save
+	 */
+	@Transactional
+	public void confirmarPedido(Long id) {
+		Pedido pedido = buscarPorId(id);
+		
+		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
+			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de %s para %s", pedido.getId(), pedido.getStatus().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
+		}
+		
+		pedido.setStatus(StatusPedido.CONFIRMADO);
+		pedido.setDataConfirmacao(OffsetDateTime.now());
+		
+	}
+	
+	@Transactional
+	public void confirmarEntrega(Long id) {
+		Pedido pedido = buscarPorId(id);
+		
+		if (!pedido.getStatus().equals(StatusPedido.CONFIRMADO)) {
+			throw new NegocioException(String.format("O pedido %d não está %s ainda", pedido.getId(), StatusPedido.CONFIRMADO.getDescricao()) );
+		}
+		
+		pedido.setStatus(StatusPedido.ENTREGUE);
+		pedido.setDataEntrega(OffsetDateTime.now());
+	}
+	
+	@Transactional
+	public void cancelarPedido(Long id) {
+		Pedido pedido = buscarPorId(id);
+		
+		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
+			throw new NegocioException(String.format("Só podem ser cancelados pedidos em status %s", StatusPedido.CRIADO.getDescricao()) );
+		}
+		
+		pedido.setStatus(StatusPedido.CANCELADO);
+		pedido.setDataCancelamento(OffsetDateTime.now());
 	}
 
 	private void validaPedido(Pedido pedido) {
