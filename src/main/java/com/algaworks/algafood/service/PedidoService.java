@@ -1,6 +1,9 @@
 package com.algaworks.algafood.service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.enuns.StatusPedido;
 import com.algaworks.algafood.exception.FormaPagamentoNaoValidadaException;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
 
@@ -62,11 +66,29 @@ public class PedidoService {
 
 	public PedidoResumoDTO criarPedido(PedidoDTO dto) {			
 		Pedido pedido = conversor.converterParaObjeto(dto);		
-		pedido = emitir(pedido);		
+		pedido = emitirPedido(pedido);		
 		return conversor.converterParaDTOResumido(pedido);		
 	}
+	
+	/*
+	 * Como a operação está dentro de um transactional já vai ser feito o commit, não precisa de save
+	 */
+	@Transactional
+	public void confirmarPedido(Long id) {
+		Pedido pedido = buscarPorId(id);
+		
+		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
+			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de %s para %s", pedido.getId(), pedido.getStatus().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
+		}
+		
+		// TODO: incluir um log de alterações de status de pedido em uma entidade nova
+		pedido.setStatus(StatusPedido.CONFIRMADO);
+		pedido.setDataConfirmacao(OffsetDateTime.now());
+		
+	}
 
-	private Pedido emitir(Pedido pedido) {
+	@Transactional
+	private Pedido emitirPedido(Pedido pedido) {
 		
 		validaPedido(pedido);
 		validaItens(pedido);
