@@ -1,6 +1,5 @@
 package com.algaworks.algafood.service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,9 +17,7 @@ import com.algaworks.algafood.entity.Pedido;
 import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.entity.Usuario;
-import com.algaworks.algafood.enuns.StatusPedido;
 import com.algaworks.algafood.exception.FormaPagamentoNaoValidadaException;
-import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
 
@@ -78,7 +75,7 @@ public class PedidoService {
 
 		pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
 		pedido.calcularValorTotal();
-		pedido.setStatus(StatusPedido.CRIADO);
+		pedido.statusCriado();
 		
 		return repository.save(pedido);
 	}
@@ -89,38 +86,19 @@ public class PedidoService {
 	@Transactional
 	public void confirmarPedido(Long id) {
 		Pedido pedido = buscarPorId(id);
-		
-		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
-			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de %s para %s", pedido.getId(), pedido.getStatus().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
-		}
-		
-		pedido.setStatus(StatusPedido.CONFIRMADO);
-		pedido.setDataConfirmacao(OffsetDateTime.now());
-		
+		pedido.statusConfirmado();		
 	}
 	
 	@Transactional
 	public void confirmarEntrega(Long id) {
 		Pedido pedido = buscarPorId(id);
-		
-		if (!pedido.getStatus().equals(StatusPedido.CONFIRMADO)) {
-			throw new NegocioException(String.format("O pedido %d não está %s ainda", pedido.getId(), StatusPedido.CONFIRMADO.getDescricao()) );
-		}
-		
-		pedido.setStatus(StatusPedido.ENTREGUE);
-		pedido.setDataEntrega(OffsetDateTime.now());
+		pedido.stausEntregue();
 	}
 	
 	@Transactional
 	public void cancelarPedido(Long id) {
 		Pedido pedido = buscarPorId(id);
-		
-		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
-			throw new NegocioException(String.format("Só podem ser cancelados pedidos em status %s", StatusPedido.CRIADO.getDescricao()) );
-		}
-		
-		pedido.setStatus(StatusPedido.CANCELADO);
-		pedido.setDataCancelamento(OffsetDateTime.now());
+		pedido.stausCancelado();
 	}
 
 	private void validaPedido(Pedido pedido) {

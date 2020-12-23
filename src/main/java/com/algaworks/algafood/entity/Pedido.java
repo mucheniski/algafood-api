@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.algaworks.algafood.enuns.StatusPedido;
+import com.algaworks.algafood.exception.NegocioException;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -86,6 +87,37 @@ public class Pedido {
 		
 		this.valorTotal = this.subtotal.add(this.taxaFrete);
 		
+	}
+	
+	public void statusCriado() {
+		setStatus(StatusPedido.CRIADO);
+		setDataCriacao(OffsetDateTime.now());
+	}
+	
+	public void statusConfirmado() {
+		setStatus(StatusPedido.CONFIRMADO);
+		setDataConfirmacao(OffsetDateTime.now());
+	}
+	
+	public void stausEntregue() {
+		setStatus(StatusPedido.ENTREGUE);
+		setDataEntrega(OffsetDateTime.now());
+	}
+	
+	public void stausCancelado() {
+		setStatus(StatusPedido.CANCELADO);
+		setDataCancelamento(OffsetDateTime.now());
+	}
+	
+	/*
+	 * É private para que apenas seja chamado dentro da classe, como a entidade é rica, as tratativas ficam nela mesma.
+	 */
+	private void setStatus(StatusPedido novoStatus) {
+		if (!getStatus().podeAlterarPara(novoStatus)) {
+			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de %s para %s", getId(), getStatus().getDescricao(), novoStatus.getDescricao()));
+		}
+		
+		this.status = novoStatus;
 	}
 
 }

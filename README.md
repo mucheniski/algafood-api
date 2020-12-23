@@ -150,3 +150,6 @@ Singleton Resource é o recurso único, por exemplo quando é feita uma requisi�
 @ManyToOne por default é eager
 
 cascade = CascadeType.ALL é usado para que o que for alterado em uma entidade se propague para a entidade relacionada, como por exemplo ao salvar um pedido, colocar o cascade nos itens para que os itens sejam salvos também.
+
+Entidade Rica: Possui métodos de negócio com lógicas específicas também, como por exemplo a entidade Pedido que possui os métodos para os cálculos dos valores, transição de pedido, etc...
+Entidade Anemica: Não tem nenhum método de negócio implementado.
