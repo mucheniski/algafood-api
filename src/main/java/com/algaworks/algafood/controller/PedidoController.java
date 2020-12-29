@@ -26,9 +26,9 @@ public class PedidoController {
 	@Autowired
 	private PedidoService service;
 	
-	@GetMapping("/{id}")
-	public PedidoDTO buscarDtoPorId(@PathVariable Long id) {
-		return service.buscarDtoPorId(id);
+	@GetMapping("/{codigo}")
+	public PedidoDTO buscarDtoPorCodigo(@PathVariable String codigo) {
+		return service.buscarDtoPorCodigo(codigo);
 	}
 	
 	@GetMapping
@@ -41,22 +41,22 @@ public class PedidoController {
 		return service.criarPedido(dto);
 	}
 	
-	@PutMapping("/{id}/confirmar-pedido")
+	@PutMapping("/{codigo}/confirmar-pedido")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmarPedido(@PathVariable Long id) {
-		service.confirmarPedido(id);
+	public void confirmarPedido(@PathVariable String codigo) {
+		service.confirmarPedido(codigo);
 	}
 	
-	@PutMapping("/{id}/confirmar-entrega")
+	@PutMapping("/{codigo}/confirmar-entrega")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmarEntrega(@PathVariable Long id) {
-		service.confirmarEntrega(id);
+	public void confirmarEntrega(@PathVariable String codigo) {
+		service.confirmarEntrega(codigo);
 	}
 	
-	@PutMapping("/{id}/cancelar-pedido")
+	@PutMapping("/{codigo}/cancelar-pedido")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void cancelarPedido(@PathVariable Long id) {
-		service.cancelarPedido(id);
+	public void cancelarPedido(@PathVariable String codigo) {
+		service.cancelarPedido(codigo);
 	}
 	
 }

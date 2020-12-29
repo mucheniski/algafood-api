@@ -48,12 +48,12 @@ public class PedidoService {
 	@Autowired
 	private ProdutoService produtoService;
 
-	public Pedido buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(() -> new PedidoNaoEncontradoException(id));
+	public Pedido buscarPorCodigo(String codigo) {
+		return repository.findByCodigo(codigo).orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
 	}
 	
-	public PedidoDTO buscarDtoPorId(Long id) {
-		Pedido pedido = buscarPorId(id);
+	public PedidoDTO buscarDtoPorCodigo(String codigo) {
+		Pedido pedido = buscarPorCodigo(codigo);
 		return conversor.converterParaDTO(pedido);		
 	}
 
@@ -74,8 +74,7 @@ public class PedidoService {
 		validaItens(pedido);
 
 		pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
-		pedido.calcularValorTotal();
-		pedido.statusCriado();
+		pedido.calcularValorTotal();		
 		
 		return repository.save(pedido);
 	}
@@ -84,20 +83,20 @@ public class PedidoService {
 	 * Como a operação está dentro de um transactional já vai ser feito o commit, não precisa de save
 	 */
 	@Transactional
-	public void confirmarPedido(Long id) {
-		Pedido pedido = buscarPorId(id);
+	public void confirmarPedido(String codigo) {
+		Pedido pedido = buscarPorCodigo(codigo);
 		pedido.statusConfirmado();		
 	}
 	
 	@Transactional
-	public void confirmarEntrega(Long id) {
-		Pedido pedido = buscarPorId(id);
+	public void confirmarEntrega(String codigo) {
+		Pedido pedido = buscarPorCodigo(codigo);
 		pedido.stausEntregue();
 	}
 	
 	@Transactional
-	public void cancelarPedido(Long id) {
-		Pedido pedido = buscarPorId(id);
+	public void cancelarPedido(String codigo) {
+		Pedido pedido = buscarPorCodigo(codigo);
 		pedido.stausCancelado();
 	}
 

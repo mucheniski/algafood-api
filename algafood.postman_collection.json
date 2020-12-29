@@ -1142,14 +1142,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos/1",
+							"raw": "localhost:8080/pedidos/9789d953-cd06-44f9-9c6a-85babac394cf",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"1"
+								"9789d953-cd06-44f9-9c6a-85babac394cf"
 							]
 						}
 					},
@@ -1215,14 +1215,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/pedidos/2/cancelar-pedido",
+							"raw": "localhost:8080/pedidos/9789d953-cd06-44f9-9c6a-85babac394cf/cancelar-pedido",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"2",
+								"9789d953-cd06-44f9-9c6a-85babac394cf",
 								"cancelar-pedido"
 							]
 						}
@@ -1244,14 +1244,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/pedidos/1/confirmar-entrega",
+							"raw": "localhost:8080/pedidos/8e6588c2-b393-4e04-ba84-0d8a576977ae/confirmar-entrega",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"1",
+								"8e6588c2-b393-4e04-ba84-0d8a576977ae",
 								"confirmar-entrega"
 							]
 						}
@@ -1273,14 +1273,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/pedidos/2/confirmar-pedido",
+							"raw": "localhost:8080/pedidos/8e6588c2-b393-4e04-ba84-0d8a576977ae/confirmar-pedido",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"2",
+								"8e6588c2-b393-4e04-ba84-0d8a576977ae",
 								"confirmar-pedido"
 							]
 						}

@@ -153,3 +153,5 @@ cascade = CascadeType.ALL é usado para que o que for alterado em uma entidade s
 
 Entidade Rica: Possui métodos de negócio com lógicas específicas também, como por exemplo a entidade Pedido que possui os métodos para os cálculos dos valores, transição de pedido, etc...
 Entidade Anemica: Não tem nenhum método de negócio implementado.
+
+Método de callback do JPA, é executado em alguns eventos do ciclo de vida das entidades um dos eventos é o @PrePersist, ele vai fazer com que antes de persistir a entidade esse método seja executado, como no exemplo usado em Pedido gerarCodigo().

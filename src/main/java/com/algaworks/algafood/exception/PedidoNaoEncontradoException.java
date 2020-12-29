@@ -1,14 +1,10 @@
 package com.algaworks.algafood.exception;
 
 public class PedidoNaoEncontradoException extends EntidadeNaoEncotradaException {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 	
-	public PedidoNaoEncontradoException(String mensagem) {
-		super(mensagem);		
-	}
-	
-	public PedidoNaoEncontradoException(Long id) {
-		this(String.format("Não existe Pedido com código %d", id));
+	public PedidoNaoEncontradoException(String codigoPedido) {
+		super(String.format("Não existe Pedido com código %s", codigoPedido));
 	}
 	
 }
