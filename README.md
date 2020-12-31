@@ -155,3 +155,9 @@ Entidade Rica: Possui métodos de negócio com lógicas específicas também, co
 Entidade Anemica: Não tem nenhum método de negócio implementado.
 
 Método de callback do JPA, é executado em alguns eventos do ciclo de vida das entidades um dos eventos é o @PrePersist, ele vai fazer com que antes de persistir a entidade esse método seja executado, como no exemplo usado em Pedido gerarCodigo().
+
+**13. Modelagem de projeções, pesquisas e relatórios**
+
+13.1 conforme o commit, pode ser verificado que apenas anotando as propriedades com o @JsonView já é possível gerar um retorno somente com as propriedades que foram anotadas.
+
+O Uso de DTO ou JsonView vai de acordo com o que você preferir, de acordo com a necessidade do projeto, etc...

@@ -27,19 +27,92 @@
 					"response": []
 				},
 				{
-					"name": "buscar por ID",
+					"name": "listar envelopado",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurantes/2",
+							"raw": "localhost:8080/restaurantes/listar-envelopado?tipoRetorno=apenas-nomes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"restaurantes",
-								"2"
+								"listar-envelopado"
+							],
+							"query": [
+								{
+									"key": "tipoRetorno",
+									"value": "apenas-nomes"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar Resumido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes?projecao=resumo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes"
+							],
+							"query": [
+								{
+									"key": "projecao",
+									"value": "resumo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar apenas nomes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes?projecao=apenas-nomes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes"
+							],
+							"query": [
+								{
+									"key": "projecao",
+									"value": "apenas-nomes"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1"
 							]
 						}
 					},

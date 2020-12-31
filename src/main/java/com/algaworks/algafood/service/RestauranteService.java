@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ import com.algaworks.algafood.exception.RestauranteNaoEncotradoException;
 import com.algaworks.algafood.repository.CidadeRepository;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.repository.RestauranteRepository;
+import com.algaworks.algafood.view.RestauranteView;
 
 // TODO: Apos terminar o curso, mover todos os métodos para os services, chamar apenas services aqui o único repository deve ser o do Restaurante.
 @Service
@@ -68,6 +70,30 @@ public class RestauranteService {
 	
 	public List<RestauranteRetornoDTO> listar() {
 		return conversor.converterListaParaDTO(repository.findAllCustom());
+	}
+	
+	public MappingJacksonValue listarEnvelopado(String tipoRetorno) {
+		MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(listar());
+		
+		/*
+		 * Como o MappingJacksonValue é um Wrapper, ele possui vários métodos que nos permitem customizar o retorno
+		 * de uma forma mais dinâmica, como por exemplo o setSerializationView.
+		 */
+		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
+		
+		if (tipoRetorno != null) {			
+			if (tipoRetorno.equals("apenas-nomes")) {
+				restaurantesWrapper.setSerializationView(RestauranteView.ApenasNomes.class);
+			} else if (tipoRetorno.equals("completo")) {
+				/*
+				 * É setado null para que caso seja passado o tipo completo retorne todos os parâmetros na JsonView
+				 * sem interface específica para isso.
+				 */
+				restaurantesWrapper.setSerializationView(null);
+			}		
+		}		
+		
+		return restaurantesWrapper;
 	}
 	
 	public RestauranteRetornoDTO buscarDtoPorId(Long id) {
