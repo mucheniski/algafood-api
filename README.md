@@ -161,3 +161,11 @@ Método de callback do JPA, é executado em alguns eventos do ciclo de vida das 
 13.1 conforme o commit, pode ser verificado que apenas anotando as propriedades com o @JsonView já é possível gerar um retorno somente com as propriedades que foram anotadas.
 
 O Uso de DTO ou JsonView vai de acordo com o que você preferir, de acordo com a necessidade do projeto, etc...
+
+MappingJacksonValue é um Wrapper, ele possui vários métodos que nos permitem customizar o retorno de uma forma mais dinâmica, como por exemplo o setSerializationView, setFilters, etc...
+
+SimpleBeanPropertyFilter é uma classe abstrata que possui vários métodos que podem ser utilizados para filtrar o retorno da requisição, como por exemplo o filterOutAllExcept() onde você pode apontar quais filtros precisa receber.
+
+StringUtils.isNotBlank() valida se a string não está vazia.
+
+OverEnginering, é quando tentamos resolver um problema que ainda nem aconteceu.

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -81,7 +82,7 @@ public class RestauranteService {
 		 */
 		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
 		
-		if (tipoRetorno != null) {			
+		if (StringUtils.isNotBlank(tipoRetorno)) {			
 			if (tipoRetorno.equals("apenas-nomes")) {
 				restaurantesWrapper.setSerializationView(RestauranteView.ApenasNomes.class);
 			} else if (tipoRetorno.equals("completo")) {

@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.dto.PedidoDTO;
@@ -20,6 +22,8 @@ import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.exception.FormaPagamentoNaoValidadaException;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 @Service
 public class PedidoService {
@@ -57,8 +61,30 @@ public class PedidoService {
 		return conversor.converterParaDTO(pedido);		
 	}
 
-	public List<PedidoResumoDTO> listar() {
-		return pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
+//	public List<PedidoResumoDTO> listar() {
+//		return pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
+//	}
+	
+	public MappingJacksonValue listar(String campos) {		
+		List<PedidoResumoDTO> pedidosDto = pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
+		
+		
+		/*
+		 * Por padrão serializa tudo, mas se os campos estiverem preenchidos ele substitui pelo mesmo nome de filtro
+		 * com o filterOutAllExcept apontando apenas os campos que devem retornar.
+		 */
+		SimpleFilterProvider filterProvider = new SimpleFilterProvider();	
+		filterProvider.addFilter("pedidoFiltro", SimpleBeanPropertyFilter.serializeAll());
+		
+		if (StringUtils.isNotBlank(campos)) {
+			filterProvider.addFilter("pedidoFiltro", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+		}
+		
+		MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosDto);
+		pedidosWrapper.setFilters(filterProvider);
+		
+		return pedidosWrapper;
+		
 	}
 
 	public PedidoResumoDTO criarPedido(PedidoDTO dto) {			
