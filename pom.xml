@@ -17,6 +17,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<modelmapper.version>2.3.0</modelmapper.version>
+		<squiggly-version>1.3.18</squiggly-version>
 	</properties>
 
 	<dependencies>
@@ -79,7 +81,13 @@
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
-			<version>2.3.0</version> <!-- como o parent não tem o modelmapper, preciso especificar a versão  -->
+			<version>${modelmapper.version}</version> <!-- como o parent não tem o modelmapper, preciso especificar a versão  -->
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.github.bohnman</groupId>
+		    <artifactId>squiggly-filter-jackson</artifactId>
+		    <version>${squiggly-version}</version>
 		</dependency>
 
 	</dependencies>

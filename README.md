@@ -169,3 +169,16 @@ SimpleBeanPropertyFilter é uma classe abstrata que possui vários métodos que 
 StringUtils.isNotBlank() valida se a string não está vazia.
 
 OverEnginering, é quando tentamos resolver um problema que ainda nem aconteceu.
+
+squiggly é um filtro para jackson que nos ajuda a limitar os retornos sem precisar implementar um filtro em cada elemento.
+https://github.com/bohnman/squiggly
+Commit 13.3. Limitando os campos retornados pela API com Squiggly
+basta colocar no key o valor fields e filtrar os campos que quiser na requisição
+se for colocado no campo sub* por exemplo, qualquer coisa que inicia com sub vai ser retornada.
+No value da requisição nos parametros do fields codigo,valorTotal,sub*,usuarioCliente%5Bid,nome%5D
+%5B é o encode de abre colchetes [ 
+%5D é o encode de fecha colchetes ]
+https://www.w3schools.com/tags/ref_urlencode.ASP 
+Porém a classe TomcatCustomizer permite que usemos colchetes na url.
+também pode ser negado codigo,valorTotal,sub*,usuarioCliente[-id], nesse caso vem todos os dados de cliente menos o id
+É uma biblioteca pequena, open source, nesse caso corre-se o risco de parar de ser mantida, isso é um ponto a ser analisado.

@@ -4,12 +4,10 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import com.algaworks.algafood.enuns.StatusPedido;
-import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonFilter("pedidoFiltro")
 @Getter
 @Setter
 public class PedidoResumoDTO {

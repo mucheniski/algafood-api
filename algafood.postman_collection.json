@@ -1247,6 +1247,30 @@
 					"response": []
 				},
 				{
+					"name": "listar com squiggly",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/pedidos?fields=codigo,valorTotal,sub*,usuarioCliente[id,nome]",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "codigo,valorTotal,sub*,usuarioCliente[id,nome]"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "criar pedido",
 					"request": {
 						"method": "POST",
