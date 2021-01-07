@@ -74,13 +74,13 @@ public class Restaurante {
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime dataAtualizacao;
 	
-	@OneToMany(mappedBy = "rastaurante")
+	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
 		
 	@ManyToMany
 	@JoinTable(
 			name = "restaurante_forma_pagamento",
-			joinColumns = @JoinColumn(name = "rastaurante_id"),
+			joinColumns = @JoinColumn(name = "restaurante_id"),
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id")
 	)
 	private Set<FormaPagamento> formasPagamento = new HashSet<>();

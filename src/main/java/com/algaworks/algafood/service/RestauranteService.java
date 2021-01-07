@@ -267,7 +267,8 @@ public class RestauranteService {
 
 	public List<ProdutoDTO> listarProdutos(Long restauranteId) {
 		Restaurante restaurante = buscarPorId(restauranteId);
-		return produtoConversor.converterListaParaDTO(restaurante.getProdutos());
+		List<Produto> produtos = produtoService.buscaApenasAtivosPorRestaurante(restaurante);		
+		return produtoConversor.converterListaParaDTO(produtos);
 	}
 
 	public ProdutoDTO buscarProdutoPorRestaurante(Long restauranteId, Long produtoId) {
@@ -280,7 +281,7 @@ public class RestauranteService {
 	public ProdutoDTO adicionarProduto(ProdutoDTO produtoDTO, Long restauranteId) {
 		Restaurante restaurante = buscarPorId(restauranteId);		
 		Produto produto = produtoConversor.converterParaObjeto(produtoDTO);
-		produto.setRastaurante(restaurante);
+		produto.setRestaurante(restaurante);
 		produtoService.salvar(produto);
 		restaurante.adicionarProduto(produto);
 		return produtoConversor.converterParaDTO(produto);
@@ -330,6 +331,20 @@ public class RestauranteService {
 		Restaurante restaurante = buscarPorId(restauranteId);
 		Usuario responsavel = usuarioService.buscarPorId(usuarioId);
 		restaurante.desvincularReponsavel(responsavel);		
+	}
+
+	public List<ProdutoDTO> listarProdutosOpcaoInativo(Long restauranteId, boolean incluirInativos) {
+		List<Produto> todosProdutos = new ArrayList<>();
+		Restaurante restaurante = buscarPorId(restauranteId);
+		
+		if (incluirInativos) {
+			todosProdutos = produtoService.buscarPorRestaurante(restaurante);
+		} 		
+		else {
+			todosProdutos = produtoService.buscaApenasAtivosPorRestaurante(restaurante);
+		}
+		
+		return produtoConversor.converterListaParaDTO(todosProdutos);
 	}
 		
 }

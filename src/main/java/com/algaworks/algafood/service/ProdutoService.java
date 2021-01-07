@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,14 @@ public class ProdutoService {
 
 	public Produto salvar(Produto produto) {
 		return repository.save(produto);			
+	}
+
+	public List<Produto> buscarPorRestaurante(Restaurante restaurante) {
+		return repository.findByRestaurante(restaurante);
+	}
+		
+	public List<Produto> buscaApenasAtivosPorRestaurante(Restaurante restaurante) {
+		return repository.buscaApenasAtivosPorRestaurante(restaurante);
 	}
 	
 }

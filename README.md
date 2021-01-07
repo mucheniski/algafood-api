@@ -1,6 +1,8 @@
-[github-como-fazer-um-readme-md-bonitão] (https://medium.com/@raullesteves/github-como-fazer-um-readme-md-bonit%C3%A3o-c85c8f154f8)
+[github-como-fazer-um-readme-md-bonitão](https://medium.com/@raullesteves/github-como-fazer-um-readme-md-bonit%C3%A3o-c85c8f154f8)
 
 [formatação de readme - Markdown](https://github.com/luong-komorebi/Markdown-Tutorial/blob/master/README_pt-BR.md)
+
+[link dos commits do curso](https://github.com/algaworks/curso-especialista-spring-rest)
 
 # algafood-api
 Projeto do curso Especialista REST - Algaworks
