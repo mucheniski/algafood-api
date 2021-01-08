@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.dto.PedidoDTO;
 import com.algaworks.algafood.dto.PedidoResumoDTO;
+import com.algaworks.algafood.repository.filtro.PedidoFiltro;
 import com.algaworks.algafood.service.PedidoService;
 
 @RestController
@@ -34,6 +35,16 @@ public class PedidoController {
 	@GetMapping
 	public List<PedidoResumoDTO> listar() {
 		return service.listar();
+	}
+	
+	/*
+	 * Só pelo fato de colocar o PedidoFiltro como parametro, o spring já instancia um PedidoFiltro
+	 * e atribui quando passado na url um clienteId e restauranteId a esse PedidoFiltro criado automaticamente.
+	 * pois são atributos do PedidoFiltro, assim jã são identificados.
+	 */
+	@GetMapping("/com-filtro")
+	public List<PedidoResumoDTO> pesquisarComFiltro(PedidoFiltro filtro) {
+		return service.pesquisarComFiltro(filtro);
 	}
 	
 	@PostMapping

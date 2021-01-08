@@ -20,6 +20,8 @@ import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.exception.FormaPagamentoNaoValidadaException;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
+import com.algaworks.algafood.repository.filtro.PedidoFiltro;
+import com.algaworks.algafood.repository.spec.PedidoSpecs;
 
 @Service
 public class PedidoService {
@@ -59,6 +61,10 @@ public class PedidoService {
 
 	public List<PedidoResumoDTO> listar() {
 		return pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
+	}
+	
+	public List<PedidoResumoDTO> pesquisarComFiltro(PedidoFiltro filtro) {
+		return pedidoResumoConversor.converterListaParaDTO(repository.findAll(PedidoSpecs.comFiltro(filtro)));
 	}
 
 	public PedidoResumoDTO criarPedido(PedidoDTO dto) {			
