@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +31,11 @@ public class CozinhaService {
 	@Autowired
 	private CozinhaConversor conversor;
 	
-	public List<CozinhaDTO> listar() {
-		return conversor.converterListaParaDTO(respository.findAll());
+	public Page<CozinhaDTO> listar(Pageable pageable) {
+		Page<Cozinha> cozinhasPaginada = respository.findAll(pageable);		
+		List<CozinhaDTO> cozinhasDTO = conversor.converterListaParaDTO(cozinhasPaginada.getContent());
+		Page<CozinhaDTO> cozinhasDTOPaginada = new PageImpl<>(cozinhasDTO, pageable, cozinhasPaginada.getTotalElements());
+		return cozinhasDTOPaginada;
 	}
 	
 	public List<CozinhaDTO> listarPorNome(String nome) {		
