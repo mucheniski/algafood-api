@@ -1410,6 +1410,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "listar com filtro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/pedidos/com-filtro?usuarioClienteId=1&restauranteId=1&dataCriacaoInicio=2021-01-07T10:33:07Z&dataCriacaoFim=2021-01-08T10:50:07Z",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"com-filtro"
+							],
+							"query": [
+								{
+									"key": "usuarioClienteId",
+									"value": "1"
+								},
+								{
+									"key": "restauranteId",
+									"value": "1"
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2021-01-07T10:33:07Z"
+								},
+								{
+									"key": "dataCriacaoFim",
+									"value": "2021-01-08T10:50:07Z"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
