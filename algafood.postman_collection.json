@@ -1261,13 +1261,23 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos",
+							"raw": "localhost:8080/pedidos?page=1&size=1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								}
 							]
 						}
 					},

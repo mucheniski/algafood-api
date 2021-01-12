@@ -22,8 +22,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>, JpaSpecif
 		 + "join fetch pedido.usuarioCliente "
 		 + "join fetch pedido.restaurante restaurante "
 		 + "join fetch restaurante.cozinha ")
-	List<Pedido> buscarTodosResumido();
-	
+	List<Pedido> findAll();	
 	
 	Optional<Pedido> findByCodigo(String codigo);
 

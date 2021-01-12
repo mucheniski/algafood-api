@@ -5,6 +5,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.dto.PedidoDTO;
@@ -59,8 +62,11 @@ public class PedidoService {
 		return conversor.converterParaDTO(pedido);		
 	}
 
-	public List<PedidoResumoDTO> listar() {
-		return pedidoResumoConversor.converterListaParaDTO(repository.buscarTodosResumido());
+	public Page<PedidoResumoDTO> listar(Pageable pageable) {
+		Page<Pedido> pedidosPaginado = repository.findAll(pageable);
+		List<PedidoResumoDTO> pedidosDTO = pedidoResumoConversor.converterListaParaDTO(pedidosPaginado.getContent());
+		Page<PedidoResumoDTO> pedidosDTOPaginado = new PageImpl<>(pedidosDTO, pageable, pedidosPaginado.getTotalElements());
+		return pedidosDTOPaginado;
 	}
 	
 	public List<PedidoResumoDTO> pesquisarComFiltro(PedidoFiltro filtro) {

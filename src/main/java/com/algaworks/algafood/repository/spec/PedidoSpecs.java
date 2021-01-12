@@ -20,7 +20,7 @@ public class PedidoSpecs {
 			 * para resolver o problema de N+1 ou seja, para cada entidade aninhada ou relacionada ser feito um select
 			 * direferente, usamos o fetch do root, assim é feito apenas um select com todas as informações pelo spring
 			 * data JPA, é o mesmo fetch feito no jpql mas agora com criteria.
-			 * Observando o console a pós o get pode ser verificado que é criada apenas um select.
+			 * Observando o console após o get pode ser verificado que é criada apenas um select.
 			 */
 			root.fetch("restaurante").fetch("cozinha");
 			root.fetch("usuarioCliente");
