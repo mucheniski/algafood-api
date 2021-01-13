@@ -184,3 +184,5 @@ https://www.w3schools.com/tags/ref_urlencode.ASP
 Porém a classe TomcatCustomizer permite que usemos colchetes na url.
 também pode ser negado codigo,valorTotal,sub*,usuarioCliente[-id], nesse caso vem todos os dados de cliente menos o id
 É uma biblioteca pequena, open source, nesse caso corre-se o risco de parar de ser mantida, isso é um ponto a ser analisado.
+
+PageJasonSerializer após criada essa classe, somente pelo fato de anotar com o @JsonComponent o spring boot já identifica e começa a utilizar as configurações do método serialize extedido de JsonSerializer quando uma Page é retornada.
