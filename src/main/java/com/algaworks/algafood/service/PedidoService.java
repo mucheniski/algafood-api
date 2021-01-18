@@ -23,7 +23,7 @@ import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.exception.FormaPagamentoNaoValidadaException;
 import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
-import com.algaworks.algafood.repository.filtro.PedidoFiltro;
+import com.algaworks.algafood.filtro.PedidoFiltro;
 import com.algaworks.algafood.repository.spec.PedidoSpecs;
 
 @Service
