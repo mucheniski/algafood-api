@@ -73,9 +73,9 @@ INSERT INTO restaurante_usuario_responsavel (restaurante_id, usuario_id) VALUES(
 INSERT INTO restaurante_usuario_responsavel (restaurante_id, usuario_id) VALUES(2, 1);
 
 INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
-VALUES (1, '8e6588c2-b393-4e04-ba84-0d8a576977ae', 0, 5.0, 0, utc_timestamp, null, null, null, 1, 1, 'CRIADO', 1, 'cep1', 'logradouro1', 'numero1', 'complemento1', 'bairro1', 1);
+VALUES (1, '8e6588c2-b393-4e04-ba84-0d8a576977ae', 10.0, 5.0, 15.0, utc_timestamp, null, null, null, 1, 1, 'CRIADO', 1, 'cep1', 'logradouro1', 'numero1', 'complemento1', 'bairro1', 1);
 INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
-VALUES (2, '9789d953-cd06-44f9-9c6a-85babac394cf', 0, 5.0, 0, utc_timestamp, null, null, null, 2, 2, 'CRIADO', 2, 'cep2', 'logradouro2', 'numero2', 'complemento2', 'bairro2', 2);
+VALUES (2, '9789d953-cd06-44f9-9c6a-85babac394cf', 30.0, 5.0, 35.0, utc_timestamp, null, null, null, 2, 2, 'CRIADO', 2, 'cep2', 'logradouro2', 'numero2', 'complemento2', 'bairro2', 2);
 
 INSERT INTO item_pedido (id, quantidade, preco_unitario, preco_total, observacao, produto_id, pedido_id)
 VALUES(1, 1, 10.0, 0, 'Observacao1', 1, 1);

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c739d555-7498-46cd-b195-62ecc7236662",
+		"_postman_id": "926da61d-f9bf-495a-8b57-285e9d70bc79",
 		"name": "algafood",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1261,7 +1261,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos?page=1&size=1",
+							"raw": "localhost:8080/pedidos?page=1&size=1&sort=nomeCliente",
 							"host": [
 								"localhost"
 							],
@@ -1277,6 +1277,10 @@
 								{
 									"key": "size",
 									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "nomeCliente"
 								}
 							]
 						}
@@ -1301,6 +1305,59 @@
 								{
 									"key": "fields",
 									"value": "codigo,valorTotal,sub*,usuarioCliente[id,nome]"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar com filtro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/pedidos/com-filtro?sort=nomeCliente&page=1&size=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"com-filtro"
+							],
+							"query": [
+								{
+									"key": "usuarioClienteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "restauranteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2021-01-07T10:33:07Z",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoFim",
+									"value": "2021-01-08T10:50:07Z",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "nomeCliente"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "1"
 								}
 							]
 						}
@@ -1420,43 +1477,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "listar com filtro",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/pedidos/com-filtro?usuarioClienteId=1&restauranteId=1&dataCriacaoInicio=2021-01-07T10:33:07Z&dataCriacaoFim=2021-01-08T10:50:07Z",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"pedidos",
-								"com-filtro"
-							],
-							"query": [
-								{
-									"key": "usuarioClienteId",
-									"value": "1"
-								},
-								{
-									"key": "restauranteId",
-									"value": "1"
-								},
-								{
-									"key": "dataCriacaoInicio",
-									"value": "2021-01-07T10:33:07Z"
-								},
-								{
-									"key": "dataCriacaoFim",
-									"value": "2021-01-08T10:50:07Z"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -1491,6 +1511,30 @@
 									"key": "sort",
 									"value": "nome,desc"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "estatisticas",
+			"item": [
+				{
+					"name": "vendas diarias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/estatisticas/vendas-diarias",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estatisticas",
+								"vendas-diarias"
 							]
 						}
 					},

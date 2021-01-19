@@ -5,6 +5,9 @@ import com.algaworks.algafood.filtro.VendaDiariaFiltro;
 
 import java.util.List;
 
+/*
+    As implementações são feitas no VendaConsultaServiceImpl
+ */
 public interface VendaConsultasService {
 
     List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFiltro vendaDiariaFiltro);

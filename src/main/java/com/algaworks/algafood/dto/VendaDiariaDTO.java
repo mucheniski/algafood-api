@@ -5,14 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 @AllArgsConstructor
 @Getter
 @Setter
 public class VendaDiariaDTO {
 
-    private LocalDate data;
+    private Date dataCriacao;
     private Long totalVendas;
     private BigDecimal totalFaturado;
 
