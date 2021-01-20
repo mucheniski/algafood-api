@@ -200,6 +200,33 @@
 					"response": []
 				},
 				{
+					"name": "listar produtos opcao inativo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/inativos?incluirInativos=true",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"inativos"
+							],
+							"query": [
+								{
+									"key": "incluirInativos",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "desvincular forma pagamento",
 					"request": {
 						"method": "DELETE",
@@ -491,33 +518,6 @@
 								"restaurantes",
 								"1",
 								"produtos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listar produtos opcao inativo",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/inativos?incluirInativos=true",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos",
-								"inativos"
-							],
-							"query": [
-								{
-									"key": "incluirInativos",
-									"value": "true"
-								}
 							]
 						}
 					},
@@ -1527,7 +1527,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/estatisticas/vendas-diarias",
+							"raw": "localhost:8080/estatisticas/vendas-diarias?restauranteId=2&dataInicio=2021-01-07T10:33:07Z&dataFim=2021-01-07T10:33:07Z",
 							"host": [
 								"localhost"
 							],
@@ -1535,6 +1535,20 @@
 							"path": [
 								"estatisticas",
 								"vendas-diarias"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "2"
+								},
+								{
+									"key": "dataInicio",
+									"value": "2021-01-07T10:33:07Z"
+								},
+								{
+									"key": "dataFim",
+									"value": "2021-01-07T10:33:07Z"
+								}
 							]
 						}
 					},

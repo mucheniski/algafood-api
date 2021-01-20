@@ -17,6 +17,7 @@ public class EstatisticasVendaController {
     @Autowired
     private VendaConsultasService vendaConsultasService;
 
+    // Não precisa marcar com @PathVariable, o spring entende quando é passado um parâmetro
     @GetMapping("/vendas-diarias")
     public List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFiltro vendaDiariaFiltro) {
         return vendaConsultasService.consultarVendasDiarias(vendaDiariaFiltro);

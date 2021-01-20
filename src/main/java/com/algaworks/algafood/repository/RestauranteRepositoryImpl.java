@@ -53,8 +53,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		
 		query.where(predicates.toArray(new Predicate[0])); // TODO: ver como melhorar essa conversão
 		
-		TypedQuery<Restaurante> typedQuery = manager.createQuery(query);
-		return typedQuery.getResultList();
+		return manager.createQuery(query).getResultList();
 	}
 
 	@Override

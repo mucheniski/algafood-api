@@ -76,6 +76,14 @@ INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao,
 VALUES (1, '8e6588c2-b393-4e04-ba84-0d8a576977ae', 10.0, 5.0, 15.0, utc_timestamp, null, null, null, 1, 1, 'CRIADO', 1, 'cep1', 'logradouro1', 'numero1', 'complemento1', 'bairro1', 1);
 INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
 VALUES (2, '9789d953-cd06-44f9-9c6a-85babac394cf', 30.0, 5.0, 35.0, utc_timestamp, null, null, null, 2, 2, 'CRIADO', 2, 'cep2', 'logradouro2', 'numero2', 'complemento2', 'bairro2', 2);
+INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
+VALUES (3, 'af134210-74a9-432e-9187-c164002a9f63', 10.0, 5.0, 15.0, utc_timestamp, null, null, null, 1, 1, 'CONFIRMADO', 1, 'cep1', 'logradouro1', 'numero1', 'complemento1', 'bairro1', 1);
+INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
+VALUES (4, 'ff17e6a7-a9cc-4d35-a3e4-c256b509e8c0', 30.0, 5.0, 35.0, utc_timestamp, null, null, null, 2, 2, 'ENTREGUE', 2, 'cep2', 'logradouro2', 'numero2', 'complemento2', 'bairro2', 2);
+INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
+VALUES (5, '7ca42fd8-c590-422e-b043-d9e116653f5b', 10.0, 5.0, 15.0, utc_timestamp, null, null, null, 1, 1, 'ENTREGUE', 1, 'cep1', 'logradouro1', 'numero1', 'complemento1', 'bairro1', 1);
+INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, forma_pagamento_id, status, cidade_id, cep, logradouro, numero, complemento, bairro, usuario_cliente_id)
+VALUES (6, 'dae54918-2617-4997-81c4-eb3c6972ccc9', 30.0, 5.0, 35.0, utc_timestamp, null, null, null, 2, 2, 'ENTREGUE', 2, 'cep2', 'logradouro2', 'numero2', 'complemento2', 'bairro2', 2);
 
 INSERT INTO item_pedido (id, quantidade, preco_unitario, preco_total, observacao, produto_id, pedido_id)
 VALUES(1, 1, 10.0, 0, 'Observacao1', 1, 1);

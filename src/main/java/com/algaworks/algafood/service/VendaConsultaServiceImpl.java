@@ -2,12 +2,14 @@ package com.algaworks.algafood.service;
 
 import com.algaworks.algafood.dto.VendaDiariaDTO;
 import com.algaworks.algafood.entity.Pedido;
+import com.algaworks.algafood.enuns.StatusPedido;
 import com.algaworks.algafood.filtro.VendaDiariaFiltro;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class VendaConsultaServiceImpl implements VendaConsultasService {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<VendaDiariaDTO> query= builder.createQuery(VendaDiariaDTO.class);
         Root<Pedido> root = query.from(Pedido.class);
+        List<Predicate> predicates = new ArrayList<>();
 
         /*
             Cria uma expressão para criar uma função de banco de dados no Java
@@ -48,14 +51,30 @@ public class VendaConsultaServiceImpl implements VendaConsultasService {
             o construtor da classe seja chamado, por isso tem o @AllArgsConstructor do lombok na classe
             o construtor precisa estar nesta mesma ordem (dataCriacao, totalVendas, totalFaturado
          */
-        CompoundSelection<VendaDiariaDTO> consulta =
-                builder.construct(VendaDiariaDTO.class,
-                  funcaoDateSQLDataCriacao,
-                  builder.count(root.get("id")),
-                  builder.sum(root.get("valorTotal"))
-                );
+        CompoundSelection<VendaDiariaDTO> consulta = builder.construct (
+                VendaDiariaDTO.class,
+                funcaoDateSQLDataCriacao,
+                builder.count(root.get("id")),
+                builder.sum(root.get("valorTotal"))
+        );
+
+        // Passando apenas o restaurante o spring entende e busca um igual pelo id
+        if (vendaDiariaFiltro.getRestauranteId() != null) {
+            predicates.add(builder.equal(root.get("restaurante"), vendaDiariaFiltro.getRestauranteId()));
+        }
+
+        if (vendaDiariaFiltro.getDataInicio() != null) {
+            predicates.add(builder.greaterThanOrEqualTo(root.get("dataCriacao"), vendaDiariaFiltro.getDataInicio()) );
+        }
+
+        if (vendaDiariaFiltro.getDataFim() != null) {
+            predicates.add(builder.lessThanOrEqualTo(root.get("dataCriacao"), vendaDiariaFiltro.getDataFim()) );
+        }
+
+        predicates.add(root.get("status").in(StatusPedido.CONFIRMADO, StatusPedido.ENTREGUE) );
 
         query.select(consulta);
+        query.where(predicates.toArray(new Predicate[0])); // TODO: ver como melhorar essa conversão
         query.groupBy(funcaoDateSQLDataCriacao);
 
         return manager.createQuery(query).getResultList();
