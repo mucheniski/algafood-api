@@ -4,6 +4,7 @@ import com.algaworks.algafood.dto.VendaDiariaDTO;
 import com.algaworks.algafood.entity.Pedido;
 import com.algaworks.algafood.enuns.StatusPedido;
 import com.algaworks.algafood.filtro.VendaDiariaFiltro;
+import lombok.var;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ public class VendaConsultaServiceImpl implements VendaConsultasService {
     private EntityManager manager;
 
     @Override
-    public List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFiltro vendaDiariaFiltro) {
+    public List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFiltro vendaDiariaFiltro, String timeOffSet) {
 
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<VendaDiariaDTO> query= builder.createQuery(VendaDiariaDTO.class);
@@ -37,15 +38,27 @@ public class VendaConsultaServiceImpl implements VendaConsultasService {
         /*
             Cria uma expressão para criar uma função de banco de dados no Java
          */
-        Expression<Date> funcaoDateSQLDataCriacao = builder.function("date", Date.class, root.get("dataCriacao"));
+        var funcaoDateSQLConvertTZ = builder.function(
+                "convert_tz",
+                Date.class,
+                root.get("dataCriacao"),
+                builder.literal("+00:00"),
+                builder.literal(timeOffSet)
+        );
+
+        var funcaoDateSQLDataCriacao = builder.function(
+                "date",
+                Date.class,
+                funcaoDateSQLConvertTZ
+        );
 
         /*
             Criando o sql referente a esse em Criteria API
-            select date(data_criacao) as data_criacao,
-                   count(id) as total_vendas,
-                   sum(valor_total) as total_faturado
-            from pedido
-            group by date(data_criacao);
+            select date(convert_tz(p.data_criacao, '+00:00', '-03:00')) as data_criacao,
+                   count(p.id) as total_vendas,
+                   sum(p.valor_total) as total_faturado
+            from pedido p
+            group by date(convert_tz(p.data_criacao, '+00:00', '-03:00'));
 
             O builder do criteria vai fazer com que quando seja retornado um VendaDiariaDTO
             o construtor da classe seja chamado, por isso tem o @AllArgsConstructor do lombok na classe

@@ -17,3 +17,6 @@ services:
 networks:
     aplicacao-network:
         driver: bridge
+
+# Com o container executanto para entrar e executar comandos mysql
+# docker exec -it bancomysql mysql -uroot -proot

@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface VendaConsultasService {
 
-    List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFiltro vendaDiariaFiltro);
+    List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFiltro vendaDiariaFiltro, String timeOffSet);
 
 }
