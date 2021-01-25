@@ -192,3 +192,5 @@ https://community.jaspersoft.com/community-download
 Baixar o Jasper Studio CE
 Criar novo Projeto > new Jasper Report > Blank A4 > Renomear o report > One Empty Record > Next > Finish
 
+Random Records - Clicar na aba Repository Explorer > Botão Direito > Create Data Adapter > Random Records
+Selectionar no preview Random Records.
