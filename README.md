@@ -197,3 +197,6 @@ Selectionar no preview Random Records.
 
 No Accept o consumidor da API precisa passar application/pdf,application/json no Headers para que caso exista
 algum erro, o retorno possa ser devolvido em JSON.
+
+Dependences japserreports https://search.maven.org/search?q=g:net.sf.jasperreports
+Usar a mesma versão do jaspersoft studio que estiver usando para criar os reports

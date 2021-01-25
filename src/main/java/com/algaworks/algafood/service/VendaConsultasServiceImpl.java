@@ -19,7 +19,7 @@ import java.util.List;
     exceptions de persistencia do spring.
  */
 @Repository
-public class VendaConsultaServiceImpl implements VendaConsultasService {
+public class VendaConsultasServiceImpl implements VendaConsultasService {
 
     /*
         Consultas com criteria API
