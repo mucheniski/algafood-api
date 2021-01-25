@@ -1527,7 +1527,50 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/estatisticas/vendas-diarias?restauranteId=1&dataInicio=2021-01-22T11:07:39Z&dataFim=2021-01-22T11:07:39Z&timeOffSet=-03:00",
+							"raw": "localhost:8080/estatisticas/vendas-diarias?restauranteId=1&dataInicio=2021-01-24T11:07:39Z&dataFim=2021-01-25T11:07:39Z&timeOffSet=-03:00",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estatisticas",
+								"vendas-diarias"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "1"
+								},
+								{
+									"key": "dataInicio",
+									"value": "2021-01-24T11:07:39Z"
+								},
+								{
+									"key": "dataFim",
+									"value": "2021-01-25T11:07:39Z"
+								},
+								{
+									"key": "timeOffSet",
+									"value": "-03:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vendas diarias pdf",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/pdf,application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/estatisticas/vendas-diarias?restauranteId=1&dataInicio=2021-01-22T11:07:39Z&dataFim=2021-01-25T11:07:39Z&timeOffSet=-03:00",
 							"host": [
 								"localhost"
 							],
@@ -1547,7 +1590,7 @@
 								},
 								{
 									"key": "dataFim",
-									"value": "2021-01-22T11:07:39Z"
+									"value": "2021-01-25T11:07:39Z"
 								},
 								{
 									"key": "timeOffSet",

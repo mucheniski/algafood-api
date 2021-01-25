@@ -194,3 +194,6 @@ Criar novo Projeto > new Jasper Report > Blank A4 > Renomear o report > One Empt
 
 Random Records - Clicar na aba Repository Explorer > Botão Direito > Create Data Adapter > Random Records
 Selectionar no preview Random Records.
+
+No Accept o consumidor da API precisa passar application/pdf,application/json no Headers para que caso exista
+algum erro, o retorno possa ser devolvido em JSON.

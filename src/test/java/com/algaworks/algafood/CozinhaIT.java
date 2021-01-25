@@ -24,7 +24,7 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // o WebEnvironment.MOCK não levanta um server web real, ele é configurado por padrão, por isso precisamos alterar
 @TestPropertySource("/application-test.properties")
-public class ConzinhaIT {
+public class CozinhaIT {
 	
 	private static final int COZINHA_ID_INEXISTENTE = 100;
 
