@@ -186,3 +186,9 @@ também pode ser negado codigo,valorTotal,sub*,usuarioCliente[-id], nesse caso v
 É uma biblioteca pequena, open source, nesse caso corre-se o risco de parar de ser mantida, isso é um ponto a ser analisado.
 
 PageJasonSerializer após criada essa classe, somente pelo fato de anotar com o @JsonComponent o spring boot já identifica e começa a utilizar as configurações do método serialize extedido de JsonSerializer quando uma Page é retornada.
+
+Reports com Jaspersoft
+https://community.jaspersoft.com/community-download
+Baixar o Jasper Studio CE
+Criar novo Projeto > new Jasper Report > Blank A4 > Renomear o report > One Empty Record > Next > Finish
+

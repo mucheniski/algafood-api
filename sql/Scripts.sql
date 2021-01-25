@@ -13,3 +13,5 @@ select date(convert_tz(p.data_criacao, '+00:00', '-03:00')) as data_criacao,
        sum(p.valor_total) as total_faturado
 from pedido p
 group by date(convert_tz(p.data_criacao, '+00:00', '-03:00'));
+
+select * from pedido;
