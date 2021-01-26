@@ -159,74 +159,6 @@
 					"response": []
 				},
 				{
-					"name": "listar produtos",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listar produtos por restaurante",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/2",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listar produtos opcao inativo",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/inativos?incluirInativos=true",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos",
-								"inativos"
-							],
-							"query": [
-								{
-									"key": "incluirInativos",
-									"value": "true"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "desvincular forma pagamento",
 					"request": {
 						"method": "DELETE",
@@ -437,36 +369,6 @@
 					"response": []
 				},
 				{
-					"name": "atualizar produto",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Produto atualizado postman\",\n    \"descricao\": \"Foi atualizado no post\",\n    \"preco\": 20.0,\n    \"ativo\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/4",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "salvar",
 					"request": {
 						"method": "POST",
@@ -489,35 +391,6 @@
 							"path": [
 								"restaurantes",
 								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "adicionar produto",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Produto adicionado postman\",\n    \"descricao\": \"Foi adicionado no post\",\n    \"preco\": 10.0,\n    \"ativo\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos"
 							]
 						}
 					},
@@ -1464,14 +1337,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/pedidos/8e6588c2-b393-4e04-ba84-0d8a576977ae/confirmar-pedido",
+							"raw": "localhost:8080/pedidos/4925c1cc-7503-44f1-94eb-5cd4e578c0ab/confirmar-pedido",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"8e6588c2-b393-4e04-ba84-0d8a576977ae",
+								"4925c1cc-7503-44f1-94eb-5cd4e578c0ab",
 								"confirmar-pedido"
 							]
 						}
@@ -1527,7 +1400,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/estatisticas/vendas-diarias?restauranteId=1&dataInicio=2021-01-24T11:07:39Z&dataFim=2021-01-25T11:07:39Z&timeOffSet=-03:00",
+							"raw": "localhost:8080/estatisticas/vendas-diarias?dataInicio=2021-01-24T11:07:39Z&dataFim=2021-01-26T11:07:39Z&timeOffSet=-03:00",
 							"host": [
 								"localhost"
 							],
@@ -1539,7 +1412,8 @@
 							"query": [
 								{
 									"key": "restauranteId",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "dataInicio",
@@ -1547,7 +1421,7 @@
 								},
 								{
 									"key": "dataFim",
-									"value": "2021-01-25T11:07:39Z"
+									"value": "2021-01-26T11:07:39Z"
 								},
 								{
 									"key": "timeOffSet",
@@ -1570,7 +1444,7 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/estatisticas/vendas-diarias?restauranteId=1&dataInicio=2021-01-22T11:07:39Z&dataFim=2021-01-25T11:07:39Z&timeOffSet=-03:00",
+							"raw": "localhost:8080/estatisticas/vendas-diarias?dataInicio=2021-01-22T11:07:39Z&dataFim=2021-01-26T11:07:39Z&timeOffSet=-03:00",
 							"host": [
 								"localhost"
 							],
@@ -1582,7 +1456,8 @@
 							"query": [
 								{
 									"key": "restauranteId",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "dataInicio",
@@ -1590,12 +1465,181 @@
 								},
 								{
 									"key": "dataFim",
-									"value": "2021-01-25T11:07:39Z"
+									"value": "2021-01-26T11:07:39Z"
 								},
 								{
 									"key": "timeOffSet",
 									"value": "-03:00"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "produto",
+			"item": [
+				{
+					"name": "adicionar produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Produto adicionado postman\",\n    \"descricao\": \"Foi adicionado no post\",\n    \"preco\": 10.0,\n    \"ativo\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar produto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Produto atualizado postman\",\n    \"descricao\": \"Foi atualizado no post\",\n    \"preco\": 20.0,\n    \"ativo\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar produtos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar produtos opcao inativo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/inativos?incluirInativos=true",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"inativos"
+							],
+							"query": [
+								{
+									"key": "incluirInativos",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar produtos por restaurante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar foto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "Produto teste",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "/C:/Users/domk/OneDrive - GFT Technologies SE/Desktop/imgsTest/Bife1.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/1/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"1",
+								"foto"
 							]
 						}
 					},
