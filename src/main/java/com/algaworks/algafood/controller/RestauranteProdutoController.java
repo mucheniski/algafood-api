@@ -67,9 +67,14 @@ public class RestauranteProdutoController {
 		da requisição, no postman é o endpoint /atualizar-foto
 	 */
 	@PutMapping(value = "{produtoId}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, FotoProdutoDTO fotoProdutoDTO) {
+	public void atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoDTO fotoProdutoDTO) {
 
 		var nomeArquivo = UUID.randomUUID().toString() + "_" + fotoProdutoDTO.getArquivo().getOriginalFilename();
+
+		/*
+			O Path.of estava dando um erro que não consegui entender, por esse motivo usei o método que ele chama
+			FileSystems.getDefault().getPath()
+		 */
 		var arquivoFoto = FileSystems.getDefault().getPath("C:\\ws-developer\\algafood-api\\img\\catalogo", nomeArquivo);
 
 		System.out.println(fotoProdutoDTO.getDescricao());
