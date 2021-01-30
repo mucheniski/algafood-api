@@ -14,6 +14,7 @@ DELETE FROM usuario;
 DELETE FROM usuario_grupo;
 DELETE FROM item_pedido;
 DELETE FROM pedido;
+DELETE FROM foto_produto;
 
 SET FOREIGN_KEY_CHECKS=1;
 
