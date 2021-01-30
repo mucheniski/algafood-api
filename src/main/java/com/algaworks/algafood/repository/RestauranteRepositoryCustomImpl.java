@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -21,7 +20,7 @@ import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.repository.spec.RestauranteSpecs;
 
 @Repository
-public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
+public class RestauranteRepositoryCustomImpl implements RestauranteRepositoryCustom {
 
 	@PersistenceContext
 	private EntityManager manager;

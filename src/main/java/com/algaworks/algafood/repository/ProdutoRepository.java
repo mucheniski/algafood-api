@@ -12,8 +12,8 @@ import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
-		
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoRepositoryCustom {
+
 //	@Query("FROM Restaurante WHERE nome LIKE %:nome% AND cozinha.id = :cozinhaId" )
 //	List<Restaurante> consultarPorNome(String nome, @Param("cozinhaId") Long cozinhaId); // O nome não precisa do @Param pois como é o mesmo nome do atributo o spring data já faz o binding
 
@@ -23,6 +23,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	List<Produto> findByRestaurante(Restaurante restaurante);
 	
 	@Query("from Produto produto where produto.ativo = true and produto.restaurante = :restaurante")
-	List<Produto> buscaApenasAtivosPorRestaurante(Restaurante restaurante);	
+	List<Produto> buscaApenasAtivosPorRestaurante(Restaurante restaurante);
 	
 }

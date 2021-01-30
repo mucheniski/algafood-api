@@ -3,6 +3,7 @@ package com.algaworks.algafood.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.algaworks.algafood.entity.FotoProduto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,9 @@ import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.repository.ProdutoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+// TODO: Verificar se os métodos ficam aqui ou no RestauranteProdutoService
 @Service
 public class ProdutoService {
 	
@@ -30,7 +33,7 @@ public class ProdutoService {
 	}
 
 	public Produto salvar(Produto produto) {
-		return repository.save(produto);			
+		return repository.save(produto);
 	}
 
 	public List<Produto> buscarPorRestaurante(Restaurante restaurante) {
@@ -40,5 +43,9 @@ public class ProdutoService {
 	public List<Produto> buscaApenasAtivosPorRestaurante(Restaurante restaurante) {
 		return repository.buscaApenasAtivosPorRestaurante(restaurante);
 	}
-	
+
+	@Transactional
+	public FotoProduto salvarFotoProduto(FotoProduto fotoProduto) {
+		return repository.salvarFotoProduto(fotoProduto);
+	}
 }

@@ -265,36 +265,6 @@ public class RestauranteService {
 		restaurante.vincularFormaPagamento(formaPagamento);
 	}
 
-	public List<ProdutoDTO> listarProdutos(Long restauranteId) {
-		Restaurante restaurante = buscarPorId(restauranteId);
-		List<Produto> produtos = produtoService.buscaApenasAtivosPorRestaurante(restaurante);		
-		return produtoConversor.converterListaParaDTO(produtos);
-	}
-
-	public ProdutoDTO buscarProdutoPorRestaurante(Long restauranteId, Long produtoId) {
-		Restaurante restaurante = buscarPorId(restauranteId);
-		Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
-		return produtoConversor.converterParaDTO(produto);
-	}
-
-	@Transactional
-	public ProdutoDTO adicionarProduto(ProdutoDTO produtoDTO, Long restauranteId) {
-		Restaurante restaurante = buscarPorId(restauranteId);		
-		Produto produto = produtoConversor.converterParaObjeto(produtoDTO);
-		produto.setRestaurante(restaurante);
-		produtoService.salvar(produto);
-		restaurante.adicionarProduto(produto);
-		return produtoConversor.converterParaDTO(produto);
-	}
-	
-	@Transactional
-	public ProdutoDTO atualizarProduto(Long restauranteId, Long produtoId, ProdutoDTO produtoDTO) {
-		Restaurante restaurante = buscarPorId(restauranteId);
-		Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
-		produtoConversor.copiarParaObjeto(produtoDTO, produto);
-		return produtoConversor.converterParaDTO(produto);
-	}
-
 	@Transactional
 	public void abrir(Long id) {
 		Restaurante restaurante = buscarPorId(id);
@@ -333,18 +303,6 @@ public class RestauranteService {
 		restaurante.desvincularReponsavel(responsavel);		
 	}
 
-	public List<ProdutoDTO> listarProdutosOpcaoInativo(Long restauranteId, boolean incluirInativos) {
-		List<Produto> todosProdutos = new ArrayList<>();
-		Restaurante restaurante = buscarPorId(restauranteId);
-		
-		if (incluirInativos) {
-			todosProdutos = produtoService.buscarPorRestaurante(restaurante);
-		} 		
-		else {
-			todosProdutos = produtoService.buscaApenasAtivosPorRestaurante(restaurante);
-		}
-		
-		return produtoConversor.converterListaParaDTO(todosProdutos);
-	}
+
 		
 }
