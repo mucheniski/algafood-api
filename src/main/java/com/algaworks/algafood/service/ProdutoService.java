@@ -48,4 +48,12 @@ public class ProdutoService {
 	public FotoProduto salvarFotoProduto(FotoProduto fotoProduto) {
 		return repository.salvarFotoProduto(fotoProduto);
 	}
+
+    public Optional<FotoProduto> buscarFotoPorId(Long restauranteId, Long produtoId) {
+		return repository.buscarFotoPorId(restauranteId, produtoId);
+    }
+
+    public void apagaFotoProduto(FotoProduto fotoProduto) {
+		repository.apagaFotoProduto(fotoProduto);
+	}
 }

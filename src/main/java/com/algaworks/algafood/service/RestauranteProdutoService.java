@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestauranteProdutoService {
@@ -98,7 +99,20 @@ public class RestauranteProdutoService {
 
     @Transactional
     public FotoProdutoDTO salvarFotoProduto(Long restauranteId, Long produtoId, FotoProdutoPutDTO fotoProdutoPutDTO) {
+        apagaFotoExistente(restauranteId, produtoId);
+        FotoProduto fotoProduto = salvarFotoNova(restauranteId, produtoId, fotoProdutoPutDTO);
+        return fotoProdutoConversor.converterParaDTO(fotoProduto);
+    }
 
+    private void apagaFotoExistente(Long restauranteId, Long produtoId) {
+        Optional<FotoProduto> fotoExistente = produtoService.buscarFotoPorId(restauranteId, produtoId);
+
+        if (fotoExistente.isPresent()) {
+            produtoService.apagaFotoProduto(fotoExistente.get());
+        }
+    }
+
+    private FotoProduto salvarFotoNova(Long restauranteId, Long produtoId, FotoProdutoPutDTO fotoProdutoPutDTO) {
         Produto produto = buscarProdutoPorRestaurante(restauranteId, produtoId);
 
         MultipartFile arquivo = fotoProdutoPutDTO.getArquivo();
@@ -111,8 +125,7 @@ public class RestauranteProdutoService {
         fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 
         fotoProduto = produtoService.salvarFotoProduto(fotoProduto);
-
-        return fotoProdutoConversor.converterParaDTO(fotoProduto);
+        return fotoProduto;
     }
 
 }

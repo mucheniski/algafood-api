@@ -18,4 +18,9 @@ public class ProdutoRepositoryCustomImpl implements ProdutoRepositoryCustom {
     public FotoProduto salvarFotoProduto(FotoProduto fotoProduto) {
         return manager.merge(fotoProduto);
     }
+
+    @Override
+    public void apagaFotoProduto(FotoProduto fotoProduto) {
+        manager.remove(fotoProduto);
+    }
 }
