@@ -31,11 +31,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>, Produto
 		o select para saber o que precisa ser retornado, no caso só quero
 		que retorne os dados de fotoProduto
 	 */
-	@Query(" select fotoProduto"
-		+  " from FotoProduto fotoProduto "
-	    +  " join Produto produto "
-	    +  " where produto.restaurante.id = :restauranteId "
-	    +  " and produto.id = :produtoId ")
+	@Query("select f from FotoProduto f join f.produto p where p.restaurante.id = :restauranteId and f.produto.id = :produtoId")
 	Optional<FotoProduto> buscarFotoPorId(Long restauranteId, Long produtoId);
 	
 }

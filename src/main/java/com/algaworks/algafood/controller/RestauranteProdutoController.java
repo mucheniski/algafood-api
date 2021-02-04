@@ -1,5 +1,6 @@
 package com.algaworks.algafood.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -64,7 +65,7 @@ public class RestauranteProdutoController {
 		da requisição, no postman é o endpoint /atualizar-foto
 	 */
 	@PutMapping(value = "{produtoId}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public FotoProdutoDTO salvarFotoProduto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoPutDTO fotoProdutoPutDTO) {
+	public FotoProdutoDTO salvarFotoProduto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoPutDTO fotoProdutoPutDTO) throws IOException {
 		return restauranteProdutoService.salvarFotoProduto(restauranteId, produtoId, fotoProdutoPutDTO);
 	}
 

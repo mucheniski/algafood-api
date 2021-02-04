@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import com.algaworks.algafood.entity.FotoProduto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.repository.ProdutoRepository;
+import com.algaworks.algafood.service.ArmazenamentoArquivosService.NovaFoto;
+
+import lombok.var;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 // TODO: Verificar se os métodos ficam aqui ou no RestauranteProdutoService
@@ -19,6 +21,9 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository repository;
+
+	@Autowired
+	private ArmazenamentoArquivosService armazenamentoArquivosService;
 
 	public Produto buscarPorId(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id)); 
@@ -46,7 +51,14 @@ public class ProdutoService {
 
 	@Transactional
 	public FotoProduto salvarFotoProduto(FotoProduto fotoProduto) {
-		return repository.salvarFotoProduto(fotoProduto);
+		var novoNomeArquivo = armazenamentoArquivosService.gerarNovoNome(fotoProduto.getNomeArquivo());
+		fotoProduto.setNomeArquivo(novoNomeArquivo);
+		var fotoSalva = repository.salvarFotoProduto(fotoProduto);
+
+		// Informa ao JPA para descarregar tudo o que estiver na fila para a base
+		repository.flush();
+
+		return fotoSalva;
 	}
 
     public Optional<FotoProduto> buscarFotoPorId(Long restauranteId, Long produtoId) {
@@ -56,4 +68,10 @@ public class ProdutoService {
     public void apagaFotoProduto(FotoProduto fotoProduto) {
 		repository.apagaFotoProduto(fotoProduto);
 	}
+
+	public void armazenarFotoLocal(NovaFoto novaFoto) {
+		armazenamentoArquivosService.armazenarFotoLocal(novaFoto);
+	}
+
+
 }

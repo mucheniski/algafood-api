@@ -12,11 +12,15 @@ import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
+import com.algaworks.algafood.service.ArmazenamentoArquivosService.NovaFoto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,9 +102,11 @@ public class RestauranteProdutoService {
     }
 
     @Transactional
-    public FotoProdutoDTO salvarFotoProduto(Long restauranteId, Long produtoId, FotoProdutoPutDTO fotoProdutoPutDTO) {
+    public FotoProdutoDTO salvarFotoProduto(Long restauranteId, Long produtoId, FotoProdutoPutDTO fotoProdutoPutDTO) throws IOException {
         apagaFotoExistente(restauranteId, produtoId);
-        FotoProduto fotoProduto = salvarFotoNova(restauranteId, produtoId, fotoProdutoPutDTO);
+        FotoProduto fotoProduto = salvaFotoNova(restauranteId, produtoId, fotoProdutoPutDTO);
+        InputStream dadosAquivo = fotoProdutoPutDTO.getArquivo().getInputStream();
+        armazenarFotoLocal(fotoProduto, dadosAquivo);
         return fotoProdutoConversor.converterParaDTO(fotoProduto);
     }
 
@@ -112,7 +118,7 @@ public class RestauranteProdutoService {
         }
     }
 
-    private FotoProduto salvarFotoNova(Long restauranteId, Long produtoId, FotoProdutoPutDTO fotoProdutoPutDTO) {
+    private FotoProduto salvaFotoNova(Long restauranteId, Long produtoId, FotoProdutoPutDTO fotoProdutoPutDTO) {
         Produto produto = buscarProdutoPorRestaurante(restauranteId, produtoId);
 
         MultipartFile arquivo = fotoProdutoPutDTO.getArquivo();
@@ -124,8 +130,18 @@ public class RestauranteProdutoService {
         fotoProduto.setTamanho(arquivo.getSize());
         fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 
-        fotoProduto = produtoService.salvarFotoProduto(fotoProduto);
-        return fotoProduto;
+        return produtoService.salvarFotoProduto(fotoProduto);
+    }
+
+    private void armazenarFotoLocal(FotoProduto fotoProduto, InputStream dadosArquivo) {
+
+        NovaFoto novaFoto = NovaFoto.builder()
+                                        .nomeArquivo(fotoProduto.getNomeArquivo())
+                                        .inputStream(dadosArquivo)
+                                    .build();
+
+        produtoService.armazenarFotoLocal(novaFoto);
+
     }
 
 }
