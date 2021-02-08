@@ -46,6 +46,16 @@ public class ArmazenamentoArquivosServiceImpl implements ArmazenamentoArquivosSe
         }
     }
 
+    @Override
+    public InputStream recuperarFoto(String nomeFoto) {
+        try {
+            Path caminhoDoArquivo = buscarCaminhoDoArquivo(nomeFoto);
+            return Files.newInputStream(caminhoDoArquivo);
+        } catch (Exception e) {
+            throw new ArmazenamentoException("Não foi possível recuperar arquivo.", e);
+        }
+    }
+
     private Path buscarCaminhoDoArquivo(String nomeArquivo) {
         return FileSystems.getDefault().getPath(diretorioFotos, nomeArquivo);
     }

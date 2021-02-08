@@ -12,6 +12,8 @@ public interface ArmazenamentoArquivosService {
 
     void removerFotoAnterior(String nomeFotoAnterior);
 
+    InputStream recuperarFoto(String nomeFoto);
+
     /*
         Default significa que não é só a assinatura do método e sim a implementação também
      */
