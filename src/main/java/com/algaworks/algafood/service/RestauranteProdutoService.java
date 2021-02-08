@@ -14,6 +14,7 @@ import com.algaworks.algafood.exception.RestauranteNaoEncotradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.ArmazenamentoArquivosService.NovaFoto;
 
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,7 +113,6 @@ public class RestauranteProdutoService {
 
     private void apagaFotoExistente(Long restauranteId, Long produtoId) {
         Optional<FotoProduto> fotoExistente = produtoService.buscarFotoPorId(restauranteId, produtoId);
-
         if (fotoExistente.isPresent()) {
             produtoService.apagaFotoProduto(fotoExistente.get());
         }

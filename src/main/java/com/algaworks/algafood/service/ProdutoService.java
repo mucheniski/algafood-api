@@ -66,6 +66,11 @@ public class ProdutoService {
     }
 
     public void apagaFotoProduto(FotoProduto fotoProduto) {
+		var nomeFotoAntiga = fotoProduto.getNomeArquivo();
+		if (nomeFotoAntiga != null) {
+			armazenamentoArquivosService.removerFotoAnterior(fotoProduto.getNomeArquivo());
+		}
+
 		repository.apagaFotoProduto(fotoProduto);
 	}
 

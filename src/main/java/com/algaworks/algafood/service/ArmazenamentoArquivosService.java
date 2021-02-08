@@ -10,6 +10,8 @@ public interface ArmazenamentoArquivosService {
 
     void armazenarFotoLocal(NovaFoto novaFoto);
 
+    void removerFotoAnterior(String nomeFotoAnterior);
+
     /*
         Default significa que não é só a assinatura do método e sim a implementação também
      */
