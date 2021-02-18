@@ -85,6 +85,12 @@ public class RestauranteProdutoService {
         FotoProduto fotoProduto = produtoService.buscarFotoPorProduto(produto.getId());
         return fotoProdutoConversor.converterParaDTO(fotoProduto);
     }
+    public InputStream buscarImagemFotoProdutoPorRestaurante(Long restauranteId, Long produtoId) {
+        Restaurante restaurante = buscarPorId(restauranteId);
+        Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
+        FotoProduto fotoProduto = produtoService.buscarFotoPorProduto(produto.getId());
+        return produtoService.recuperarFoto(fotoProduto.getNomeArquivo());
+    }
 
     public Produto buscarProdutoPorRestaurante(Long restauranteId, Long produtoId) {
         Restaurante restaurante = buscarPorId(restauranteId);

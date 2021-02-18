@@ -395,6 +395,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "buscar detalhes da foto do produto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/1/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"1",
+								"foto"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -526,103 +548,6 @@
 		{
 			"name": "cidade",
 			"item": [
-				{
-					"name": "cidade",
-					"item": [
-						{
-							"name": "listar",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:8080/cidades",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"cidades"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "buscar por id",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:8080/cidades/1",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"cidades",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "salvar",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"nome\": \"Cidade Postman\",\n    \"estado\": {\n        \"id\": 2\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "localhost:8080/cidades",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"cidades"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "atualizar",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"nome\": \"Cidade Postman Atualizada\",\n    \"estado\": {\n        \"id\": 2\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "localhost:8080/cidades/2",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"cidades",
-										"2"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
 				{
 					"name": "listar",
 					"request": {
@@ -1525,7 +1450,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/4",
+							"raw": "localhost:8080/restaurantes/1/produtos/1",
 							"host": [
 								"localhost"
 							],
@@ -1534,7 +1459,44 @@
 								"restaurantes",
 								"1",
 								"produtos",
-								"4"
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar foto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "Produto teste",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "/C:/Users/domk/OneDrive - GFT Technologies SE/Desktop/imgsTest/Bife1.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/2/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"2",
+								"foto"
 							]
 						}
 					},
@@ -1609,9 +1571,12 @@
 					"response": []
 				},
 				{
-					"name": "atualizar foto",
+					"name": "recuperar json foto",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "PUT",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -1629,7 +1594,7 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/1/foto",
+							"raw": "localhost:8080/restaurantes/1/produtos/2/foto-json",
 							"host": [
 								"localhost"
 							],
@@ -1638,8 +1603,48 @@
 								"restaurantes",
 								"1",
 								"produtos",
+								"2",
+								"foto-json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recuperar imagem",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "Produto teste",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "/C:/Users/domk/OneDrive - GFT Technologies SE/Desktop/imgsTest/Bife1.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/2/foto-imagem",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
 								"1",
-								"foto"
+								"produtos",
+								"2",
+								"foto-imagem"
 							]
 						}
 					},

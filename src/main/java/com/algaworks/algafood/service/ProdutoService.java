@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,4 +89,9 @@ public class ProdutoService {
 	public FotoProduto buscarFotoPorProduto(Long produtoId) {
 		return fotoProdutoRepository.findById(produtoId).orElseThrow(() -> new FotoProdutoNaoEncontradaException(produtoId));
 	}
+
+	public InputStream recuperarFoto(String nomeFoto) {
+		return armazenamentoArquivosService.recuperarFoto(nomeFoto);
+	}
+
 }

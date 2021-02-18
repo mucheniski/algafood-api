@@ -1,6 +1,7 @@
 package com.algaworks.algafood.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -10,8 +11,10 @@ import com.algaworks.algafood.dto.FotoProdutoPutDTO;
 import com.algaworks.algafood.service.ProdutoService;
 import com.algaworks.algafood.service.RestauranteProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,9 +72,18 @@ public class RestauranteProdutoController {
 		return restauranteProdutoService.salvarFotoProduto(restauranteId, produtoId, fotoProdutoPutDTO);
 	}
 
-	@GetMapping("/{produtoId}/foto")
+	@GetMapping("/{produtoId}/foto-json")
 	public FotoProdutoDTO buscarDadosFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		return restauranteProdutoService.buscarFotoProdutoPorRestaurante(restauranteId, produtoId);
+	}
+
+	@GetMapping("/{produtoId}/foto-imagem")
+	public ResponseEntity<InputStreamResource> mostrarImagemFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
+		InputStream fotoInputStream = restauranteProdutoService.buscarImagemFotoProdutoPorRestaurante(restauranteId, produtoId);
+
+		return ResponseEntity.ok()
+				.contentType(MediaType.IMAGE_JPEG)
+				.body(new InputStreamResource(fotoInputStream));
 	}
 
 }
