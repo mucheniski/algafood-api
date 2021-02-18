@@ -79,6 +79,13 @@ public class RestauranteProdutoService {
         return produtoConversor.converterParaDTO(produto);
     }
 
+    public FotoProdutoDTO buscarFotoProdutoPorRestaurante(Long restauranteId, Long produtoId) {
+        Restaurante restaurante = buscarPorId(restauranteId);
+        Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
+        FotoProduto fotoProduto = produtoService.buscarFotoPorProduto(produto.getId());
+        return fotoProdutoConversor.converterParaDTO(fotoProduto);
+    }
+
     public Produto buscarProdutoPorRestaurante(Long restauranteId, Long produtoId) {
         Restaurante restaurante = buscarPorId(restauranteId);
         return produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);

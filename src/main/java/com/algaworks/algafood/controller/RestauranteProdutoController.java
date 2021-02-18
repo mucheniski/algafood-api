@@ -64,9 +64,14 @@ public class RestauranteProdutoController {
 		FotoProdutoDTO não é anotado com @RequestBody porque não vem como JSON e sim como parâmetros
 		da requisição, no postman é o endpoint /atualizar-foto
 	 */
-	@PutMapping(value = "{produtoId}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PutMapping(value = "/{produtoId}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDTO salvarFotoProduto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoPutDTO fotoProdutoPutDTO) throws IOException {
 		return restauranteProdutoService.salvarFotoProduto(restauranteId, produtoId, fotoProdutoPutDTO);
+	}
+
+	@GetMapping("/{produtoId}/foto")
+	public FotoProdutoDTO buscarDadosFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
+		return restauranteProdutoService.buscarFotoProdutoPorRestaurante(restauranteId, produtoId);
 	}
 
 }

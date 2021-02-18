@@ -6,7 +6,10 @@ import java.util.Optional;
 import com.algaworks.algafood.entity.FotoProduto;
 import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
+import com.algaworks.algafood.exception.FotoProdutoNaoEncontradaException;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.ProdutoNaoEncontradoException;
+import com.algaworks.algafood.repository.FotoProdutoRepository;
 import com.algaworks.algafood.repository.ProdutoRepository;
 import com.algaworks.algafood.service.ArmazenamentoArquivosService.NovaFoto;
 
@@ -21,6 +24,9 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository repository;
+
+	@Autowired
+	private FotoProdutoRepository fotoProdutoRepository;
 
 	@Autowired
 	private ArmazenamentoArquivosService armazenamentoArquivosService;
@@ -79,4 +85,7 @@ public class ProdutoService {
 	}
 
 
+	public FotoProduto buscarFotoPorProduto(Long produtoId) {
+		return fotoProdutoRepository.findById(produtoId).orElseThrow(() -> new FotoProdutoNaoEncontradaException(produtoId));
+	}
 }
