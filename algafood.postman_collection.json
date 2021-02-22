@@ -1481,7 +1481,7 @@
 								{
 									"key": "arquivo",
 									"type": "file",
-									"src": "/C:/Users/domk/OneDrive - GFT Technologies SE/Desktop/imgsTest/Bife1.PNG"
+									"src": "/C:/Users/domk/OneDrive - GFT Technologies SE/Desktop/imgsTest/Bife1.png"
 								}
 							]
 						},
@@ -1617,7 +1617,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "image/png,image/jpeg",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [

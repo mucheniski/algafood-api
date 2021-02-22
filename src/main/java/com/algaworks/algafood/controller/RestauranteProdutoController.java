@@ -15,15 +15,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.bind.annotation.*;
 
 import com.algaworks.algafood.dto.ProdutoDTO;
 
@@ -77,12 +70,16 @@ public class RestauranteProdutoController {
 		return restauranteProdutoService.buscarFotoProdutoPorRestaurante(restauranteId, produtoId);
 	}
 
+	/*
+		@RequestHeader serve para que o consumidor da API envie informações no request
+		no caso o name accept busca as informações que foram passadas no accept do postman
+		que são os tipos de media aceitos na requisição image/png, image/jpeg ou image/* que aceita todos os tipos
+	 */
 	@GetMapping("/{produtoId}/foto-imagem")
-	public ResponseEntity<InputStreamResource> mostrarImagemFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
-		InputStream fotoInputStream = restauranteProdutoService.buscarImagemFotoProdutoPorRestaurante(restauranteId, produtoId);
+	public ResponseEntity<InputStreamResource> mostrarImagemFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @RequestHeader(name = "accept") String mediasAceitasHeader) throws HttpMediaTypeNotAcceptableException {
+		InputStream fotoInputStream = restauranteProdutoService.buscarImagemFotoProdutoPorRestaurante(restauranteId, produtoId, mediasAceitasHeader);
 
 		return ResponseEntity.ok()
-				.contentType(MediaType.IMAGE_JPEG)
 				.body(new InputStreamResource(fotoInputStream));
 	}
 

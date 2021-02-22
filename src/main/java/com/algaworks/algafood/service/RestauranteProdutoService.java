@@ -16,8 +16,10 @@ import com.algaworks.algafood.service.ArmazenamentoArquivosService.NovaFoto;
 
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -85,10 +87,12 @@ public class RestauranteProdutoService {
         FotoProduto fotoProduto = produtoService.buscarFotoPorProduto(produto.getId());
         return fotoProdutoConversor.converterParaDTO(fotoProduto);
     }
-    public InputStream buscarImagemFotoProdutoPorRestaurante(Long restauranteId, Long produtoId) {
+    public InputStream buscarImagemFotoProdutoPorRestaurante(Long restauranteId, Long produtoId, String mediasAceitasHeader) throws HttpMediaTypeNotAcceptableException {
         Restaurante restaurante = buscarPorId(restauranteId);
         Produto produto = produtoService.buscarProdutoPorRestaurante(restaurante, produtoId);
         FotoProduto fotoProduto = produtoService.buscarFotoPorProduto(produto.getId());
+        MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
+        verificarCompatibilidade(mediaTypeFoto, mediasAceitasHeader);
         return produtoService.recuperarFoto(fotoProduto.getNomeArquivo());
     }
 
@@ -155,6 +159,15 @@ public class RestauranteProdutoService {
 
         produtoService.armazenarFotoLocal(novaFoto);
 
+    }
+
+    private void verificarCompatibilidade(MediaType mediaTypeFoto, String mediasAceitasHeader) throws HttpMediaTypeNotAcceptableException {
+        List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(mediasAceitasHeader);
+        boolean mediaCompativel = mediaTypesAceitas.stream().anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
+
+        if(!mediaCompativel) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
+        }
     }
 
 }
