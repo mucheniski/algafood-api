@@ -65,6 +65,12 @@ public class RestauranteProdutoController {
 		return restauranteProdutoService.salvarFotoProduto(restauranteId, produtoId, fotoProdutoPutDTO);
 	}
 
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@DeleteMapping("/{produtoId}/foto")
+	public void deletarFotoProduto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
+		restauranteProdutoService.deletarFotoProduto(restauranteId, produtoId);
+	}
+
 	@GetMapping("/{produtoId}/foto-json")
 	public FotoProdutoDTO buscarDadosFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		return restauranteProdutoService.buscarFotoProdutoPorRestaurante(restauranteId, produtoId);

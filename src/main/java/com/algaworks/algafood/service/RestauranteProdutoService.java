@@ -128,8 +128,13 @@ public class RestauranteProdutoService {
         return fotoProdutoConversor.converterParaDTO(fotoProduto);
     }
 
+    @Transactional
+    public void deletarFotoProduto(Long restauranteId, Long produtoId) {
+        apagaFotoExistente(restauranteId, produtoId);
+    }
+
     private void apagaFotoExistente(Long restauranteId, Long produtoId) {
-        Optional<FotoProduto> fotoExistente = produtoService.buscarFotoPorId(restauranteId, produtoId);
+        Optional<FotoProduto> fotoExistente = produtoService.buscarFotoPorId(restauranteId, produto.getId());
         if (fotoExistente.isPresent()) {
             produtoService.apagaFotoProduto(fotoExistente.get());
         }
