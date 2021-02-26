@@ -199,4 +199,6 @@ No Accept o consumidor da API precisa passar application/pdf,application/json no
 algum erro, o retorno possa ser devolvido em JSON.
 
 Dependences japserreports https://search.maven.org/search?q=g:net.sf.jasperreports
-Usar a mesma versão do jaspersoft studio que estiver usando para criar os reports
+Usar a mesma versão do jaspersoft studio que estiver usando para criar os reports  
+
+Amazon S3 é o serviço de armazenamento de arquivos da amazon
