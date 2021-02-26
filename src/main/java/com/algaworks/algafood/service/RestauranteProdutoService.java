@@ -12,9 +12,8 @@ import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
-import com.algaworks.algafood.service.ArmazenamentoArquivosService.NovaFoto;
+import com.algaworks.algafood.service.ArmazenamentoLocalService.NovaFoto;
 
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;

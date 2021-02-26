@@ -4,7 +4,6 @@ import com.algaworks.algafood.dto.VendaDiariaDTO;
 import com.algaworks.algafood.filtro.VendaDiariaFiltro;
 import com.algaworks.algafood.report.VendaReport;
 import com.algaworks.algafood.service.VendaConsultasService;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

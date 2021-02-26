@@ -1,27 +1,22 @@
 package com.algaworks.algafood.service;
 
 import com.algaworks.algafood.exception.ArmazenamentoException;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.var;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class ArmazenamentoArquivosServiceImpl implements ArmazenamentoArquivosService {
+public class ArmazenamentoLocalServiceImpl implements ArmazenamentoLocalService {
 
-    /*
-        O caminho vem do application.properties
-     */
-    @Value("${algafood.armazenamento.local.diretorioFotos}")
-    private String diretorioFotos;
+    @Autowired
+    ArmazenamentoProperties armazenamentoProperties;
 
     @Override
     public void armazenarFotoLocal(NovaFoto novaFoto) {
@@ -57,6 +52,7 @@ public class ArmazenamentoArquivosServiceImpl implements ArmazenamentoArquivosSe
     }
 
     private Path buscarCaminhoDoArquivo(String nomeArquivo) {
+        String diretorioFotos = armazenamentoProperties.getLocal().getDiretorioFotos().toString();
         return FileSystems.getDefault().getPath(diretorioFotos, nomeArquivo);
     }
 
