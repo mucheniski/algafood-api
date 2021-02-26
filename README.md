@@ -203,3 +203,4 @@ Usar a mesma versão do jaspersoft studio que estiver usando para criar os repor
 
 Amazon S3 é o serviço de armazenamento de arquivos da amazon
 IAM é o serviço de gerenciador de usuários e acessos.
+Para acessar os arquivos no S3 é preciso associar às permissões de segurança e criar as chaves de acesso.
