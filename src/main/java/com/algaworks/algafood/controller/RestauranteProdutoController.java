@@ -80,6 +80,8 @@ public class RestauranteProdutoController {
 		@RequestHeader serve para que o consumidor da API envie informações no request
 		no caso o name accept busca as informações que foram passadas no accept do postman
 		que são os tipos de media aceitos na requisição image/png, image/jpeg ou image/* que aceita todos os tipos
+		14.16. Corrigindo exception handler de media type não aceita
+		Não foi necessário corrigir pois implementei em endpoints separados
 	 */
 	@GetMapping("/{produtoId}/foto-imagem")
 	public ResponseEntity<InputStreamResource> mostrarImagemFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @RequestHeader(name = "accept") String mediasAceitasHeader) throws HttpMediaTypeNotAcceptableException {

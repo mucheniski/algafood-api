@@ -134,7 +134,7 @@ public class RestauranteProdutoService {
     }
 
     private void apagaFotoExistente(Long restauranteId, Long produtoId) {
-        Optional<FotoProduto> fotoExistente = produtoService.buscarFotoPorId(restauranteId, produto.getId());
+        Optional<FotoProduto> fotoExistente = produtoService.buscarFotoPorId(restauranteId, produtoId);
         if (fotoExistente.isPresent()) {
             produtoService.apagaFotoProduto(fotoExistente.get());
         }

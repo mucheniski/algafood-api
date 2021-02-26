@@ -1655,6 +1655,44 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "deletar foto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "Produto teste",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/2/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"2",
+								"foto"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
