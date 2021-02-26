@@ -11,7 +11,7 @@ import com.algaworks.algafood.exception.FotoProdutoNaoEncontradaException;
 import com.algaworks.algafood.exception.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.repository.FotoProdutoRepository;
 import com.algaworks.algafood.repository.ProdutoRepository;
-import com.algaworks.algafood.service.ArmazenamentoLocalService.NovaFoto;
+import com.algaworks.algafood.service.ArmazenamentoService.NovaFoto;
 
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class ProdutoService {
 	private FotoProdutoRepository fotoProdutoRepository;
 
 	@Autowired
-	private ArmazenamentoLocalService armazenamentoArquivosService;
+	private ArmazenamentoService armazenamentoArquivosService;
 
 	public Produto buscarPorId(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id)); 

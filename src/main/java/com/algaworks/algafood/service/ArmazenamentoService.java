@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.io.InputStream;
 import java.util.UUID;
 
-public interface ArmazenamentoLocalService {
+public interface ArmazenamentoService {
 
     void armazenarFotoLocal(NovaFoto novaFoto);
 

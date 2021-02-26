@@ -3,7 +3,6 @@ package com.algaworks.algafood.service;
 import com.algaworks.algafood.exception.ArmazenamentoException;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -13,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class ArmazenamentoLocalServiceImpl implements ArmazenamentoLocalService {
+public class ArmazenamentoLocalServiceImpl implements ArmazenamentoService {
 
     @Autowired
     ArmazenamentoProperties armazenamentoProperties;
