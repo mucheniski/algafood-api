@@ -202,3 +202,4 @@ Dependences japserreports https://search.maven.org/search?q=g:net.sf.jasperrepor
 Usar a mesma versão do jaspersoft studio que estiver usando para criar os reports  
 
 Amazon S3 é o serviço de armazenamento de arquivos da amazon
+IAM é o serviço de gerenciador de usuários e acessos.
