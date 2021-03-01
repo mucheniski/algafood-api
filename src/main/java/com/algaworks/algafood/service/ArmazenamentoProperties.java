@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import com.amazonaws.regions.Regions;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -41,7 +42,7 @@ public class ArmazenamentoProperties {
         private String idChaveAcesso;
         private String chaveAcessoSecreta;
         private String nomeBucket;
-        private String regiao;
+        private Regions regiao;
         private String diretorioFotos;
     }
 
