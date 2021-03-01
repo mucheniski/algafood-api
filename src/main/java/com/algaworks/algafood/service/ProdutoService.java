@@ -80,7 +80,7 @@ public class ProdutoService {
 		repository.apagaFotoProduto(fotoProduto);
 	}
 
-	public void armazenarFotoLocal(NovaFoto novaFoto) {
+	public void armazenarFoto(NovaFoto novaFoto) {
 		armazenamentoArquivosService.armazenarFoto(novaFoto);
 	}
 

@@ -3,6 +3,7 @@ package com.algaworks.algafood.service;
 import com.algaworks.algafood.exception.ArmazenamentoException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.var;
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 
 /*
-    Deixei o service comentado porque não criei a conta da Amazon, apenas acompanhei
-    as aulas
+    Deixei o service comentado porque não criei a conta da Amazon, apenas acompanhei as aulas
  */
 // @Service
 public class ArmazenamentoAmazonS3Service implements ArmazenamentoService{
@@ -48,7 +48,10 @@ public class ArmazenamentoAmazonS3Service implements ArmazenamentoService{
 
     @Override
     public void removerFotoAnterior(String nomeFotoAnterior) {
-        // Para remover é preciso usar um deleteObjetRequest
+        String caminhoArquivo = getCaminhoArquivo(nomeFotoAnterior);
+        var objectMetadata = new ObjectMetadata();
+        var deleteObjectRequest = new DeleteObjectRequest(caminhoArquivo, armazenamentoProperties.getAmazonS3().getIdChaveAcesso());
+        amazonS3.deleteObject(deleteObjectRequest);
     }
 
     @Override

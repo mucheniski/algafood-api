@@ -123,7 +123,7 @@ public class RestauranteProdutoService {
         apagaFotoExistente(restauranteId, produtoId);
         FotoProduto fotoProduto = salvaFotoNova(restauranteId, produtoId, fotoProdutoPutDTO);
         InputStream dadosAquivo = fotoProdutoPutDTO.getArquivo().getInputStream();
-        armazenarFotoLocal(fotoProduto, dadosAquivo);
+        armazenarFoto(fotoProduto, dadosAquivo);
         return fotoProdutoConversor.converterParaDTO(fotoProduto);
     }
 
@@ -154,14 +154,14 @@ public class RestauranteProdutoService {
         return produtoService.salvarFotoProduto(fotoProduto);
     }
 
-    private void armazenarFotoLocal(FotoProduto fotoProduto, InputStream dadosArquivo) {
+    private void armazenarFoto(FotoProduto fotoProduto, InputStream dadosArquivo) {
 
         NovaFoto novaFoto = NovaFoto.builder()
                                         .nomeArquivo(fotoProduto.getNomeArquivo())
                                         .inputStream(dadosArquivo)
                                     .build();
 
-        produtoService.armazenarFotoLocal(novaFoto);
+        produtoService.armazenarFoto(novaFoto);
 
     }
 
