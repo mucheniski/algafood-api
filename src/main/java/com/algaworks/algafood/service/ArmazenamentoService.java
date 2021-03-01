@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ArmazenamentoService {
 
-    void armazenarFotoLocal(NovaFoto novaFoto);
+    void armazenarFoto(NovaFoto novaFoto);
 
     void removerFotoAnterior(String nomeFotoAnterior);
 

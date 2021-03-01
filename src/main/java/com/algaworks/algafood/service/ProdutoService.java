@@ -81,7 +81,7 @@ public class ProdutoService {
 	}
 
 	public void armazenarFotoLocal(NovaFoto novaFoto) {
-		armazenamentoArquivosService.armazenarFotoLocal(novaFoto);
+		armazenamentoArquivosService.armazenarFoto(novaFoto);
 	}
 
 

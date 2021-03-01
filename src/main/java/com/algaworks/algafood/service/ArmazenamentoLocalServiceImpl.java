@@ -18,7 +18,7 @@ public class ArmazenamentoLocalServiceImpl implements ArmazenamentoService {
     ArmazenamentoProperties armazenamentoProperties;
 
     @Override
-    public void armazenarFotoLocal(NovaFoto novaFoto) {
+    public void armazenarFoto(NovaFoto novaFoto) {
 
         try {
             // Aqui concatenamos o caminho com o nome do arquivo ex. user/img/nomeArquivo,jpg
