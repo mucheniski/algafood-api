@@ -90,7 +90,8 @@ public class ProdutoService {
 	}
 
 	public InputStream recuperarFoto(String nomeFoto) {
-		return armazenamentoArquivosService.recuperarFoto(nomeFoto);
+		var foto = armazenamentoArquivosService.recuperarFoto(nomeFoto);
+		return foto.getInputStream();
 	}
 
 }

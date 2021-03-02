@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.net.URL;
 
 /*
     Deixei o service comentado porque não criei a conta da Amazon, apenas acompanhei as aulas
+    O que define qual serviço é chamado é qual @Service está ativo no momento do build do projeto, o local ou o S3
  */
 // @Service
 public class ArmazenamentoAmazonS3Service implements ArmazenamentoService{
@@ -55,8 +57,15 @@ public class ArmazenamentoAmazonS3Service implements ArmazenamentoService{
     }
 
     @Override
-    public InputStream recuperarFoto(String nomeFoto) {
-        return null;
+    public FotoRecuperada recuperarFoto(String nomeFoto) {
+        String caminhoArquivo = getCaminhoArquivo(nomeFoto);
+
+        // getUrl(bucketName, key)
+        URL url = amazonS3.getUrl(armazenamentoProperties.getAmazonS3().getNomeBucket(), caminhoArquivo);
+
+        return FotoRecuperada.builder()
+                .url(url.toString())
+                .build();
     }
 
     private String getCaminhoArquivo(String nomeArquivo) {

@@ -41,10 +41,16 @@ public class ArmazenamentoLocalServiceImpl implements ArmazenamentoService {
     }
 
     @Override
-    public InputStream recuperarFoto(String nomeFoto) {
+    public FotoRecuperada recuperarFoto(String nomeFoto) {
         try {
             Path caminhoDoArquivo = buscarCaminhoDoArquivo(nomeFoto);
-            return Files.newInputStream(caminhoDoArquivo);
+
+            FotoRecuperada fotoRecuperada =
+                    FotoRecuperada.builder()
+                            .inputStream(Files.newInputStream(caminhoDoArquivo))
+                            .build();
+
+            return fotoRecuperada;
         } catch (Exception e) {
             throw new ArmazenamentoException("Não foi possível recuperar arquivo.", e);
         }

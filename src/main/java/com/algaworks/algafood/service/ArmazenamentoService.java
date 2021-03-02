@@ -12,7 +12,7 @@ public interface ArmazenamentoService {
 
     void removerFotoAnterior(String nomeFotoAnterior);
 
-    InputStream recuperarFoto(String nomeFoto);
+    FotoRecuperada recuperarFoto(String nomeFoto);
 
     /*
         Default significa que não é só a assinatura do método e sim a implementação também
@@ -27,6 +27,22 @@ public interface ArmazenamentoService {
     class NovaFoto {
         private String nomeArquivo;
         private InputStream inputStream;
+    }
+
+    @Builder
+    @Getter
+    class FotoRecuperada {
+        private InputStream inputStream;
+        private String url;
+
+        public boolean temUrl() {
+            return url != null;
+        }
+
+        public boolean temInputstream() {
+            return inputStream != null;
+        }
+
     }
 
 }
