@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import com.algaworks.algafood.enuns.TipoArmazenamento;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AmazonS3Configuration {
+public class ArmazenamentoConfiguration {
 
     @Autowired
     private ArmazenamentoProperties armazenamentoProperties;
@@ -29,6 +30,19 @@ public class AmazonS3Configuration {
                 .withCredentials(new AWSStaticCredentialsProvider(credenciais))
                 .withRegion(armazenamentoProperties.getAmazonS3().getRegiao())
                 .build();
+    }
+
+    /*
+        Esse bean define qual a configuração que vai ser usada
+        pode ser definido no application.properties
+     */
+    @Bean
+    public ArmazenamentoService armazenamentoService() {
+        if (TipoArmazenamento.S3.equals(armazenamentoProperties.getTipo())) {
+            return new ArmazenamentoAmazonS3Service();
+        } else {
+            return new ArmazenamentoLocalService();
+        }
     }
 
 }

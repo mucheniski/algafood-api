@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import com.algaworks.algafood.enuns.TipoArmazenamento;
 import com.amazonaws.regions.Regions;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class ArmazenamentoProperties {
      */
     private Local local =  new Local();
     private AmazonS3 amazonS3 = new AmazonS3();
+    private TipoArmazenamento tipo = TipoArmazenamento.LOCAL;
 
     /**
      * É atribuido no bean o caminho porque seque a nomenclatura definida no application.properties

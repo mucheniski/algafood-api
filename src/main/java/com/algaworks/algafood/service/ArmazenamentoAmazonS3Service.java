@@ -16,8 +16,8 @@ import java.net.URL;
 /*
     Deixei o service comentado porque não criei a conta da Amazon, apenas acompanhei as aulas
     O que define qual serviço é chamado é qual @Service está ativo no momento do build do projeto, o local ou o S3
+    também pode ser difinido no eu uma classe de configuração
  */
-// @Service
 public class ArmazenamentoAmazonS3Service implements ArmazenamentoService{
 
     @Autowired
