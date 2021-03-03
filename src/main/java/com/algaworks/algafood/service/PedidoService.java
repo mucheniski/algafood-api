@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.algaworks.algafood.mail.Email;
+import com.algaworks.algafood.mail.EnvioEmailService;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +28,7 @@ import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
 import com.algaworks.algafood.filtro.PedidoFiltro;
 import com.algaworks.algafood.repository.spec.PedidoSpecs;
+import com.algaworks.algafood.mail.Email;
 
 @Service
 public class PedidoService {
@@ -52,6 +56,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ProdutoService produtoService;
+
+	@Autowired
+	private EnvioEmailService envioEmailService;
 
 	public Pedido buscarPorCodigo(String codigo) {
 		return repository.findByCodigo(codigo).orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
@@ -97,7 +104,18 @@ public class PedidoService {
 	@Transactional
 	public void confirmarPedido(String codigo) {
 		Pedido pedido = buscarPorCodigo(codigo);
-		pedido.statusConfirmado();		
+		pedido.statusConfirmado();
+
+		var corpoEmail = "O pedido de código " + pedido.getCodigo() + " foi confirmado!";
+
+		var email = Email.builder()
+									.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
+									.corpo(corpoEmail)
+									.destinatario(pedido.getUsuarioCliente().getEmail())
+				               .build();
+
+		System.out.println("Email====== " + email);
+
 	}
 	
 	@Transactional
