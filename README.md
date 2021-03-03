@@ -205,4 +205,9 @@ Amazon S3 é o serviço de armazenamento de arquivos da amazon
 IAM é o serviço de gerenciador de usuários e acessos.
 Para acessar os arquivos no S3 é preciso associar às permissões de segurança e criar as chaves de acesso.
 A Amazon disponbiliza uma SDK java para gerenciamento do serviço S3, para adicionar essa SDK basta incluir as dependências
-dela no pom do projeto, ficam disponíveis no maven
+dela no pom do projeto, ficam disponíveis no maven  
+
+Serviço de e-mail usado para o desenvolvimento  
+[sendgrid](https://sendgrid.com/go/email-brand-signup-sales-1?extProvId=5&extPu=49397-gaw&extLi=10115892429&sem_adg=100335605654&extCr=100335605654-436969460050&extSi=&extTg=&keyword=sendgrid&extAP=&extMT=e&utm_term=sendgrid&utm_medium=cpc&utm_source=google&utm_campaign=GoogleAds_LATAM_Brand_(English)&campaignid=10115892429&adgroupid=100335605654&gclid=Cj0KCQiAhP2BBhDdARIsAJEzXlHJVqt8uky-uV8kcQuFfKK2REOskddBvYc6nl6p5PwpsLb1QNz7GVYaApmTEALw_wcB)  
+
+
