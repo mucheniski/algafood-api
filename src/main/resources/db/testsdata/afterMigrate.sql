@@ -87,8 +87,8 @@ INSERT INTO pedido (id, codigo, subtotal, taxa_frete, valor_total, data_criacao,
 VALUES (6, 'dae54918-2617-4997-81c4-eb3c6972ccc9', 30.0, 5.0, 35.0, utc_timestamp, null, null, null, 2, 2, 'ENTREGUE', 2, 'cep2', 'logradouro2', 'numero2', 'complemento2', 'bairro2', 2);
 
 INSERT INTO item_pedido (id, quantidade, preco_unitario, preco_total, observacao, produto_id, pedido_id)
-VALUES(1, 1, 10.0, 0, 'Observacao1', 1, 1);
+VALUES(1, 2, 10.0, 0, 'Observacao1', 1, 1);
 INSERT INTO item_pedido (id, quantidade, preco_unitario, preco_total, observacao, produto_id, pedido_id)
-VALUES(2, 1, 10.0, 0, 'Observacao2', 2, 1);
+VALUES(2, 3, 10.0, 0, 'Observacao2', 2, 1);
 INSERT INTO item_pedido (id, quantidade, preco_unitario, preco_total, observacao, produto_id, pedido_id)
 VALUES(3, 2, 10.0, 0, 'Observacao3', 2, 2);

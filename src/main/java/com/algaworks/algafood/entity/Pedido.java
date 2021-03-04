@@ -82,7 +82,7 @@ public class Pedido {
 		
 	public void calcularValorTotal() {
 		
-		getItens().forEach(ItemPedido::calcularPrecoTotal);
+		getItens().forEach(ItemPedido::getPrecoTotal);
 		
 		// TODO: Verificar melhor como funciona o reduce
 		this.subtotal = getItens().stream()
