@@ -2,6 +2,7 @@ package com.algaworks.algafood.mail;
 
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @ToString
@@ -24,5 +25,9 @@ public class Email {
 
     @NonNull
     private String corpo;
+
+    // Também pode ser especificado qual o nome no singular
+    @Singular("variavel")
+    private Map<String, Object> variaveis;
 
 }

@@ -106,15 +106,14 @@ public class PedidoService {
 		Pedido pedido = buscarPorCodigo(codigo);
 		pedido.statusConfirmado();
 
-		var corpoEmail = "O pedido de código " + pedido.getCodigo() + " foi confirmado!";
-
 		var email = Email.builder()
 									.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-									.corpo(corpoEmail)
+									.corpo("pedido-confirmado.html")
+									.variavel("pedido", pedido)
 									.destinatario(pedido.getUsuarioCliente().getEmail())
 				               .build();
 
-		System.out.println("Email====== " + email);
+		envioEmailService.enviar(email);
 
 	}
 	
