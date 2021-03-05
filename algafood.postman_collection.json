@@ -1040,14 +1040,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos/9789d953-cd06-44f9-9c6a-85babac394cf",
+							"raw": "localhost:8080/pedidos/8e6588c2-b393-4e04-ba84-0d8a576977ae",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"9789d953-cd06-44f9-9c6a-85babac394cf"
+								"8e6588c2-b393-4e04-ba84-0d8a576977ae"
 							]
 						}
 					},
@@ -1059,7 +1059,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos?page=1&size=1&sort=nomeCliente",
+							"raw": "localhost:8080/pedidos?sort=usuarioCliente",
 							"host": [
 								"localhost"
 							],
@@ -1070,15 +1070,17 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "size",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "sort",
-									"value": "nomeCliente"
+									"value": "usuarioCliente"
 								}
 							]
 						}
@@ -1115,7 +1117,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos/com-filtro?sort=nomeCliente&page=1&size=1",
+							"raw": "localhost:8080/pedidos/com-filtro?sort=usuarioCliente&page=1&size=1",
 							"host": [
 								"localhost"
 							],
@@ -1147,7 +1149,7 @@
 								},
 								{
 									"key": "sort",
-									"value": "nomeCliente"
+									"value": "usuarioCliente"
 								},
 								{
 									"key": "page",
@@ -1262,14 +1264,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/pedidos/4925c1cc-7503-44f1-94eb-5cd4e578c0ab/confirmar-pedido",
+							"raw": "localhost:8080/pedidos/8e6588c2-b393-4e04-ba84-0d8a576977ae/confirmar-pedido",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"4925c1cc-7503-44f1-94eb-5cd4e578c0ab",
+								"8e6588c2-b393-4e04-ba84-0d8a576977ae",
 								"confirmar-pedido"
 							]
 						}

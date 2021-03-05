@@ -12,7 +12,7 @@ import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.exception.RestauranteNaoEncotradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
-import com.algaworks.algafood.service.ArmazenamentoService.NovaFoto;
+import com.algaworks.algafood.storage.ArmazenamentoService.NovaFoto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

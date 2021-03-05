@@ -1,4 +1,4 @@
-package com.algaworks.algafood.service;
+package com.algaworks.algafood.storage;
 
 import lombok.Builder;
 import lombok.Getter;

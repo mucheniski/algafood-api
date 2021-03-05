@@ -22,7 +22,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
     private EmailProperties emailProperties;
 
     @Autowired
-    private Configuration freeMarkerConfigurarion;
+    private Configuration freeMarkerConfiguration;
 
     @Override
     public void enviar(Email email) {
@@ -30,7 +30,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
         try {
 
             var corpo = procesarTemplate(email);
-            System.out.println("Corpo do email ===== " + corpo);
+            System.out.println("Corpo do email em SMTP ===== " + corpo);
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -60,7 +60,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 
     private String procesarTemplate(Email email) {
         try {
-            var template = freeMarkerConfigurarion.getTemplate(email.getCorpo());
+            var template = freeMarkerConfiguration.getTemplate(email.getCorpo());
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, email.getVariaveis());
         } catch (Exception e) {
             throw new EmailException("Não foi possível montar o template do e-mail ", e);

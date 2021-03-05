@@ -11,7 +11,8 @@ import com.algaworks.algafood.exception.FotoProdutoNaoEncontradaException;
 import com.algaworks.algafood.exception.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.repository.FotoProdutoRepository;
 import com.algaworks.algafood.repository.ProdutoRepository;
-import com.algaworks.algafood.service.ArmazenamentoService.NovaFoto;
+import com.algaworks.algafood.storage.ArmazenamentoService;
+import com.algaworks.algafood.storage.ArmazenamentoService.NovaFoto;
 
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;

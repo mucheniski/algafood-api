@@ -22,4 +22,7 @@ public class EmailProperties {
     @NotNull
     private String remetente;
 
+    @NotNull
+    private String servicoUsado;
+
 }

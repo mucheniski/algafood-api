@@ -1,4 +1,4 @@
-package com.algaworks.algafood.service;
+package com.algaworks.algafood.storage;
 
 import com.algaworks.algafood.enuns.TipoArmazenamento;
 import com.amazonaws.regions.Regions;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 
-@Component
-@ConfigurationProperties("algafood.armazenamento")
 @Getter
 @Setter
+@Component
+@ConfigurationProperties("algafood.armazenamento")
 public class ArmazenamentoProperties {
 
-    /**
+    /*
      * A classe interna local já precisa ser instanciada senão fica nula e acaba não fazendo
      * o bind corretamente
      */
@@ -23,7 +23,7 @@ public class ArmazenamentoProperties {
     private AmazonS3 amazonS3 = new AmazonS3();
     private TipoArmazenamento tipo = TipoArmazenamento.LOCAL;
 
-    /**
+    /*
      * É atribuido no bean o caminho porque seque a nomenclatura definida no application.properties
      * algafood.armazenamento.local.diretorioFotos
      * o spring já converte a string do valor em um Path
@@ -34,7 +34,7 @@ public class ArmazenamentoProperties {
         private Path diretorioFotos;
     }
 
-    /**
+    /*
      * Da mesma forma que a classe Local a AmazonS3 também segue o mesmo padrão da nomenclatura
      * algafood.armazenamento.amazonS3...
      */

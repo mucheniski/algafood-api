@@ -1,4 +1,4 @@
-package com.algaworks.algafood.service;
+package com.algaworks.algafood.storage;
 
 import com.algaworks.algafood.enuns.TipoArmazenamento;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

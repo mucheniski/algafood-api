@@ -1,12 +1,10 @@
-package com.algaworks.algafood.service;
+package com.algaworks.algafood.storage;
 
 import com.algaworks.algafood.exception.ArmazenamentoException;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
