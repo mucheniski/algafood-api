@@ -214,4 +214,11 @@ Serviço de e-mail usado para o desenvolvimento
 Apache FreeMarker é a lib usada para renderizar o HTML dinamicamente.
 [FreeMarker](https://freemarker.apache.org/)  
 
+DDD (Domain Driven Development)  
+Single Responsabiliti Principle - Cada componente deve ter apenas uma responsabilidade  
+Aggregate Root - Classe agragada que ficará responsável por disparar o evento, só ela deve chamar os eventos, não deve ser disparado
+pelo service.  
+como o AbstractAggregateRoot que é extendido nas classes que vão registrar eventos é uma classe do 
+spring data, só vai ser disparado o evendo se for chamado o método save() do repository.
+
 

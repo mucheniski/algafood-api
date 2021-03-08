@@ -57,9 +57,6 @@ public class PedidoService {
 	@Autowired
 	private ProdutoService produtoService;
 
-	@Autowired
-	private EnvioEmailService envioEmailService;
-
 	public Pedido buscarPorCodigo(String codigo) {
 		return repository.findByCodigo(codigo).orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
 	}
@@ -106,15 +103,8 @@ public class PedidoService {
 		Pedido pedido = buscarPorCodigo(codigo);
 		pedido.statusConfirmado();
 
-		var email = Email.builder()
-									.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-									.corpo("pedido-confirmado.html")
-									.variavel("pedido", pedido)
-									.destinatario(pedido.getUsuarioCliente().getEmail())
-				               .build();
-
-		envioEmailService.enviar(email);
-
+		// Quando chama o save e o flush pro banco é feito, todos os eventos que foram registrados são disparados
+		repository.save(pedido);
 	}
 	
 	@Transactional
