@@ -219,6 +219,9 @@ Single Responsabiliti Principle - Cada componente deve ter apenas uma responsabi
 Aggregate Root - Classe agragada que ficará responsável por disparar o evento, só ela deve chamar os eventos, não deve ser disparado
 pelo service.  
 como o AbstractAggregateRoot que é extendido nas classes que vão registrar eventos é uma classe do 
-spring data, só vai ser disparado o evendo se for chamado o método save() do repository.
+spring data, só vai ser disparado o evendo se for chamado o método save() do repository.  
+Para cada evento precisa-se de um Listener específico, assim o listener fica "ouvindo" os processos 
+e quando for disparado um evento que interessa para ele o evento é capturado e executada uma ação específica.  
+
 
 
