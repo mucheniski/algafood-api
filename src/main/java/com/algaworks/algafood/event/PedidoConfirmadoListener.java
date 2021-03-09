@@ -34,7 +34,7 @@ public class PedidoConfirmadoListener {
         Pedido pedido = pedidoConfirmadoEvent.getPedido();
 
         var email = Email.builder()
-                .assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
+                .assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado!")
                 .corpo("pedido-confirmado.html")
                 .variavel("pedido", pedido)
                 .destinatario(pedido.getUsuarioCliente().getEmail())

@@ -117,6 +117,7 @@ public class PedidoService {
 	public void cancelarPedido(String codigo) {
 		Pedido pedido = buscarPorCodigo(codigo);
 		pedido.stausCancelado();
+		repository.save(pedido);
 	}
 
 	private void validaPedido(Pedido pedido) {
