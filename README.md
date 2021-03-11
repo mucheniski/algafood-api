@@ -233,5 +233,7 @@ CORS policy (Cors Origin Resource Sharing)
 Os navegadores usam uma politica de same origin, ou seja, só aceitam requisições da mesma origem, por motivos de segurança  
 Origens cruzadas são restringidas  
 Origem é (protocolo + dominio + porta) ex: http:// + localhost + 8080  
-É preciso habilitar na aplicação para que funcionem as chamadas de origem cruzada
+É preciso habilitar na aplicação para que funcionem as chamadas de origem cruzada  
+essa habilitação é feita pelo header da requisição .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")  
+nesse caso foi habilitada apenas para uma requisição que é o listar  
 

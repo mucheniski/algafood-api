@@ -6,7 +6,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +34,13 @@ public class RestauranteController {
 	private RestauranteService service;	
 	
 	@GetMapping
-	public List<RestauranteRetornoDTO> listar() {
-		return service.listar();
+	public ResponseEntity<List<RestauranteRetornoDTO>> listar() {
+
+		List<RestauranteRetornoDTO> list = service.listar();
+
+		return ResponseEntity.ok()
+					.header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+					.body(list);
 	}
 	
 	/*
