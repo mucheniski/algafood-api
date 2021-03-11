@@ -222,6 +222,16 @@ como o AbstractAggregateRoot que é extendido nas classes que vão registrar eve
 spring data, só vai ser disparado o evendo se for chamado o método save() do repository.  
 Para cada evento precisa-se de um Listener específico, assim o listener fica "ouvindo" os processos 
 e quando for disparado um evento que interessa para ele o evento é capturado e executada uma ação específica.  
+  
 
+Comando para instalar o server http do node  
+npm install http-server -g  
+de dentro da pasta onde está o html iniciar o servidor  
+http-server -p 8000  
 
+CORS policy (Cors Origin Resource Sharing) 
+Os navegadores usam uma politica de same origin, ou seja, só aceitam requisições da mesma origem, por motivos de segurança  
+Origens cruzadas são restringidas  
+Origem é (protocolo + dominio + porta) ex: http:// + localhost + 8080  
+É preciso habilitar na aplicação para que funcionem as chamadas de origem cruzada
 

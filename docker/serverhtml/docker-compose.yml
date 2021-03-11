@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+    # Servidor web para páginas HTML
+    tomcat:
+        image: nginx:alpine
+        container_name: servernginxHTML
+        ports:
+            - "8000:80"   
+        volumes:
+            - "C:/ws-developer/algafood-api/client-js:/usr/share/nginx/html"
+        networks: 
+            - aplicacao-network
+networks:
+    aplicacao-network:
+        driver: bridge
+
