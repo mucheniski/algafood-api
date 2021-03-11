@@ -10,15 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.algaworks.algafood.dto.RestauranteEntradaDTO;
 import com.algaworks.algafood.dto.RestauranteRetornoDTO;
@@ -26,6 +18,10 @@ import com.algaworks.algafood.service.RestauranteService;
 import com.algaworks.algafood.view.RestauranteView;
 import com.fasterxml.jackson.annotation.JsonView;
 
+/*
+	Adcionando o CrossOrigin no controller por padrão já libera o acesso CORS para todas as origens
+ */
+@CrossOrigin
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
@@ -34,13 +30,8 @@ public class RestauranteController {
 	private RestauranteService service;	
 	
 	@GetMapping
-	public ResponseEntity<List<RestauranteRetornoDTO>> listar() {
-
-		List<RestauranteRetornoDTO> list = service.listar();
-
-		return ResponseEntity.ok()
-					.header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-					.body(list);
+	public List<RestauranteRetornoDTO> listar() {
+		return service.listar();
 	}
 	
 	/*
