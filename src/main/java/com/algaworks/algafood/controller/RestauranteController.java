@@ -18,10 +18,6 @@ import com.algaworks.algafood.service.RestauranteService;
 import com.algaworks.algafood.view.RestauranteView;
 import com.fasterxml.jackson.annotation.JsonView;
 
-/*
-	Adcionando o CrossOrigin no controller por padrão já libera o acesso CORS para todas as origens
- */
-@CrossOrigin
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
