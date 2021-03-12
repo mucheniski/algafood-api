@@ -236,4 +236,11 @@ Origem é (protocolo + dominio + porta) ex: http:// + localhost + 8080
 É preciso habilitar na aplicação para que funcionem as chamadas de origem cruzada  
 essa habilitação é feita pelo header da requisição .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")  
 nesse caso foi habilitada apenas para uma requisição que é o listar  
+Quando é feita uma requisição de origens diferentes, os navegadores fazem um preflight e verificam quais os métodos  
+permitdos e quais os origins permitidos, o método enviado no preflight é o OPTIONS, só é feito o preflight quando  
+temos uma requisição simples.  
+[Link com informações sobre o assunto](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)  
+
+
+
 
