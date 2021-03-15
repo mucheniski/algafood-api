@@ -25,4 +25,37 @@ function preencherTabela(formasPagemento) {
 
 }
 
+function cadastrarFormaPagamento() {
+    var formaPagamentoJSON = JSON.stringify({
+        "descricao": $("campo-descricao").val()
+    });
+
+    console.log(formaPagamentoJSON);
+
+    $.ajax({
+        url: "http://localhost:8080/formas-pagamento",
+        type: "post",
+        data: formaPagamentoJSON,
+        contentType: "application/json",
+
+        success: function(response) { 
+            alert("Cadastrado com sucesso!");
+            consultarFormasPagamento();
+        },
+
+
+        error: function(error) {
+            if (error.status == 400) {
+                var problema = JSON.parse(error.responseText);
+                alert(problema.mensagemParaUsuario);
+            } else {
+                alert("Erro ao cadastrar!")
+            }
+        }
+
+    });
+
+}
+
 $("#btn-consultar").click(consultarFormasPagamento());
+$("#btn-cadastrar").click(cadastrarFormaPagamento());
