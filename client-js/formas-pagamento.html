@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <button id="btn-consultar" class="btn btn-primary">Consultar</button>
+        <button id="btn-consultar" class="btn btn-primary" onclick="consultar()">Consultar</button>
     </div>
     <div class="row">
         <table id="tabela" class="table table-striped table-hover">
@@ -22,6 +22,7 @@
             <tr>
                 <th>Código</th>
                 <th>Descrição</th>
+                <th>Ações</th>
             </tr>
             </thead>
             <tbody>
@@ -35,16 +36,15 @@
         <form>
             <div class="form-group">
                 <label for="campo-descricao">Descrição</label>
-                <input type="text" class="form-control" id="campo-descricao" value="Teste">
+                <input type="text" class="form-control" id="campo-descricao">
             </div>
-            <button type="button" class="btn btn-primary" id="btn-cadastrar">Cadastrar</button>
+            <button type="button" class="btn btn-primary" id="btn-cadastrar" onclick="cadastrar()">Cadastrar</button>
         </form>
     </div>
 </div>
 
 <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 <script src="client-formas-pagamento.js"></script>
 </body>
 </html>
