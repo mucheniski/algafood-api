@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.dto.RestauranteResumoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,11 @@ public class RestauranteController {
 	@GetMapping
 	public List<RestauranteRetornoDTO> listar() {
 		return service.listar();
+	}
+
+	@GetMapping("/resumo")
+	public List<RestauranteResumoDTO> listarResumo() {
+		return service.listarResumo();
 	}
 	
 	/*

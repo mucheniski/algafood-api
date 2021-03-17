@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.algaworks.algafood.dto.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,10 +13,6 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.dto.ProdutoDTO;
-import com.algaworks.algafood.dto.RestauranteEntradaDTO;
-import com.algaworks.algafood.dto.RestauranteRetornoDTO;
-import com.algaworks.algafood.dto.UsuarioRetornoDTO;
 import com.algaworks.algafood.dto.conversor.ProdutoConversor;
 import com.algaworks.algafood.dto.conversor.RestauranteConversor;
 import com.algaworks.algafood.dto.conversor.UsuarioConversor;
@@ -304,5 +301,26 @@ public class RestauranteService {
 	}
 
 
-		
+	// TODO: criado dessa forma para testar o client da aula 16.10 necessário melhorar o código
+	public List<RestauranteResumoDTO> listarResumo() {
+		List<Restaurante> restaurantes = repository.findAll();
+		List<RestauranteResumoDTO> listaResumo = new ArrayList<>();
+
+		restaurantes.forEach(restaurante -> {
+			RestauranteResumoDTO restauranteResumoDTO = new RestauranteResumoDTO();
+			restauranteResumoDTO.setId(restaurante.getId());
+			restauranteResumoDTO.setNome(restaurante.getNome());
+			restauranteResumoDTO.setTaxaFrete(restaurante.getTaxaFrete());
+
+			CozinhaDTO cozinhaDTO = new CozinhaDTO();
+			cozinhaDTO.setId(restaurante.getCozinha().getId());
+			cozinhaDTO.setNome(restaurante.getCozinha().getNome());
+
+			restauranteResumoDTO.setCozinha(cozinhaDTO);
+			listaResumo.add(restauranteResumoDTO);
+		});
+
+		return listaResumo;
+
+	}
 }

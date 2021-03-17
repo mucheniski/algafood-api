@@ -241,6 +241,4 @@ permitdos e quais os origins permitidos, o método enviado no preflight é o OPT
 temos uma requisição simples.  
 [Link com informações sobre o assunto](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)  
 
-
-
-
+Aulas 16 (10, 11, 12) estão no projeto https://github.com/mucheniski/algafood-client
