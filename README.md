@@ -254,3 +254,6 @@ Reduz o uso de banda
 Reduz a latência  
 Reduz carga nos servidores  
 Esconde problemas na rede  
+
+O Postman não suporta Cache local, o correto é testar pelo navegador.  
+Uma sugestão seria usar o Talend API Tester  
