@@ -242,3 +242,15 @@ temos uma requisição simples.
 [Link com informações sobre o assunto](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)  
 
 Aulas 16 (10, 11, 12) estão no projeto https://github.com/mucheniski/algafood-client
+
+O que é Cache de HTTP?
+É a habilidade que componentes de software tem de armazenar dados acessados frequentemente sem necessidade de acessar  
+esses dados novamente.  
+Freash - Representação fresca, ou seja, feito a pouco tempo.  
+Stail - Representação que já foi feita a algúm tempo e precisa ser atualizada.  
+isso é determinado por um tempo pré-determinado durante a requisição.  
+Benefícios:  
+Reduz o uso de banda  
+Reduz a latência  
+Reduz carga nos servidores  
+Esconde problemas na rede  
