@@ -44,8 +44,14 @@ public class FormaPagamentoController {
 	public ResponseEntity<FormaPagamentoDTO> buscarDtoPorId(@PathVariable Long id) {
 		FormaPagamentoDTO formaPagamentoDTO = service.buscarDtoPorId(id);
 
+		/*
+			cachePrivate - não pode ser armazenado cache e server de cache compartilhado, apenas localmente
+			cachePublic - a resposta pode ser armazenada localmente e em server publico, o default já é esse.
+			noCache - sempre vai existir uma validação quando o cache for feita.
+			noStore - Não pode ser armazendo o response em nenhum tipo de cache
+		 */
 		return ResponseEntity.ok()
-				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())
 				.body(formaPagamentoDTO);
 	}
 	
