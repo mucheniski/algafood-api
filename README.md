@@ -257,3 +257,17 @@ Esconde problemas na rede
 
 O Postman não suporta Cache local, o correto é testar pelo navegador.  
 Uma sugestão seria usar o Talend API Tester  
+
+
+CACHE - Serve para evitar trafego e cosumo de rede desnecessários, quando é reito um request e o servidor envia o response, fica definido no  
+Cache-Control: max-age=? um valor de tempo para que essas informações fiquem armazenadas em cache, assim durante esse tempo caso seja feito um
+novo request, os dados são retornados diretamente do cache armazenado evitando que o servidor tenha que enviar novamente as mesmas informações  
+após passado esse tempo, os dados em cache ficam com o status Stale, ou seja, caso seja feita um novo request o servidor vai precisar enviar 
+novamente o response e os dados serem atualizados no cache para voltarem para Fresh.  
+Porém existem as Etags que também auxilian para evitar consumo desnecessario mesmo que os dados de cache estejam es Stale.
+Etag serve para validar se houve alguma alteração desde a última requisição feita no servidor quando o status do cache está stale  
+ou seja, quando o max-age de cache já estourou e não está mais fresh, porém caso nada tenha sido alterado no servidor, a requisição  
+vai com a Etag e o header If-None-Match, é feita uma comparação dessa Etag com a Etag que está no servidor, quando não teve alteração  
+a do servidor vai estar igual a do request, assim não é necessário que o servidor envie um novo response, evitando tráfego e consumo  
+de rede desnecessários.  
+Para usar Etag é preciso habilitar o ShallowEtagHeaderFilter  
