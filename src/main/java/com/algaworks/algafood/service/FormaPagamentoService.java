@@ -78,7 +78,7 @@ public class FormaPagamentoService {
 		
 	}
 
-	public String getDeepEtag() {
+	public String buscarDeepEtag() {
 		String deepEtag = "0";
 		OffsetDateTime dataUltimaAtualizacao = repository.getDataUltimaAtualizacao();
 
@@ -88,4 +88,13 @@ public class FormaPagamentoService {
 		return deepEtag;
 	}
 
+	public String buscarDeepEtagPorId(Long id) {
+		String deepEtag = "0";
+		OffsetDateTime dataUltimaAtualizacao = repository.getDataUltimaAtualizacaoPorId(id);
+
+		if (dataUltimaAtualizacao != null) {
+			deepEtag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		return deepEtag;
+	}
 }

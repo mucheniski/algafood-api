@@ -1,6 +1,5 @@
 package com.algaworks.algafood.controller;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +39,7 @@ public class FormaPagamentoController {
 		 */
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 
-		String deepETag = service.getDeepEtag();
+		String deepETag = service.buscarDeepEtag();
 
 		// Se o if none match for passado aqui pelo header, não precisa executar o resto, já da pra saber que nada foi alterado.
 		if (request.checkNotModified(deepETag)) {
@@ -58,7 +57,17 @@ public class FormaPagamentoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<FormaPagamentoDTO> buscarDtoPorId(@PathVariable Long id) {
+	public ResponseEntity<FormaPagamentoDTO> buscarDtoPorId(@PathVariable Long id, ServletWebRequest request) {
+
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+
+		String deepETag = service.buscarDeepEtagPorId(id);
+
+		// Se o if none match for passado aqui pelo header, não precisa executar o resto, já da pra saber que nada foi alterado.
+		if (request.checkNotModified(deepETag)) {
+			return null;
+		}
+
 		FormaPagamentoDTO formaPagamentoDTO = service.buscarDtoPorId(id);
 
 		/*
