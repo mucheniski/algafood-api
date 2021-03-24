@@ -274,4 +274,6 @@ Para usar Etag é preciso habilitar o ShallowEtagHeaderFilter
 Deep Etag - é usado para evitar que todo o processamento seja feito do lado do servidor, caso não tenha acontecido alguma alteração já no servidor  
 não é feito nada, vai ter o mesmo retorno 304 porém não é feito processamento no servidor, apenas validado se teve alguma alteração com um campo  
 específico, como por exemplo a data de atualização, é feito um método pra buscar essa data e validar apenas ela se está igual, caso esteja o servidor  
-já retorna sem processar nada, economizando processamento.
+já retorna sem processar nada, economizando processamento.  
+
+Dosumentação com Open API  
