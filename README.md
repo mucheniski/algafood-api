@@ -276,4 +276,7 @@ não é feito nada, vai ter o mesmo retorno 304 porém não é feito processamen
 específico, como por exemplo a data de atualização, é feito um método pra buscar essa data e validar apenas ela se está igual, caso esteja o servidor  
 já retorna sem processar nada, economizando processamento.  
 
-Dosumentação com Open API  
+Dosumentação com Open API 2 
+Spring Fox gera o JSON da com as definições da API  
+Swagger UI gera a renderização da documentação através do JSON em um HTML  
+O que o swagger-ui faz é uma requisição no endpoint /v2/api-docs gera o JSON e através desse JSON renderiza o HTML visualmente para a documentação da API  

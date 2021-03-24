@@ -27,6 +27,24 @@
 					"response": []
 				},
 				{
+					"name": "listar resumo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "listar envelopado",
 					"request": {
 						"method": "GET",
@@ -153,6 +171,28 @@
 								"restaurantes",
 								"1",
 								"responsaveis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar detalhes da foto do produto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurantes/1/produtos/1/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurantes",
+								"1",
+								"produtos",
+								"1",
+								"foto"
 							]
 						}
 					},
@@ -395,28 +435,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "buscar detalhes da foto do produto",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/1/foto",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurantes",
-								"1",
-								"produtos",
-								"1",
-								"foto"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -447,14 +465,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/formas-pagamento/11",
+							"raw": "localhost:8080/formas-pagamento/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"formas-pagamento",
-								"11"
+								"1"
 							]
 						}
 					},
@@ -530,14 +548,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/formas-pagamento/4",
+							"raw": "localhost:8080/formas-pagamento/3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"formas-pagamento",
-								"4"
+								"3"
 							]
 						}
 					},
@@ -1693,6 +1711,20 @@
 								"foto"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "documentation",
+			"item": [
+				{
+					"name": "/v2/api-docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
 					},
 					"response": []
 				}
