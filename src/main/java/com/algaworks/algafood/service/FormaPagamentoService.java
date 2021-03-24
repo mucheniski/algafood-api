@@ -1,5 +1,6 @@
 package com.algaworks.algafood.service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -75,6 +76,16 @@ public class FormaPagamentoService {
 			throw new EntidadeEmUsoException(String.format(MSG_FORMA_PAGAMENTO_EM_USO, id) );			
 		}
 		
-	}	
+	}
+
+	public String getDeepEtag() {
+		String deepEtag = "0";
+		OffsetDateTime dataUltimaAtualizacao = repository.getDataUltimaAtualizacao();
+
+		if (dataUltimaAtualizacao != null) {
+			deepEtag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		return deepEtag;
+	}
 
 }

@@ -1,5 +1,6 @@
 package com.algaworks.algafood.controller;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.service.FormaPagamentoService;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 @RestController
 @RequestMapping("/formas-pagamento")
@@ -30,12 +33,26 @@ public class FormaPagamentoController {
 	private FormaPagamentoService service;
 	
 	@GetMapping
-	public ResponseEntity<List<FormaPagamentoDTO>> listar() {
+	public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest request) {
+
+		/*
+			Como o Shallow Etag está habilitado, para implementar uma chamada com Deep Etag é preciso desabilitar na chamada.
+		 */
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+
+		String deepETag = service.getDeepEtag();
+
+		// Se o if none match for passado aqui pelo header, não precisa executar o resto, já da pra saber que nada foi alterado.
+		if (request.checkNotModified(deepETag)) {
+			return null;
+		}
+
 		List<FormaPagamentoDTO> formasPagamento = service.listar();
 
 		return ResponseEntity.ok()
 				// Definindo a quantidade de tempo de chace para o navegador que vai receber o retorno
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.eTag(deepETag)
 				.body(formasPagamento);
 
 	}
