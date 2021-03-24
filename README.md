@@ -280,3 +280,6 @@ Dosumentação com Open API 2
 Spring Fox gera o JSON da com as definições da API  
 Swagger UI gera a renderização da documentação através do JSON em um HTML  
 O que o swagger-ui faz é uma requisição no endpoint /v2/api-docs gera o JSON e através desse JSON renderiza o HTML visualmente para a documentação da API  
+A configuração @Import(BeanValidatorPluginsConfiguration.class) que valida as anotações do javax validation e coloca um * vermelho na frente  
+só funciona quando a propriedade não é anotada com o @ApiModelProperty, porque o @ApiModelProperty já tem um required false por default, nesse caso  
+ele sobrescreve a configuração, para essas propriedades anotadas é preciso setar o required true manualmente
