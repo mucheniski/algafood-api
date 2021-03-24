@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,27 +38,36 @@ public class CidadeController {
 
 	@ApiOperation("Busca uma cidade por id")
 	@GetMapping("/{id}")
-	public CidadeDTO buscarPorId(@PathVariable Long id) {
+	public CidadeDTO buscarPorId(
+			@ApiParam(value = "id de uma cidade", example = "1") @PathVariable Long id
+	) {
 		return service.buscarDtoPorId(id);
 	}
 
 	@ApiOperation("Cadastra uma cidade")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public CidadeDTO salvar(@RequestBody @Valid CidadeDTO dto) {
+	public CidadeDTO salvar(
+			@ApiParam(name = "corpo", value = "Representação de uma nova cidade") @RequestBody @Valid CidadeDTO dto
+	) {
 		return service.salvar(dto);
 	}
 
 	@ApiOperation("Atualiza uma cidade por id")
 	@PutMapping("/{id}")
-	public CidadeDTO atualizar(@PathVariable Long id, @RequestBody @Valid CidadeDTO dto) {
+	public CidadeDTO atualizar(
+			@ApiParam(value = "id de uma cidade", example = "1") @PathVariable Long id,
+			@ApiParam(name = "corpo", value = "Representação de uma cidade atualizada") @RequestBody @Valid CidadeDTO dto
+	) {
 		return service.atualizar(id, dto);
 	}
 
 	@ApiOperation("Exclui uma cidade por ai")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void remover(@PathVariable Long id) {
+	public void remover(
+			@ApiParam(value = "id de uma cidade", example = "1") @PathVariable Long id
+	) {
 		service.remover(id);
 	}
 
