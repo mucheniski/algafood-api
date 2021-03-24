@@ -42,9 +42,9 @@ insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_a
 insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (2, 'Thai Delivery', 20, 1, utc_timestamp, utc_timestamp, true);
 insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true);
 
-INSERT INTO forma_pagamento (id, descricao) VALUES(1, 'Dinheiro');
-INSERT INTO forma_pagamento (id, descricao) VALUES(2, 'Boleto');
-INSERT INTO forma_pagamento (id, descricao) VALUES(3, 'Cartão');
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES(1, 'Dinheiro', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES(2, 'Boleto', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES(3, 'Cartão', utc_timestamp);
 
 INSERT INTO produto (id, ativo, descricao, nome, preco, restaurante_id) VALUES(1, false, 'Comida Tailandesa 1', 'Thai 1', 10.0, 1);
 INSERT INTO produto (id, ativo, descricao, nome, preco, restaurante_id) VALUES(2, true, 'Comida Tailandesa 2', 'Thai 2', 15.0, 1);
