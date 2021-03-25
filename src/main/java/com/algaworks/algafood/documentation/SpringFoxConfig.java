@@ -22,7 +22,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /*
@@ -45,28 +44,69 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 //                            .paths(PathSelectors.ant("/restaurantes/**")) // Caso queira buscar de endpoints específicos apenas
                    .build()
                 .useDefaultResponseMessages(false)
-                .globalResponseMessage(RequestMethod.GET, informarCodigosDeRetorno())
+                .globalResponseMessage(RequestMethod.GET, retornosGlobalGET())
+                .globalResponseMessage(RequestMethod.POST, retornosGlobalPUTePOST())
+                .globalResponseMessage(RequestMethod.PUT, retornosGlobalPUTePOST())
+                .globalResponseMessage(RequestMethod.DELETE, retornosGlobalDELETE())
                 .apiInfo(customApiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"));
     }
 
-    /*
-    * Retorno global para a documentação do swagger
-    * */
-    private List<ResponseMessage> informarCodigosDeRetorno() {
-
-        var erro500 = new ResponseMessageBuilder()
-                            .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                            .message("Erro interno do servidor")
-                            .build();
+    private List<ResponseMessage> retornosGlobalGET() {
 
         var erro406 = new ResponseMessageBuilder()
-                            .code(HttpStatus.NOT_ACCEPTABLE.value())
-                            .message("Tipo de recurso não aceito, apenas JSON")
-                            .build();
-        
+                .code(HttpStatus.NOT_ACCEPTABLE.value())
+                .message("Tipo de recurso não aceito, apenas JSON")
+                .build();
 
-        return Arrays.asList(erro500, erro406);
+        var erro500 = new ResponseMessageBuilder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message("Erro interno do servidor")
+                .build();
+
+        return Arrays.asList(erro406, erro500);
+
+    }
+
+    private List<ResponseMessage> retornosGlobalPUTePOST() {
+
+        var erro404 = new ResponseMessageBuilder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .message("Requisição inválida")
+                .build();
+
+        var erro406 = new ResponseMessageBuilder()
+                .code(HttpStatus.NOT_ACCEPTABLE.value())
+                .message("Tipo de recurso não aceito, apenas JSON")
+                .build();
+
+        var erro415 = new ResponseMessageBuilder()
+                .code(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+                .message("Requisição recusada porque o corpo está em um formato não suportado")
+                .build();
+
+        var erro500 = new ResponseMessageBuilder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message("Erro interno do servidor")
+                .build();
+
+        return Arrays.asList(erro404, erro406, erro415, erro500);
+
+    }
+
+    private List<ResponseMessage> retornosGlobalDELETE() {
+
+        var erro404 = new ResponseMessageBuilder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .message("Requisição inválida")
+                .build();
+
+        var erro500 = new ResponseMessageBuilder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message("Erro interno do servidor")
+                .build();
+
+        return Arrays.asList(erro404, erro500);
 
     }
 
