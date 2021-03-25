@@ -1,19 +1,29 @@
 package com.algaworks.algafood.documentation;
 
+import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /*
 * A interface Spring WebMvcConfigurer é usada para customizar o Spring MVC no projeto.
@@ -34,8 +44,30 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                             .apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood"))
 //                            .paths(PathSelectors.ant("/restaurantes/**")) // Caso queira buscar de endpoints específicos apenas
                    .build()
+                .useDefaultResponseMessages(false)
+                .globalResponseMessage(RequestMethod.GET, informarCodigosDeRetorno())
                 .apiInfo(customApiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"));
+    }
+
+    /*
+    * Retorno global para a documentação do swagger
+    * */
+    private List<ResponseMessage> informarCodigosDeRetorno() {
+
+        var erro500 = new ResponseMessageBuilder()
+                            .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                            .message("Erro interno do servidor")
+                            .build();
+
+        var erro406 = new ResponseMessageBuilder()
+                            .code(HttpStatus.NOT_ACCEPTABLE.value())
+                            .message("Tipo de recurso não aceito, apenas JSON")
+                            .build();
+        
+
+        return Arrays.asList(erro500, erro406);
+
     }
 
     /*
