@@ -1,5 +1,7 @@
 package com.algaworks.algafood.documentation;
 
+import com.algaworks.algafood.exception.Problema;
+import com.fasterxml.classmate.TypeResolver;
 import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +40,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     * */
     @Bean
     public Docket apiDocket() {
+
+        var typeResolver = new TypeResolver();
+
+
         return new Docket(DocumentationType.SWAGGER_2)
                         .select()
                             .apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood"))
@@ -48,6 +54,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.POST, retornosGlobalPUTePOST())
                 .globalResponseMessage(RequestMethod.PUT, retornosGlobalPUTePOST())
                 .globalResponseMessage(RequestMethod.DELETE, retornosGlobalDELETE())
+                /* A Classe Problema usada para receber os problemas das exceptions da api não é mapeada no swagger porque não estã sendo usada
+                   em nenhum controller, por isso para que ela apareça na documentação é preciso apontar manualmente conforme abaixo.
+                * */
+                .additionalModels(typeResolver.resolve(Problema.class))
                 .apiInfo(customApiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"));
     }

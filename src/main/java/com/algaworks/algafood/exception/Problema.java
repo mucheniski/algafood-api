@@ -6,6 +6,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -24,8 +26,11 @@ public class Problema {
 	private String detalhe;
 	private String mensagemParaUsuario;
 	private OffsetDateTime dataHoraAtual;
+
+	@ApiModelProperty("Lista de objetos ou campos que geraram o erro")
 	private List<Objeto> objetos;
-	
+
+	@ApiModel("Objeto Problema")
 	@Getter
 	@Builder
 	public static class Objeto {
