@@ -44,6 +44,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
         var typeResolver = new TypeResolver();
 
+        var tagCidades = new Tag("Cidades", "Gerencia as cidades");
+        var tagGrupos  = new Tag("Grupos",  "Gerencia os grupos de permissao");
 
         return new Docket(DocumentationType.SWAGGER_2)
                         .select()
@@ -60,7 +62,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 * */
                 .additionalModels(typeResolver.resolve(Problema.class))
                 .apiInfo(customApiInfo())
-                .tags(new Tag("Cidades", "Gerencia as cidades"));
+                .tags(tagCidades, tagGrupos);
     }
 
     private List<ResponseMessage> retornosGlobalGET() {

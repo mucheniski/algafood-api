@@ -12,6 +12,7 @@ import java.util.List;
 
 @Api(tags = "Cidades")
 public interface CidadeOpenAPI {
+
     @ApiOperation("Lista as cidades")
     List<CidadeDTO> listar();
 
@@ -51,4 +52,5 @@ public interface CidadeOpenAPI {
             @ApiResponse(code = 404, message = "Não encontrado com o id", response = Problema.class)
     })
     void remover(@ApiParam(value = "id de uma cidade", example = "1") Long id);
+
 }
