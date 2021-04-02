@@ -610,7 +610,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Cidade Postman\",\n    \"estado\": {\n        \"id\": 2\n    }\n}",
+							"raw": "{\n    \"nome\": \"Porecatu\",\n    \"estadoId\": 2    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1724,7 +1724,18 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/v2/api-docs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"api-docs"
+							]
+						}
 					},
 					"response": []
 				}

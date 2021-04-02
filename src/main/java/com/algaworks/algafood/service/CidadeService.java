@@ -2,6 +2,7 @@ package com.algaworks.algafood.service;
 
 import java.util.List;
 
+import com.algaworks.algafood.dto.input.CidadeInputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -48,12 +49,12 @@ public class CidadeService {
 	}
 	
 	@Transactional
-	public CidadeDTO salvar(CidadeDTO dto) {		
+	public CidadeDTO salvar(CidadeInputDTO dto) {
 		
 		try {				
-			Long estadoId = dto.getEstado().getId();
+			Long estadoId = dto.getEstadoId();
 			Estado estado = estadoRepository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncotradaException(estadoId));
-			Cidade cidade = conversor.converterParaObjeto(dto);
+			Cidade cidade = conversor.converterInputParaObjeto(dto);
 			cidade.setEstado(estado);
 			return conversor.converterParaDTO(repository.save(cidade));
 		} catch (EntidadeNaoEncotradaException e) {
@@ -63,13 +64,13 @@ public class CidadeService {
 	}
 	
 	@Transactional
-	public CidadeDTO atualizar(Long id, CidadeDTO dto) {		
+	public CidadeDTO atualizar(Long id, CidadeDTO dto) {
 		try {
 			Cidade cidadeAtual = repository.findById(id).orElseThrow(() -> new CidadeNaoEncotradaException(id));
 			
 			// Se quiser alterar o estado, basta passar o novo estado.id no JSON de CidadeDTO
 			if (dto.getEstado() != null) {
-				Long estadoId = dto.getEstado().getId();				
+				Long estadoId = dto.getEstado().getId();
 				Estado novoEstado = estadoRepository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncotradaException(estadoId));
 				cidadeAtual.setEstado(novoEstado);
 			}

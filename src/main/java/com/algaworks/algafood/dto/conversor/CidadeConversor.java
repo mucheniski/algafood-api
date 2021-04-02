@@ -3,6 +3,7 @@ package com.algaworks.algafood.dto.conversor;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.algaworks.algafood.dto.input.CidadeInputDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,9 +33,13 @@ public class CidadeConversor {
 	public Cidade converterParaObjeto(CidadeDTO cidadeDTO) {
 		return modelMapper.map(cidadeDTO, Cidade.class);
 	}
+
+	public Cidade converterInputParaObjeto(CidadeInputDTO cidadeInputDTO) {
+		return modelMapper.map(cidadeInputDTO, Cidade.class);
+	}
 	
 	public void copiarParaObjeto(CidadeDTO cidadeDTO, Cidade cidade) {
-		cidadeDTO.setId(cidade.getId());		
+		cidadeDTO.setId(cidade.getId());
 		cidadeDTO.setEstado(estadoConversor.converterParaDTO(cidade.getEstado()));
 		modelMapper.map(cidadeDTO, cidade);
 	}
