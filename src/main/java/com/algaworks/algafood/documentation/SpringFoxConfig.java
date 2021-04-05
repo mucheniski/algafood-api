@@ -6,6 +6,7 @@ import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -61,6 +62,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                    em nenhum controller, por isso para que ela apareça na documentação é preciso apontar manualmente conforme abaixo.
                 * */
                 .additionalModels(typeResolver.resolve(Problema.class))
+                /*
+                * Substitui as propriedades apenas para fins de documentação, quando o controller tiver métodos
+                * retornando um Pageable.
+                * */
+                .directModelSubstitute(Pageable.class, PropriedadesPageableOpenAPI.class)
                 .apiInfo(customApiInfo())
                 .tags(tagCidades, tagGrupos);
     }
