@@ -10,6 +10,7 @@ import com.algaworks.algafood.exception.Problema;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ import com.algaworks.algafood.dto.CidadeDTO;
 import com.algaworks.algafood.service.CidadeService;
 
 @RestController
-@RequestMapping("/cidades")
+@RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CidadeController implements CidadeOpenAPI {
 
 	@Autowired
