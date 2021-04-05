@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.documentation.CozinhaOpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,43 +27,50 @@ import com.algaworks.algafood.service.CozinhaService;
 //TODO: Revisar se realmente é necessário um DTO de entrada e outro de Retorno.
 @RestController
 @RequestMapping("/cozinhas")
-public class CozinhaController {
+public class CozinhaController implements CozinhaOpenAPI {
 	
 	
 	@Autowired
 	private CozinhaService service;
 	
+	@Override
 	@GetMapping
 	public Page<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
 		return service.listar(pageable);
 	}
 	
+	@Override
 	@GetMapping("/nome")
 	public List<CozinhaDTO> listarPorNome(@RequestParam String nome) {	
 		return service.listarPorNome(nome);
 	}
 	
+	@Override
 	@GetMapping("/{id}")
 	public CozinhaDTO buscarPorId(@PathVariable Long id) {
 		return service.buscarPorId(id);
 	}
 	
+	@Override
 	@GetMapping("/primeiro")
 	public CozinhaDTO bucarPrimeiro() {
 		return service.bucarPrimeiro();		
 	}
 	
+	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaDTO salvar(@RequestBody @Valid CozinhaDTO dto) {
 		return service.salvar(dto);
 	}
 	
+	@Override
 	@PutMapping("/{id}")
 	public CozinhaDTO atualizar(@PathVariable Long id, @RequestBody @Valid CozinhaDTO dto) {
 		return service.atualizar(id, dto);
 	}	
 
+	@Override
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {		

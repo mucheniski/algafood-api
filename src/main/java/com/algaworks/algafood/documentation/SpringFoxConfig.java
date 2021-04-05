@@ -50,6 +50,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
         var tagCidades = new Tag("Cidades", "Gerencia as cidades");
         var tagGrupos  = new Tag("Grupos",  "Gerencia os grupos de permissao");
+        var tagCozinhas = new Tag("Cozinhas", "Gerencia as Cozinhas");
 
         return new Docket(DocumentationType.SWAGGER_2)
                         .select()
@@ -75,7 +76,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 * */
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaDTO.class), PageCozinhasOpenAPI.class))
                 .apiInfo(customApiInfo())
-                .tags(tagCidades, tagGrupos);
+                .tags(tagCidades, tagGrupos, tagCozinhas);
     }
 
     private List<ResponseMessage> retornosGlobalGET() {
