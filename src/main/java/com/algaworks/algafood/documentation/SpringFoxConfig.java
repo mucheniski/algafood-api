@@ -1,11 +1,13 @@
 package com.algaworks.algafood.documentation;
 
+import com.algaworks.algafood.dto.CozinhaDTO;
 import com.algaworks.algafood.exception.Problema;
 import com.fasterxml.classmate.TypeResolver;
 import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,7 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -67,6 +70,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 * retornando um Pageable.
                 * */
                 .directModelSubstitute(Pageable.class, PropriedadesPageableOpenAPI.class)
+                /*
+                * Substitui o Page de Cozinha com as propriedades corretas da classe PageCozinhasOpenAPI apenas na documentação
+                * */
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaDTO.class), PageCozinhasOpenAPI.class))
                 .apiInfo(customApiInfo())
                 .tags(tagCidades, tagGrupos);
     }
