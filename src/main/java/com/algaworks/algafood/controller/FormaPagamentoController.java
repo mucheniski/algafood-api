@@ -3,11 +3,14 @@ package com.algaworks.algafood.controller;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 
+import com.algaworks.algafood.documentation.FormaPagamentoOpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +28,13 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 @RestController
-@RequestMapping("/formas-pagamento")
-public class FormaPagamentoController {
+@RequestMapping(path = "/formas-pagamento", produces = MediaType.APPLICATION_JSON_VALUE)
+public class FormaPagamentoController implements FormaPagamentoOpenAPI {
 	
 	@Autowired
 	private FormaPagamentoService service;
 	
+	@Override
 	@GetMapping
 	public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest request) {
 
@@ -56,6 +60,7 @@ public class FormaPagamentoController {
 
 	}
 	
+	@Override
 	@GetMapping("/{id}")
 	public ResponseEntity<FormaPagamentoDTO> buscarDtoPorId(@PathVariable Long id, ServletWebRequest request) {
 
@@ -81,17 +86,20 @@ public class FormaPagamentoController {
 				.body(formaPagamentoDTO);
 	}
 	
+	@Override
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
 	public FormaPagamentoDTO adicionar(@RequestBody @Valid FormaPagamentoDTO dto) {
 		return service.salvar(dto);
 	}
 	
+	@Override
 	@PutMapping("/{id}")
 	public FormaPagamentoDTO atualizar(@PathVariable Long id, @RequestBody @Valid FormaPagamentoDTO dto) {
 		return service.atualizar(id, dto);
 	}
 	
+	@Override
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {

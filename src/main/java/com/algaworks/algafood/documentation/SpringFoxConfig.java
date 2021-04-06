@@ -49,9 +49,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
         var typeResolver = new TypeResolver();
 
-        var tagCidades = new Tag("Cidades", "Gerencia as cidades");
-        var tagGrupos  = new Tag("Grupos",  "Gerencia os grupos de permissao");
-        var tagCozinhas = new Tag("Cozinhas", "Gerencia as Cozinhas");
+        var tagCidades          = new Tag("Cidades", "Gerencia as cidades");
+        var tagGrupos           = new Tag("Grupos",  "Gerencia os grupos de permissao");
+        var tagCozinhas         = new Tag("Cozinhas", "Gerencia as Cozinhas");
+        var tagFormaPagamento   = new Tag("FormasPagamento", "Gerencia as formas de pagamento");
 
         return new Docket(DocumentationType.SWAGGER_2)
                         .select()
@@ -78,7 +79,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaDTO.class), PageCozinhasOpenAPI.class))
                 .apiInfo(customApiInfo())
-                .tags(tagCidades, tagGrupos, tagCozinhas);
+                .tags(tagCidades, tagGrupos, tagCozinhas, tagFormaPagamento);
     }
 
     private List<ResponseMessage> retornosGlobalGET() {
