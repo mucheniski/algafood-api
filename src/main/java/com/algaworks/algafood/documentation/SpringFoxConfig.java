@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -74,6 +75,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 /*
                 * Substitui o Page de Cozinha com as propriedades corretas da classe PageCozinhasOpenAPI apenas na documentação
                 * */
+                .ignoredParameterTypes(ServletWebRequest.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaDTO.class), PageCozinhasOpenAPI.class))
                 .apiInfo(customApiInfo())
                 .tags(tagCidades, tagGrupos, tagCozinhas);
