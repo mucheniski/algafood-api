@@ -55,13 +55,14 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         var tagCozinhas         = new Tag("Cozinhas", "Gerencia as Cozinhas");
         var tagFormaPagamento   = new Tag("FormasPagamento", "Gerencia as formas de pagamento");
 
-        var parametroCampos =
-                new ParameterBuilder()
-                    .name("campos")
-                    .description("Nome das propriedades para filtrar o response")
-                    .parameterType("query")
-                    .modelRef(new ModelRef("string"))
-                .build();
+//        Usado apenas para globalOperationParameters(Arrays.asList(parametroCampos)) por isso está comentado
+//        var parametroCampos =
+//                new ParameterBuilder()
+//                    .name("campos")
+//                    .description("Nome das propriedades para filtrar o response")
+//                    .parameterType("query")
+//                    .modelRef(new ModelRef("string"))
+//                .build();
 
         return new Docket(DocumentationType.SWAGGER_2)
                         .select()
@@ -76,8 +77,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 /*
                 * Essa configuração é necessária para especificar globalmente os parametros implícitos, como no exemplo de PedidoController.pesquisarComFiltro
                 * na documentação não aparecem os filtros passados no PedidoFiltro, por isso precisa ser especificado aqui.
+                * no caso aqui está comentado pois em SquigglyConfig deixamos habilitados apenas para os endpoints /pedidos e /restaurantes
                 * */
-                .globalOperationParameters(Arrays.asList(parametroCampos))
+                //.globalOperationParameters(Arrays.asList(parametroCampos))
                 /* A Classe Problema usada para receber os problemas das exceptions da api não é mapeada no swagger porque não estã sendo usada
                    em nenhum controller, por isso para que ela apareça na documentação é preciso apontar manualmente conforme abaixo.
                 * */

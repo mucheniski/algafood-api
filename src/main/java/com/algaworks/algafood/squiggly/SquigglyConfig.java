@@ -32,12 +32,12 @@ public class SquigglyConfig {
 		filterRegistration.setFilter(new SquigglyRequestFilter());
 		filterRegistration.setOrder(1);
 		
-//		/*
-//		 * caso queira filtrar apenas para urls específicas, podem ser adicionadas com o método setUtlPatterns
-//		 * no exemplo abaixo só será permitido o filtro do squiggly nas urls descritas
-//		 */
-//		List<String> urlPatterns = Arrays.asList("/pedidos/*", "/restaurantes/*");
-//		filterRegistration.setUrlPatterns(urlPatterns);
+		/*
+		 * caso queira filtrar apenas para urls específicas, podem ser adicionadas com o método setUtlPatterns
+		 * no exemplo abaixo só será permitido o filtro do squiggly nas urls descritas
+		 */
+		List<String> urlPatterns = Arrays.asList("/pedidos/*", "/restaurantes/*");
+		filterRegistration.setUrlPatterns(urlPatterns);
 		
 		return filterRegistration;
 	}
