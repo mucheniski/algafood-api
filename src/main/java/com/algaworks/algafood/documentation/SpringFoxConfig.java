@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.AlternateTypeRules;
@@ -54,6 +55,14 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         var tagCozinhas         = new Tag("Cozinhas", "Gerencia as Cozinhas");
         var tagFormaPagamento   = new Tag("FormasPagamento", "Gerencia as formas de pagamento");
 
+        var parametroCampos =
+                new ParameterBuilder()
+                    .name("campos")
+                    .description("Nome das propriedades para filtrar o response")
+                    .parameterType("query")
+                    .modelRef(new ModelRef("string"))
+                .build();
+
         return new Docket(DocumentationType.SWAGGER_2)
                         .select()
                             .apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood"))
@@ -64,6 +73,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.POST, retornosGlobalPUTePOST())
                 .globalResponseMessage(RequestMethod.PUT, retornosGlobalPUTePOST())
                 .globalResponseMessage(RequestMethod.DELETE, retornosGlobalDELETE())
+                /*
+                * Essa configuração é necessária para especificar globalmente os parametros implícitos, como no exemplo de PedidoController.pesquisarComFiltro
+                * na documentação não aparecem os filtros passados no PedidoFiltro, por isso precisa ser especificado aqui.
+                * */
+                .globalOperationParameters(Arrays.asList(parametroCampos))
                 /* A Classe Problema usada para receber os problemas das exceptions da api não é mapeada no swagger porque não estã sendo usada
                    em nenhum controller, por isso para que ela apareça na documentação é preciso apontar manualmente conforme abaixo.
                 * */
