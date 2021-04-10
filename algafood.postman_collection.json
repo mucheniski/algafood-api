@@ -1050,10 +1050,10 @@
 			]
 		},
 		{
-			"name": "Pedido",
+			"name": "pedido",
 			"item": [
 				{
-					"name": "buscar por id",
+					"name": "buscar por código",
 					"request": {
 						"method": "GET",
 						"header": [],

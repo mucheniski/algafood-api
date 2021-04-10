@@ -1,6 +1,7 @@
 package com.algaworks.algafood.documentation;
 
 import com.algaworks.algafood.dto.CozinhaDTO;
+import com.algaworks.algafood.dto.PedidoResumoDTO;
 import com.algaworks.algafood.exception.Problema;
 import com.fasterxml.classmate.TypeResolver;
 import lombok.var;
@@ -54,6 +55,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         var tagGrupos           = new Tag("Grupos",  "Gerencia os grupos de permissao");
         var tagCozinhas         = new Tag("Cozinhas", "Gerencia as Cozinhas");
         var tagFormaPagamento   = new Tag("FormasPagamento", "Gerencia as formas de pagamento");
+        var tagPedidos          = new Tag("Pedidos", "Gerencia os pedidos");
 
 //        Usado apenas para globalOperationParameters(Arrays.asList(parametroCampos)) por isso está comentado
 //        var parametroCampos =
@@ -89,13 +91,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 * retornando um Pageable.
                 * */
                 .directModelSubstitute(Pageable.class, PropriedadesPageableOpenAPI.class)
-                /*
-                * Substitui o Page de Cozinha com as propriedades corretas da classe PageCozinhasOpenAPI apenas na documentação
-                * */
                 .ignoredParameterTypes(ServletWebRequest.class)
+                /*
+                 * Substitui o Page de Cozinha com as propriedades corretas da classe PageCozinhasOpenAPI apenas na documentação
+                 * */
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaDTO.class), PageCozinhasOpenAPI.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, PedidoResumoDTO.class), PagePedidosOpenAPI.class))
+                // TODO: fazer o PagePedidosOpenAPI
                 .apiInfo(customApiInfo())
-                .tags(tagCidades, tagGrupos, tagCozinhas, tagFormaPagamento);
+                .tags(tagCidades, tagGrupos, tagCozinhas, tagFormaPagamento, tagPedidos);
     }
 
     private List<ResponseMessage> retornosGlobalGET() {
