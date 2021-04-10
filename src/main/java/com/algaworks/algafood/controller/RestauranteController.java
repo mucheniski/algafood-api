@@ -5,7 +5,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.documentation.RestauranteApenasNomesOpenAPI;
+import com.algaworks.algafood.documentation.RestauranteResumoOpenAPI;
 import com.algaworks.algafood.dto.RestauranteResumoDTO;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +36,20 @@ public class RestauranteController {
 		return service.listar();
 	}
 
+	@ApiOperation(value = "Listar Resumido", response = RestauranteResumoOpenAPI.class)
+	@JsonView(RestauranteView.Resumo.class)
+	@GetMapping(value = "/listar-resumido", params = "tipoRetorno=resumo")
+	public List<RestauranteRetornoDTO> listarResumido() {
+		return service.listar();
+	}
+
+	@ApiOperation(value = "Lista apenas os nomes", response = RestauranteApenasNomesOpenAPI.class)
+	@JsonView(RestauranteView.ApenasNomes.class)
+	@GetMapping(value = "/listar-apenas-nomes", params = "tipoRetorno=apenas-nomes")
+	public List<RestauranteRetornoDTO> listarApenasNomes() {
+		return service.listar();
+	}
+
 	@GetMapping("/resumo")
 	public List<RestauranteResumoDTO> listarResumo() {
 		return service.listarResumo();
@@ -45,18 +64,6 @@ public class RestauranteController {
 	@GetMapping("/listar-envelopado")
 	public MappingJacksonValue listarEnvelopado(@RequestParam(required = false) String tipoRetorno) {
 		return service.listarEnvelopado(tipoRetorno);
-	}
-	
-	@JsonView(RestauranteView.Resumo.class)
-	@GetMapping(params = "tipoRetorno=resumo")
-	public List<RestauranteRetornoDTO> listarResumido() {
-		return service.listar();
-	}
-	
-	@JsonView(RestauranteView.ApenasNomes.class)
-	@GetMapping(params = "tipoRetorno=apenas-nomes")
-	public List<RestauranteRetornoDTO> listarApenasNomes() {
-		return service.listar();
 	}
 	
 	@GetMapping("/{id}")
