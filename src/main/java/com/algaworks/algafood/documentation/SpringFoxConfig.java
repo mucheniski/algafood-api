@@ -33,7 +33,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+// TODO: Continuar a partir da aula 18:29 após terminar o curso, finalizar a documentação do projeto
 /*
 * A interface Spring WebMvcConfigurer é usada para customizar o Spring MVC no projeto.
 * */
@@ -97,7 +97,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                  * */
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaDTO.class), PageCozinhasOpenAPI.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, PedidoResumoDTO.class), PagePedidosOpenAPI.class))
-                // TODO: fazer o PagePedidosOpenAPI
                 .apiInfo(customApiInfo())
                 .tags(tagCidades, tagGrupos, tagCozinhas, tagFormaPagamento, tagPedidos);
     }

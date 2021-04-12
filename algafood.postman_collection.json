@@ -75,17 +75,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurantes?projecao=resumo",
+							"raw": "localhost:8080/restaurantes/listar-resumido?tipoRetorno=resumo",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"restaurantes"
+								"restaurantes",
+								"listar-resumido"
 							],
 							"query": [
 								{
-									"key": "projecao",
+									"key": "tipoRetorno",
 									"value": "resumo"
 								}
 							]
@@ -99,17 +100,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurantes?projecao=apenas-nomes",
+							"raw": "localhost:8080/restaurantes/listar-apenas-nomes?tipoRetorno=apenas-nomes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"restaurantes"
+								"restaurantes",
+								"listar-apenas-nomes"
 							],
 							"query": [
 								{
-									"key": "projecao",
+									"key": "tipoRetorno",
 									"value": "apenas-nomes"
 								}
 							]

@@ -283,3 +283,10 @@ O que o swagger-ui faz é uma requisição no endpoint /v2/api-docs gera o JSON 
 A configuração @Import(BeanValidatorPluginsConfiguration.class) que valida as anotações do javax validation e coloca um * vermelho na frente  
 só funciona quando a propriedade não é anotada com o @ApiModelProperty, porque o @ApiModelProperty já tem um required false por default, nesse caso  
 ele sobrescreve a configuração, para essas propriedades anotadas é preciso setar o required true manualmente
+
+19.1 - Discoverability e HATEOAS  
+
+HATEOAS Hypertext As The Engine Of Application State
+Discoverability é a capacidade que a API tem de deixar que o consumidor acesse os recursos sem necessáriamente conhecer os endpoints, criando links entre os  
+recursos para que possam ser navegados através da api root "/".  
+![](/img/discoverabilityExemplo1.png)
