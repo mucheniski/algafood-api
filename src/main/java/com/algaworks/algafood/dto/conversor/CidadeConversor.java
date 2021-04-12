@@ -34,10 +34,6 @@ public class CidadeConversor {
 		return modelMapper.map(cidadeDTO, Cidade.class);
 	}
 
-	public Cidade converterInputParaObjeto(CidadeInputDTO cidadeInputDTO) {
-		return modelMapper.map(cidadeInputDTO, Cidade.class);
-	}
-	
 	public void copiarParaObjeto(CidadeDTO cidadeDTO, Cidade cidade) {
 		cidadeDTO.setId(cidade.getId());
 		cidadeDTO.setEstado(estadoConversor.converterParaDTO(cidade.getEstado()));

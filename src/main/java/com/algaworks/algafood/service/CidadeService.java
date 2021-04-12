@@ -54,7 +54,8 @@ public class CidadeService {
 		try {				
 			Long estadoId = dto.getEstadoId();
 			Estado estado = estadoRepository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncotradaException(estadoId));
-			Cidade cidade = conversor.converterInputParaObjeto(dto);
+			Cidade cidade = new Cidade();
+			cidade.setNome(dto.getNome());
 			cidade.setEstado(estado);
 			return conversor.converterParaDTO(repository.save(cidade));
 		} catch (EntidadeNaoEncotradaException e) {
