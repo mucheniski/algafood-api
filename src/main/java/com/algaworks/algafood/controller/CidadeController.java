@@ -7,11 +7,13 @@ import javax.validation.Valid;
 
 import com.algaworks.algafood.documentation.CidadeOpenAPI;
 import com.algaworks.algafood.dto.input.CidadeInputDTO;
+import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.exception.Problema;
 import com.algaworks.algafood.util.URIGenerator;
 import io.swagger.annotations.*;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +50,13 @@ public class CidadeController implements CidadeOpenAPI {
 	@Override
 	@GetMapping("/{id}")
 	public CidadeDTO buscarPorId(@PathVariable Long id) {
-		return service.buscarDtoPorId(id);
+
+		CidadeDTO cidadeDTO = service.buscarDtoPorId(id);
+		cidadeDTO.add(new Link("localhost:8080/cidades/1"));
+		cidadeDTO.add(new Link("localhost:8080/cidades", "cidades"));
+		cidadeDTO.getEstado().add(new Link("localhost:8080/estados/1"));
+
+		return cidadeDTO;
 	}
 
 	@Override

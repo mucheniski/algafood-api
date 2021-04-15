@@ -1,16 +1,18 @@
 package com.algaworks.algafood.dto;
 
+import com.algaworks.algafood.entity.Estado;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "Representa uma DTO de Estado")
 @Getter
 @Setter
-public class EstadoDTO {
+public class EstadoDTO extends RepresentationModel<EstadoDTO> {
 
 	@ApiModelProperty(example = "1", required = true)
 	@NotNull
