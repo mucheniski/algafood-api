@@ -290,3 +290,8 @@ HATEOAS Hypertext As The Engine Of Application State
 Discoverability é a capacidade que a API tem de deixar que o consumidor acesse os recursos sem necessáriamente conhecer os endpoints, criando links entre os  
 recursos para que possam ser navegados através da api root "/".  
 ![](/img/discoverabilityExemplo1.png)
+
+Hypermedia são recursos que adicionam links para outros recursos, como no exemplo do a href em HTML.  
+Também existem formatos para recursos de hypermedia no Spring, como por exemplo o Hypertext Application Language HAL  
+[documentação](https://stateless.group/hal_specification.html)   
+
