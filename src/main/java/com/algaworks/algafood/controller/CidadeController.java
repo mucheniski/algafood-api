@@ -14,6 +14,7 @@ import io.swagger.annotations.*;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,9 +53,11 @@ public class CidadeController implements CidadeOpenAPI {
 	public CidadeDTO buscarPorId(@PathVariable Long id) {
 
 		CidadeDTO cidadeDTO = service.buscarDtoPorId(id);
-		cidadeDTO.add(new Link("localhost:8080/cidades/1"));
-		cidadeDTO.add(new Link("localhost:8080/cidades", "cidades"));
-		cidadeDTO.getEstado().add(new Link("localhost:8080/estados/1"));
+		// Criando um link dinamicamente para o CidadeController/cidadeDTO.id ex .../cidades/1
+		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeDTO.getId()).withSelfRel());
+
+		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
+		cidadeDTO.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeDTO.getEstado().getId()).withSelfRel());
 
 		return cidadeDTO;
 	}
