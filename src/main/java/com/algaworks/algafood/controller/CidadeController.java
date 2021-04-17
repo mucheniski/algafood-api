@@ -2,20 +2,14 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.algaworks.algafood.documentation.CidadeOpenAPI;
 import com.algaworks.algafood.dto.input.CidadeInputDTO;
-import com.algaworks.algafood.entity.Cidade;
-import com.algaworks.algafood.exception.Problema;
 import com.algaworks.algafood.util.URIGenerator;
-import io.swagger.annotations.*;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,10 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.dto.CidadeDTO;
 import com.algaworks.algafood.service.CidadeService;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContext;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,14 +40,23 @@ public class CidadeController implements CidadeOpenAPI {
 
 	@Override
 	@GetMapping("/{id}")
-	public CidadeDTO buscarPorId(@PathVariable Long id) {
+	public CidadeDTO buscarDtoPorId(@PathVariable Long id) {
 
 		CidadeDTO cidadeDTO = service.buscarDtoPorId(id);
-		// Criando um link dinamicamente para o CidadeController/cidadeDTO.id ex .../cidades/1
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeDTO.getId()).withSelfRel());
 
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
-		cidadeDTO.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeDTO.getEstado().getId()).withSelfRel());
+		/*
+		* o methodOn cria uma proxy do controller e já mapeia automáticamente o método sendo usado, é útil para que caso seja alterado algum
+		* mapeamento no controller o novo link já é alterado automaticamente, não precisamos ficar criando com slash
+		* Criando um link dinamicamente para o CidadeController/cidadeDTO.id ex .../cidades/1
+		* é possível porque o CidadeDTO está estendendo RepresentationModel
+		* */
+		Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscarDtoPorId(cidadeDTO.getId())).withSelfRel();
+		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades");
+		Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarDtoPorId(cidadeDTO.getEstado().getId())).withSelfRel();
+
+		cidadeDTO.add(linkBuscarPorId);
+		cidadeDTO.add(linkListar);
+		cidadeDTO.getEstado().add(linkEstado);
 
 		return cidadeDTO;
 	}
