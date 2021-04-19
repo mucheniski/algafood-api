@@ -1,13 +1,12 @@
 package com.algaworks.algafood.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import com.algaworks.algafood.documentation.CidadeOpenAPI;
 import com.algaworks.algafood.dto.input.CidadeInputDTO;
 import com.algaworks.algafood.util.URIGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -34,8 +33,26 @@ public class CidadeController implements CidadeOpenAPI {
 
 	@Override
 	@GetMapping
-	public List<CidadeDTO> listar() {
-		return service.listar();
+	public CollectionModel<CidadeDTO> listar() {
+		CollectionModel<CidadeDTO> cidadeDTOCollectionModel = service.listar();
+
+		// Adicionando um link para cada cidade
+		cidadeDTOCollectionModel.forEach(cidadeDTO -> {
+
+			Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscarDtoPorId(cidadeDTO.getId())).withSelfRel();
+			Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades");
+			Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarDtoPorId(cidadeDTO.getEstado().getId())).withSelfRel();
+
+			cidadeDTO.add(linkBuscarPorId);
+			cidadeDTO.add(linkListar);
+			cidadeDTO.getEstado().add(linkEstado);
+
+		});
+
+		// Adicionar o link para o endpoint de cidades
+		cidadeDTOCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+
+		return cidadeDTOCollectionModel;
 	}
 
 	@Override

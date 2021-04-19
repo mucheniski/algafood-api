@@ -4,17 +4,13 @@ import com.algaworks.algafood.dto.CidadeDTO;
 import com.algaworks.algafood.dto.input.CidadeInputDTO;
 import com.algaworks.algafood.exception.Problema;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Cidades")
 public interface CidadeOpenAPI {
 
     @ApiOperation("Lista os registros")
-    List<CidadeDTO> listar();
+    CollectionModel<CidadeDTO> listar();
 
     @ApiOperation("Busca por ID")
     /*

@@ -592,14 +592,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/cidades/1",
+							"raw": "localhost:8080/cidades/2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"cidades",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -612,7 +612,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Porecatu\",\n    \"estadoId\": 2    \n}",
+							"raw": "{\n    \"nome\": \"Porecatu\",\n    \"estadoId\": 1    \n}",
 							"options": {
 								"raw": {
 									"language": "json"

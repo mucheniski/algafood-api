@@ -6,10 +6,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+// Caso precise mudar o nome no JSON que está cidadeDTOList, deixar o @Relation com o novo nome
+// @Relation(collectionRelation = "cidades")
 @ApiModel(description = "Representa uma DTO de Cidade")
 @Getter
 @Setter

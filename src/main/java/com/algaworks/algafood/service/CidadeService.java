@@ -6,6 +6,7 @@ import com.algaworks.algafood.dto.input.CidadeInputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +36,9 @@ public class CidadeService {
 	@Autowired
 	private CidadeConversor conversor;
 	
-	public List<CidadeDTO> listar() {
-		return conversor.converterListaParaDTO(repository.findAll());
+	public CollectionModel<CidadeDTO> listar() {
+		List<CidadeDTO> cidadesDTO = conversor.converterListaParaDTO(repository.findAll());
+		return new CollectionModel<>(cidadesDTO);
 	}
 	
 	public Cidade buscarPorId(Long id) {
