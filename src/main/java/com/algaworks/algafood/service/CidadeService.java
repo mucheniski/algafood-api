@@ -3,6 +3,7 @@ package com.algaworks.algafood.service;
 import java.util.List;
 
 import com.algaworks.algafood.dto.input.CidadeInputDTO;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,8 +38,7 @@ public class CidadeService {
 	private CidadeConversor conversor;
 	
 	public CollectionModel<CidadeDTO> listar() {
-		List<CidadeDTO> cidadesDTO = conversor.converterListaParaDTO(repository.findAll());
-		return new CollectionModel<>(cidadesDTO);
+		return conversor.toCollectionModel(repository.findAll());
 	}
 	
 	public Cidade buscarPorId(Long id) {
@@ -47,7 +47,7 @@ public class CidadeService {
 	
 	public CidadeDTO buscarDtoPorId(Long id) {
 		Cidade cidade = buscarPorId(id);	
-		return conversor.converterParaDTO(cidade);
+		return conversor.toModel(cidade);
 	}
 	
 	@Transactional
@@ -59,7 +59,7 @@ public class CidadeService {
 			Cidade cidade = new Cidade();
 			cidade.setNome(dto.getNome());
 			cidade.setEstado(estado);
-			return conversor.converterParaDTO(repository.save(cidade));
+			return conversor.toModel(repository.save(cidade));
 		} catch (EntidadeNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}		
@@ -79,7 +79,7 @@ public class CidadeService {
 			}
 			
 			conversor.copiarParaObjeto(dto, cidadeAtual);
-			return conversor.converterParaDTO(repository.save(cidadeAtual));
+			return conversor.toModel(repository.save(cidadeAtual));
 		} catch (EstadoNaoEncotradaException e) {
 			throw new NegocioException(e.getMessage());
 		}

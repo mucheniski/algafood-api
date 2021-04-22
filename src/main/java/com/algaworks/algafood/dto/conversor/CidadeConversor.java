@@ -3,16 +3,22 @@ package com.algaworks.algafood.dto.conversor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.algaworks.algafood.dto.input.CidadeInputDTO;
+import com.algaworks.algafood.controller.CidadeController;
+import com.algaworks.algafood.controller.EstadoController;
+import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.dto.CidadeDTO;
 import com.algaworks.algafood.entity.Cidade;
 
 @Component
-public class CidadeConversor {
+public class CidadeConversor extends RepresentationModelAssemblerSupport<Cidade, CidadeDTO> {
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -20,16 +26,44 @@ public class CidadeConversor {
 	@Autowired
 	private EstadoConversor estadoConversor;
 
-	public CidadeDTO converterParaDTO(Cidade cidade) {
-		return modelMapper.map(cidade, CidadeDTO.class);
+	public CidadeConversor() {
+		super(CidadeController.class, CidadeDTO.class);
 	}
-	
-	public List<CidadeDTO> converterListaParaDTO(List<Cidade> cidades) {
-		return cidades.stream()
-						.map(cidade -> converterParaDTO(cidade))
-						.collect(Collectors.toList());
+
+	/*
+	* O Método precisou ser renomeado para sobrescrever o toModel herdado de RepresentationModelAssemblerSupport
+	* o converterListaParaDTO foi removido porque a classe herdada já tem também um método chamado toCollectionMadel
+	* que faz a mesma coisa
+	* */
+	@Override
+	public CidadeDTO toModel(Cidade cidade) {
+		var cidadeDTO = modelMapper.map(cidade, CidadeDTO.class);
+
+		/*
+		 * o methodOn cria uma proxy do controller e já mapeia automáticamente o método sendo usado, é útil para que caso seja alterado algum
+		 * mapeamento no controller o novo link já é alterado automaticamente, não precisamos ficar criando com slash
+		 * Criando um link dinamicamente para o CidadeController/cidadeDTO.id ex .../cidades/1
+		 * é possível porque o CidadeDTO está estendendo RepresentationModel
+		 * */
+		Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscarDtoPorId(cidadeDTO.getId())).withSelfRel();
+		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades");
+		Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarDtoPorId(cidadeDTO.getEstado().getId())).withSelfRel();
+
+		cidadeDTO.add(linkBuscarPorId);
+		cidadeDTO.add(linkListar);
+		cidadeDTO.getEstado().add(linkEstado);
+
+		return cidadeDTO;
 	}
-	
+
+	/*
+	* Reescrito apenas para adicionar o link do list no final
+	* */
+	@Override
+	public CollectionModel<CidadeDTO> toCollectionModel(Iterable<? extends Cidade> entities) {
+		return super.toCollectionModel(entities).add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+	}
+
 	public Cidade converterParaObjeto(CidadeDTO cidadeDTO) {
 		return modelMapper.map(cidadeDTO, Cidade.class);
 	}
@@ -39,5 +73,5 @@ public class CidadeConversor {
 		cidadeDTO.setEstado(estadoConversor.converterParaDTO(cidade.getEstado()));
 		modelMapper.map(cidadeDTO, cidade);
 	}
-	
+
 }

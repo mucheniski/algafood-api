@@ -34,47 +34,13 @@ public class CidadeController implements CidadeOpenAPI {
 	@Override
 	@GetMapping
 	public CollectionModel<CidadeDTO> listar() {
-		CollectionModel<CidadeDTO> cidadeDTOCollectionModel = service.listar();
-
-		// Adicionando um link para cada cidade
-		cidadeDTOCollectionModel.forEach(cidadeDTO -> {
-
-			Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscarDtoPorId(cidadeDTO.getId())).withSelfRel();
-			Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades");
-			Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarDtoPorId(cidadeDTO.getEstado().getId())).withSelfRel();
-
-			cidadeDTO.add(linkBuscarPorId);
-			cidadeDTO.add(linkListar);
-			cidadeDTO.getEstado().add(linkEstado);
-
-		});
-
-		// Adicionar o link para o endpoint de cidades
-		cidadeDTOCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
-
-		return cidadeDTOCollectionModel;
+		return  service.listar();
 	}
 
 	@Override
 	@GetMapping("/{id}")
 	public CidadeDTO buscarDtoPorId(@PathVariable Long id) {
-
 		CidadeDTO cidadeDTO = service.buscarDtoPorId(id);
-
-		/*
-		* o methodOn cria uma proxy do controller e já mapeia automáticamente o método sendo usado, é útil para que caso seja alterado algum
-		* mapeamento no controller o novo link já é alterado automaticamente, não precisamos ficar criando com slash
-		* Criando um link dinamicamente para o CidadeController/cidadeDTO.id ex .../cidades/1
-		* é possível porque o CidadeDTO está estendendo RepresentationModel
-		* */
-		Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscarDtoPorId(cidadeDTO.getId())).withSelfRel();
-		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades");
-		Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarDtoPorId(cidadeDTO.getEstado().getId())).withSelfRel();
-
-		cidadeDTO.add(linkBuscarPorId);
-		cidadeDTO.add(linkListar);
-		cidadeDTO.getEstado().add(linkEstado);
-
 		return cidadeDTO;
 	}
 
