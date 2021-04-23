@@ -30,7 +30,7 @@ public class PedidoResumoDTO {
 	@ApiModelProperty(example = "2021-04-10T11:13:34Z")
 	private OffsetDateTime dataCriacao;
 
-	private UsuarioRetornoDTO usuarioCliente;
+	private UsuarioDTO usuarioCliente;
 
 	private RestauranteResumoDTO restaurante;
 

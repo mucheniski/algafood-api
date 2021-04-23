@@ -25,7 +25,7 @@ public class PedidoDTO {
 	private OffsetDateTime dataConfirmacao;
 	private OffsetDateTime dataCancelamento;
 	private OffsetDateTime dataEntrega;
-	private UsuarioRetornoDTO usuarioCliente;
+	private UsuarioDTO usuarioCliente;
 	private EnderecoPedidoDTO enderecoEntrega;
 	private RestauranteResumoDTO restaurante;
 	private FormaPagamentoDTO formaPagamento;

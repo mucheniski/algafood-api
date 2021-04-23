@@ -8,13 +8,14 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.dto.GrupoDTO;
 import com.algaworks.algafood.dto.UsuarioAtualizaSenhaDTO;
 import com.algaworks.algafood.dto.UsuarioEntradaDTO;
 import com.algaworks.algafood.dto.UsuarioEntradaSemSenhaDTO;
-import com.algaworks.algafood.dto.UsuarioRetornoDTO;
+import com.algaworks.algafood.dto.UsuarioDTO;
 import com.algaworks.algafood.dto.conversor.UsuarioConversor;
 import com.algaworks.algafood.entity.Grupo;
 import com.algaworks.algafood.entity.Usuario;
@@ -35,35 +36,35 @@ public class UsuarioService {
 	@Autowired
 	private GrupoService grupoService;
 	
-	public List<UsuarioRetornoDTO> listar() {
-		return conversor.converterListaParaDTO(repository.findAll()); 
+	public CollectionModel<UsuarioDTO> listar() {
+		return conversor.toCollectionModel(repository.findAll());
 	}
 	
 	public Usuario buscarPorId(Long id) {
 		return repository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 	}
 
-	public UsuarioRetornoDTO buscarDtoPorId(Long id) {
-		return conversor.converterParaDTO(buscarPorId(id));
+	public UsuarioDTO buscarDtoPorId(Long id) {
+		return conversor.toModel(buscarPorId(id));
 	}
 
 	@Transactional
-	public UsuarioRetornoDTO salvar(UsuarioEntradaDTO dto) {
+	public UsuarioDTO salvar(UsuarioEntradaDTO dto) {
 		
 		// TODO: criptografar a senha para salvar
 		Usuario usuario = conversor.converterParaObjeto(dto);
-		return conversor.converterParaDTO(salvarNaBase(usuario));
+		return conversor.toModel(salvarNaBase(usuario));
 	}
 
 	@Transactional
-	public UsuarioRetornoDTO atualizar(Long id, UsuarioEntradaSemSenhaDTO dto) {		
+	public UsuarioDTO atualizar(Long id, UsuarioEntradaSemSenhaDTO dto) {
 		Usuario usuario = buscarPorId(id);
 		conversor.copiarParaObjeto(dto, usuario);		
-		return conversor.converterParaDTO(salvarNaBase(usuario));
+		return conversor.toModel(salvarNaBase(usuario));
 	}	
 
 	@Transactional
-	public UsuarioRetornoDTO atualizaSenha(Long id, @Valid UsuarioAtualizaSenhaDTO dto) {
+	public UsuarioDTO atualizaSenha(Long id, @Valid UsuarioAtualizaSenhaDTO dto) {
 		
 		Usuario usuario = buscarPorId(id);
 		
@@ -78,7 +79,7 @@ public class UsuarioService {
 		// TODO: criptografar a senha para salvar
 		usuario.setSenha(dto.getSenhaNova());
 		
-		return conversor.converterParaDTO(repository.save(usuario));
+		return conversor.toModel(repository.save(usuario));
 	}
 	
 	private Usuario salvarNaBase(Usuario usuario) {

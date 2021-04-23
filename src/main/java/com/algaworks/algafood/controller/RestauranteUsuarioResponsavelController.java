@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.dto.UsuarioRetornoDTO;
+import com.algaworks.algafood.dto.UsuarioDTO;
 import com.algaworks.algafood.service.RestauranteService;
 
 @RestController
@@ -22,7 +22,7 @@ public class RestauranteUsuarioResponsavelController {
 	private RestauranteService restauranteService;
 	
 	@GetMapping
-	public List<UsuarioRetornoDTO> listarResponsaveis(@PathVariable Long restauranteId) {
+	public List<UsuarioDTO> listarResponsaveis(@PathVariable Long restauranteId) {
 		return restauranteService.listarResponsaveisPorRestaurante(restauranteId);
 	}
 

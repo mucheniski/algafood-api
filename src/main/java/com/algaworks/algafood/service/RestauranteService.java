@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.algaworks.algafood.dto.*;
+import lombok.var;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,6 @@ import com.algaworks.algafood.dto.conversor.UsuarioConversor;
 import com.algaworks.algafood.entity.Cidade;
 import com.algaworks.algafood.entity.Cozinha;
 import com.algaworks.algafood.entity.FormaPagamento;
-import com.algaworks.algafood.entity.Produto;
 import com.algaworks.algafood.entity.Restaurante;
 import com.algaworks.algafood.entity.Usuario;
 import com.algaworks.algafood.exception.CidadeNaoEncotradaException;
@@ -274,16 +275,14 @@ public class RestauranteService {
 		restaurante.fechar();
 	}
 
-	public List<UsuarioRetornoDTO> listarResponsaveisPorRestaurante(Long restauranteId) {
+	public List<UsuarioDTO> listarResponsaveisPorRestaurante(Long restauranteId) {
 		Restaurante restaurante = buscarPorId(restauranteId);
+		List<UsuarioDTO> responsaveis = new ArrayList<>();
+		restaurante.getResponsaveis().forEach(usuario -> {
+			responsaveis.add(usuarioConversor.toModel(usuario));
+		});
 		
-		/*
-		 * Converter Set para List
-		 * https://pt.stackoverflow.com/questions/80413/converter-uma-cole%C3%A7%C3%A3o-do-tipo-set-para-list
-		 */
-		List<Usuario> usuarios = new ArrayList<>(restaurante.getResponsaveis());
-		
-		return usuarioConversor.converterListaParaDTO(usuarios);
+		return responsaveis;
 	}
 
 	@Transactional

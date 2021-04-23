@@ -39,7 +39,7 @@ public class CidadeController implements CidadeOpenAPI {
 
 	@Override
 	@GetMapping("/{id}")
-	public CidadeDTO buscarDtoPorId(@PathVariable Long id) {
+	public CidadeDTO buscarPorId(@PathVariable Long id) {
 		CidadeDTO cidadeDTO = service.buscarDtoPorId(id);
 		return cidadeDTO;
 	}

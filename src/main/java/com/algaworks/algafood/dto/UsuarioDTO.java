@@ -4,11 +4,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 @ApiModel("Representa um usuário")
 @Getter
 @Setter
-public class UsuarioRetornoDTO {
+public class UsuarioDTO extends RepresentationModel<UsuarioDTO> {
 
 	@ApiModelProperty(example = "1")
 	private Long id;
@@ -18,5 +19,6 @@ public class UsuarioRetornoDTO {
 
 	@ApiModelProperty(example = "diego@teste.com")
 	private String email;
+
 
 }

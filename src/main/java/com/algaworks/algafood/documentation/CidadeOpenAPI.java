@@ -21,7 +21,7 @@ public interface CidadeOpenAPI {
             @ApiResponse(code = 400, message = "Parametro passado inválido", response = Problema.class),
             @ApiResponse(code = 404, message = "Não encontrado", response = Problema.class)
     })
-    CidadeDTO buscarDtoPorId(@ApiParam(value = "ID", example = "1") Long id);
+    CidadeDTO buscarPorId(@ApiParam(value = "ID", example = "1") Long id);
 
     @ApiOperation("Cadastra um novo registro")
     /*
