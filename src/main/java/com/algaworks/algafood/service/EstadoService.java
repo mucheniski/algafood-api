@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,26 +26,26 @@ public class EstadoService {
 	@Autowired
 	private EstadoConversor conversor;
 	
-	public List<EstadoDTO> listar() {
-		return conversor.converterListaParaDTO(reposiroty.findAll());
+	public CollectionModel<EstadoDTO> listar() {
+		return conversor.toCollectionModel(reposiroty.findAll());
 	}
 	
 	public EstadoDTO buscarDtoPorId(Long id)	{
 		Estado estado = reposiroty.findById(id).orElseThrow(() -> new EstadoNaoEncotradaException(id) );
-		return conversor.converterParaDTO(estado);
+		return conversor.toModel(estado);
 	}
 	
 	@Transactional
 	public EstadoDTO salvar(EstadoDTO dto) {
 		Estado estado = conversor.converterParaObjeto(dto);
-		return conversor.converterParaDTO(reposiroty.save(estado));
+		return conversor.toModel(reposiroty.save(estado));
 	}
 	
 	@Transactional
 	public EstadoDTO atualizar(Long id, EstadoDTO dto) {
 		Estado estadoAtual = reposiroty.findById(id).get();
 		conversor.copiarParaObjeto(dto, estadoAtual);
-		return conversor.converterParaDTO(reposiroty.save(estadoAtual));
+		return conversor.toModel(reposiroty.save(estadoAtual));
 	}
 	
 	@Transactional

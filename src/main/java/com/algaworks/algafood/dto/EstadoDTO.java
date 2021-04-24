@@ -9,6 +9,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotNull;
 
+// TODO: refatorar dotos os DTO para Model e o conversor para Assembler
 @ApiModel(description = "Representa uma DTO de Estado")
 @Getter
 @Setter

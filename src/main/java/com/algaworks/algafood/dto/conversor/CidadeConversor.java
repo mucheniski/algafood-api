@@ -69,7 +69,7 @@ public class CidadeConversor extends RepresentationModelAssemblerSupport<Cidade,
 
 	public void copiarParaObjeto(CidadeDTO cidadeDTO, Cidade cidade) {
 		cidadeDTO.setId(cidade.getId());
-		cidadeDTO.setEstado(estadoConversor.converterParaDTO(cidade.getEstado()));
+		cidadeDTO.setEstado(estadoConversor.toModel(cidade.getEstado()));
 		modelMapper.map(cidadeDTO, cidade);
 	}
 

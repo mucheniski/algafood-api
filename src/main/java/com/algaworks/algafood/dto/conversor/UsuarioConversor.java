@@ -33,7 +33,7 @@ public class UsuarioConversor extends RepresentationModelAssemblerSupport<Usuari
 		var usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
 
 		Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).buscarPorId(usuarioDTO.getId())).withSelfRel();
-		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar()).withRel("usuarios");
+		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar()).withRel("lista");
 		Link linkGrupos = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listarGruposPorUsuario(usuarioDTO.getId())).withSelfRel();
 
 		usuarioDTO.add(linkBuscarPorId);
