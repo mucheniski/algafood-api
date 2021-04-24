@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.algaworks.algafood.controller.RestauranteUsuarioResponsavelController;
+import com.algaworks.algafood.controller.UsuarioController;
 import com.algaworks.algafood.dto.*;
 import lombok.var;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -275,14 +279,14 @@ public class RestauranteService {
 		restaurante.fechar();
 	}
 
-	public List<UsuarioDTO> listarResponsaveisPorRestaurante(Long restauranteId) {
+	public CollectionModel<UsuarioDTO> listarResponsaveisPorRestaurante(Long restauranteId) {
 		Restaurante restaurante = buscarPorId(restauranteId);
-		List<UsuarioDTO> responsaveis = new ArrayList<>();
-		restaurante.getResponsaveis().forEach(usuario -> {
-			responsaveis.add(usuarioConversor.toModel(usuario));
-		});
-		
-		return responsaveis;
+
+		Link linkListarResponsaveis = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).listarResponsaveis(restauranteId)).withSelfRel();
+
+		return usuarioConversor.toCollectionModel(restaurante.getResponsaveis())
+									.removeLinks()
+									.add(linkListarResponsaveis);
 	}
 
 	@Transactional

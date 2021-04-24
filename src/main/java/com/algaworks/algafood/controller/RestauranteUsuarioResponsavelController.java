@@ -3,6 +3,7 @@ package com.algaworks.algafood.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public class RestauranteUsuarioResponsavelController {
 	private RestauranteService restauranteService;
 	
 	@GetMapping
-	public List<UsuarioDTO> listarResponsaveis(@PathVariable Long restauranteId) {
+	public CollectionModel<UsuarioDTO> listarResponsaveis(@PathVariable Long restauranteId) {
 		return restauranteService.listarResponsaveisPorRestaurante(restauranteId);
 	}
 
