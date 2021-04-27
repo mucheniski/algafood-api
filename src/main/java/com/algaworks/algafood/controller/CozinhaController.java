@@ -6,9 +6,9 @@ import javax.validation.Valid;
 
 import com.algaworks.algafood.documentation.CozinhaOpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,13 +30,12 @@ import com.algaworks.algafood.service.CozinhaService;
 @RequestMapping(path = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CozinhaController implements CozinhaOpenAPI {
 	
-	
 	@Autowired
 	private CozinhaService service;
 	
 	@Override
 	@GetMapping
-	public Page<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
+	public PagedModel<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
 		return service.listar(pageable);
 	}
 	

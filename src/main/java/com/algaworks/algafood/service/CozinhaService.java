@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,34 +31,36 @@ public class CozinhaService {
 	
 	@Autowired
 	private CozinhaConversor conversor;
+
+	@Autowired
+	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 	
-	public Page<CozinhaDTO> listar(Pageable pageable) {
+	public PagedModel<CozinhaDTO> listar(Pageable pageable) {
 		Page<Cozinha> cozinhasPaginada = respository.findAll(pageable);		
-		List<CozinhaDTO> cozinhasDTO = conversor.converterListaParaDTO(cozinhasPaginada.getContent());
-		Page<CozinhaDTO> cozinhasDTOPaginada = new PageImpl<>(cozinhasDTO, pageable, cozinhasPaginada.getTotalElements());
-		return cozinhasDTOPaginada;
+		PagedModel<CozinhaDTO> cozinhasPagedModel = pagedResourcesAssembler.toModel(cozinhasPaginada, conversor);
+		return cozinhasPagedModel;
 	}
 	
 	public List<CozinhaDTO> listarPorNome(String nome) {		
 		List<Cozinha> cozinhas = respository.findByNome(nome);
-		return conversor.converterListaParaDTO(cozinhas);
+		return conversor.toCollectionModel(cozinhas);
 	}
 	
 	public CozinhaDTO buscarPorId(Long id) {
 		Cozinha cozinha = respository.findById(id).orElseThrow(() -> new CozinhaNaoEncotradaException(id));		
-		return conversor.converterParaDTO(cozinha);
+		return conversor.toModel(cozinha);
 	}
 	
 	public CozinhaDTO bucarPrimeiro() {		
 		Optional<Cozinha> cozinha = respository.buscarPrimeiro();
-		return conversor.converterParaDTO(cozinha.get());
+		return conversor.toModel(cozinha.get());
 	}
 	
 	@Transactional
 	public CozinhaDTO salvar(CozinhaDTO dto) {
 		try {
 			Cozinha cozinha = conversor.converterParaObjeto(dto);
-			return conversor.converterParaDTO(respository.save(cozinha));
+			return conversor.toModel(respository.save(cozinha));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
 		}		
@@ -68,7 +71,7 @@ public class CozinhaService {
 		try {
 			Cozinha cozinhaAtual = respository.findById(id).get();	
 			conversor.copiarParaObjeto(dto, cozinhaAtual);
-			return conversor.converterParaDTO(respository.save(cozinhaAtual));
+			return conversor.toModel(respository.save(cozinhaAtual));
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage());
 		}

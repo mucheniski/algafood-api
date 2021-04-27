@@ -3,20 +3,16 @@ package com.algaworks.algafood.documentation;
 import com.algaworks.algafood.dto.CozinhaDTO;
 import com.algaworks.algafood.exception.Problema;
 import io.swagger.annotations.*;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.hateoas.PagedModel;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Cozinhas")
 public interface CozinhaOpenAPI {
 
     @ApiOperation("Lista os registros")
-    Page<CozinhaDTO> listar(Pageable pageable);
+    PagedModel<CozinhaDTO> listar(Pageable pageable);
 
     @ApiOperation("Lista os registros por nome")
     @ApiResponses({
