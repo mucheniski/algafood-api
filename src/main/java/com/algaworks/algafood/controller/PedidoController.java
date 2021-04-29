@@ -8,6 +8,7 @@ import com.algaworks.algafood.documentation.PedidoOpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class PedidoController implements PedidoOpenAPI {
 	
 	@Override
 	@GetMapping("/listar-resumido")
-	public Page<PedidoResumoDTO> listarResumido(Pageable pageable) {
+	public PagedModel<PedidoResumoDTO> listarResumido(Pageable pageable) {
 		return service.listarResumido(pageable);
 	}
 

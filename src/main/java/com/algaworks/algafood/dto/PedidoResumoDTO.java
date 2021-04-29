@@ -9,11 +9,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 @ApiModel("Representa um DTO com o Resumo de um pedido")
 @Getter
 @Setter
-public class PedidoResumoDTO {
+public class PedidoResumoDTO extends RepresentationModel<PedidoResumoDTO> {
 
 	@ApiModelProperty(example = "8e6588c2-b393-4e04-ba84-0d8a576977ae")
 	private String codigo;

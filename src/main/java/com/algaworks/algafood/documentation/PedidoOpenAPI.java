@@ -7,6 +7,7 @@ import com.algaworks.algafood.filtro.PedidoFiltro;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public interface PedidoOpenAPI {
 
     @ApiOperation("Lista os registros resumidos")
-    Page<PedidoResumoDTO> listarResumido(Pageable pageable);
+    PagedModel<PedidoResumoDTO> listarResumido(Pageable pageable);
 
     @ApiOperation("Lista os registros completos")
     List<PedidoDTO> listarCompleto();

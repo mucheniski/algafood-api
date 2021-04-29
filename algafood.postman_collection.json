@@ -1196,7 +1196,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos/listar-resumido?sort=usuarioCliente",
+							"raw": "localhost:8080/pedidos/listar-resumido?sort=usuarioCliente&size=2",
 							"host": [
 								"localhost"
 							],
@@ -1219,6 +1219,10 @@
 								{
 									"key": "sort",
 									"value": "usuarioCliente"
+								},
+								{
+									"key": "size",
+									"value": "2"
 								}
 							]
 						}

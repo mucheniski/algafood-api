@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.dto.PedidoDTO;
@@ -53,6 +55,9 @@ public class PedidoService {
 	@Autowired
 	private ProdutoService produtoService;
 
+	@Autowired
+	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+
 	public Pedido buscarPorCodigo(String codigo) {
 		return repository.findByCodigo(codigo).orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
 	}
@@ -62,10 +67,9 @@ public class PedidoService {
 		return conversor.toModel(pedido);
 	}
 
-	public Page<PedidoResumoDTO> listarResumido(Pageable pageable) {
+	public PagedModel<PedidoResumoDTO> listarResumido(Pageable pageable) {
 		Page<Pedido> pedidosPaginado = repository.findAll(pageable);
-		List<PedidoResumoDTO> pedidosDTO = pedidoResumoConversor.converterListaParaDTO(pedidosPaginado.getContent());
-		Page<PedidoResumoDTO> pedidosDTOPaginado = new PageImpl<>(pedidosDTO, pageable, pedidosPaginado.getTotalElements());
+		PagedModel<PedidoResumoDTO> pedidosDTOPaginado = pagedResourcesAssembler.toModel(pedidosPaginado, pedidoResumoConversor);
 		return pedidosDTOPaginado;
 	}
 
@@ -75,13 +79,13 @@ public class PedidoService {
 	}
 	
 	public List<PedidoResumoDTO> pesquisarComFiltro(PedidoFiltro filtro) {
-		return pedidoResumoConversor.converterListaParaDTO(repository.findAll(PedidoSpecs.comFiltro(filtro)));
+		return pedidoResumoConversor.toCollectionModel(repository.findAll(PedidoSpecs.comFiltro(filtro)));
 	}
 
 	public PedidoResumoDTO criarPedido(PedidoDTO dto) {			
 		Pedido pedido = conversor.converterParaObjeto(dto);		
 		pedido = emitirPedido(pedido);		
-		return pedidoResumoConversor.converterParaDTO(pedido);
+		return pedidoResumoConversor.toModel(pedido);
 	}
 	
 	@Transactional
