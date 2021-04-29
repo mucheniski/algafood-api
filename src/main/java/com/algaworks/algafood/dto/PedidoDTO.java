@@ -12,10 +12,11 @@ import com.algaworks.algafood.enuns.StatusPedido;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
-public class PedidoDTO {
+public class PedidoDTO extends RepresentationModel<PedidoDTO> {
 	
 	private String codigo;
 	private BigDecimal subtotal;

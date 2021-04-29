@@ -38,6 +38,7 @@ public class CidadeConversor extends RepresentationModelAssemblerSupport<Cidade,
 	public CidadeDTO toModel(Cidade cidade) {
 		var cidadeDTO = modelMapper.map(cidade, CidadeDTO.class);
 
+		// TODO: Refatorar para import estatico import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 		/*
 		 * o methodOn cria uma proxy do controller e já mapeia automáticamente o método sendo usado, é útil para que caso seja alterado algum
 		 * mapeamento no controller o novo link já é alterado automaticamente, não precisamos ficar criando com slash

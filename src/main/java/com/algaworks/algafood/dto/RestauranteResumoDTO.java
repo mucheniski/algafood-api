@@ -4,13 +4,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 
 @ApiModel("Representa o resumo de um restaurante")
 @Getter
 @Setter
-public class RestauranteResumoDTO {
+public class RestauranteResumoDTO extends RepresentationModel<RestauranteRetornoDTO> {
 
 	@ApiModelProperty(example = "1")
 	private Long id;

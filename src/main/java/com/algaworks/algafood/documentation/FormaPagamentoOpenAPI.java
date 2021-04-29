@@ -26,7 +26,7 @@ public interface FormaPagamentoOpenAPI {
             @ApiResponse(code = 400, message = "Parametro passado inválido", response = Problema.class),
             @ApiResponse(code = 404, message = "Não encontrado", response = Problema.class)
     })
-    ResponseEntity<FormaPagamentoDTO> buscarDtoPorId(Long id, ServletWebRequest request);
+    ResponseEntity<FormaPagamentoDTO> buscarPorIdComETag(Long id, ServletWebRequest request);
 
     @ApiOperation("Cadastra um novo registro")
     @ApiResponses({

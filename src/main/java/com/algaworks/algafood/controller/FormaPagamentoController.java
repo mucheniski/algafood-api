@@ -59,10 +59,15 @@ public class FormaPagamentoController implements FormaPagamentoOpenAPI {
 				.body(formasPagamento);
 
 	}
+
+	@GetMapping("{id}")
+	public FormaPagamentoDTO buscarPorId(@PathVariable  Long id) {
+		return service.buscarDtoPorId(id);
+	}
 	
 	@Override
-	@GetMapping("/{id}")
-	public ResponseEntity<FormaPagamentoDTO> buscarDtoPorId(@PathVariable Long id, ServletWebRequest request) {
+	@GetMapping("/etag/{id}")
+	public ResponseEntity<FormaPagamentoDTO> buscarPorIdComETag(@PathVariable Long id, ServletWebRequest request) {
 
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 

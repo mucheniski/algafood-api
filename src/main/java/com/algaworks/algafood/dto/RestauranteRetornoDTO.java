@@ -7,10 +7,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
-public class RestauranteRetornoDTO {
+public class RestauranteRetornoDTO extends RepresentationModel<RestauranteRetornoDTO> {
 	
 	@JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNomes.class })
 	private Long id;

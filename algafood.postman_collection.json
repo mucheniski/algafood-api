@@ -481,6 +481,26 @@
 					"response": []
 				},
 				{
+					"name": "buscar por ID com ETag Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/formas-pagamento/etag/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"formas-pagamento",
+								"etag",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "salvar",
 					"request": {
 						"method": "POST",
@@ -1171,18 +1191,19 @@
 					"response": []
 				},
 				{
-					"name": "listar",
+					"name": "listar resumido",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos?sort=usuarioCliente",
+							"raw": "localhost:8080/pedidos/listar-resumido?sort=usuarioCliente",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"pedidos"
+								"pedidos",
+								"listar-resumido"
 							],
 							"query": [
 								{
@@ -1198,6 +1219,37 @@
 								{
 									"key": "sort",
 									"value": "usuarioCliente"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar completo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/pedidos/listar-completo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"listar-completo"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
 								}
 							]
 						}
@@ -1406,7 +1458,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/cozinhas?page=0&sort=nome,desc",
+							"raw": "localhost:8080/cozinhas?page=0&sort=nome,desc&size=1",
 							"host": [
 								"localhost"
 							],
@@ -1427,6 +1479,10 @@
 								{
 									"key": "sort",
 									"value": "nome,desc"
+								},
+								{
+									"key": "size",
+									"value": "1"
 								}
 							]
 						}

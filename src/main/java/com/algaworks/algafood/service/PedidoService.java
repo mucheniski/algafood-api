@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.algaworks.algafood.mail.Email;
-import com.algaworks.algafood.mail.EnvioEmailService;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,7 +25,6 @@ import com.algaworks.algafood.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.repository.PedidoRepository;
 import com.algaworks.algafood.filtro.PedidoFiltro;
 import com.algaworks.algafood.repository.spec.PedidoSpecs;
-import com.algaworks.algafood.mail.Email;
 
 @Service
 public class PedidoService {
@@ -63,14 +59,19 @@ public class PedidoService {
 	
 	public PedidoDTO buscarDtoPorCodigo(String codigo) {
 		Pedido pedido = buscarPorCodigo(codigo);
-		return conversor.converterParaDTO(pedido);		
+		return conversor.toModel(pedido);
 	}
 
-	public Page<PedidoResumoDTO> listar(Pageable pageable) {
+	public Page<PedidoResumoDTO> listarResumido(Pageable pageable) {
 		Page<Pedido> pedidosPaginado = repository.findAll(pageable);
 		List<PedidoResumoDTO> pedidosDTO = pedidoResumoConversor.converterListaParaDTO(pedidosPaginado.getContent());
 		Page<PedidoResumoDTO> pedidosDTOPaginado = new PageImpl<>(pedidosDTO, pageable, pedidosPaginado.getTotalElements());
 		return pedidosDTOPaginado;
+	}
+
+	public List<PedidoDTO> listarCompleto() {
+		List<Pedido> pedidos = repository.findAll();
+		return conversor.toCollectionModel(pedidos);
 	}
 	
 	public List<PedidoResumoDTO> pesquisarComFiltro(PedidoFiltro filtro) {
@@ -80,7 +81,7 @@ public class PedidoService {
 	public PedidoResumoDTO criarPedido(PedidoDTO dto) {			
 		Pedido pedido = conversor.converterParaObjeto(dto);		
 		pedido = emitirPedido(pedido);		
-		return conversor.converterParaDTOResumido(pedido);		
+		return pedidoResumoConversor.converterParaDTO(pedido);
 	}
 	
 	@Transactional

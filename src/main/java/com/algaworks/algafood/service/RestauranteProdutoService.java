@@ -47,7 +47,7 @@ public class RestauranteProdutoService {
 
     public RestauranteRetornoDTO buscarDtoPorId(Long id) {
         Restaurante restaurante = buscarPorId(id);
-        return conversor.converterParaDTO(restaurante);
+        return conversor.toModel(restaurante);
     }
 
     public Restaurante buscarPorId(Long id) {

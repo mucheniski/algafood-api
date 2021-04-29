@@ -4,10 +4,11 @@ import java.math.BigDecimal;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
-public class ItemPedidoDTO {
+public class ItemPedidoDTO extends RepresentationModel<ItemPedidoDTO> {
 	
 	private Long produtoId;
 	private String produtoNome;

@@ -37,9 +37,15 @@ public class PedidoController implements PedidoOpenAPI {
 	}
 	
 	@Override
-	@GetMapping
-	public Page<PedidoResumoDTO> listar(Pageable pageable) {
-		return service.listar(pageable);
+	@GetMapping("/listar-resumido")
+	public Page<PedidoResumoDTO> listarResumido(Pageable pageable) {
+		return service.listarResumido(pageable);
+	}
+
+	@Override
+	@GetMapping("/listar-completo")
+	public List<PedidoDTO> listarCompleto() {
+		return service.listarCompleto();
 	}
 	
 	/*

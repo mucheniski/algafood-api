@@ -16,8 +16,11 @@ import java.util.List;
 @Api(tags = "Pedidos")
 public interface PedidoOpenAPI {
 
-    @ApiOperation("Lista os registros")
-    Page<PedidoResumoDTO> listar(Pageable pageable);
+    @ApiOperation("Lista os registros resumidos")
+    Page<PedidoResumoDTO> listarResumido(Pageable pageable);
+
+    @ApiOperation("Lista os registros completos")
+    List<PedidoDTO> listarCompleto();
 
     @ApiOperation("Busca um registro por código")
     @ApiResponses({
