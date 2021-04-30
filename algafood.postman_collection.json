@@ -1196,7 +1196,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos/listar-resumido?sort=usuarioCliente&size=2",
+							"raw": "localhost:8080/pedidos/listar-resumido?sort=restaurante.nome&size=2",
 							"host": [
 								"localhost"
 							],
@@ -1218,7 +1218,7 @@
 								},
 								{
 									"key": "sort",
-									"value": "usuarioCliente"
+									"value": "restaurante.nome"
 								},
 								{
 									"key": "size",

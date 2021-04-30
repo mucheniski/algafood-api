@@ -1,5 +1,6 @@
 package com.algaworks.algafood.dto.conversor;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,10 @@ import com.algaworks.algafood.controller.UsuarioController;
 import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.TemplateVariable;
+import org.springframework.hateoas.TemplateVariables;
+import org.springframework.hateoas.UriTemplate;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -33,9 +38,20 @@ public class PedidoResumoConversor extends RepresentationModelAssemblerSupport<P
 	public PedidoResumoDTO toModel(Pedido pedido) {
 		var pedidoResumoDto = modelMapper.map(pedido, PedidoResumoDTO.class);
 
+
 		// Pedido
 		var linkBuscarPorId = linkTo(methodOn(PedidoController.class).buscarDtoPorCodigo(pedido.getCodigo())).withSelfRel();
-		var linkListar = linkTo(methodOn(PedidoController.class).listarCompleto()).withRel("lista");
+		var linkListarCompleto = linkTo(methodOn(PedidoController.class).listarCompleto()).withRel("lista-completa");
+
+		var variables = new TemplateVariables(
+				new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
+				new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
+				new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
+		);
+
+		String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
+
+		var linkListaResumida = new Link(UriTemplate.of(pedidosUrl, variables), "lista-resumida");
 
 		// Usuario
 		var linkUsuario = linkTo(methodOn(UsuarioController.class).buscarPorId(pedido.getUsuarioCliente().getId())).withSelfRel();
@@ -44,7 +60,8 @@ public class PedidoResumoConversor extends RepresentationModelAssemblerSupport<P
 		var linkRestaurante = linkTo(methodOn(RestauranteController.class).buscarPorId(pedido.getRestaurante().getId())).withSelfRel();
 
 		pedidoResumoDto.add(linkBuscarPorId);
-		pedidoResumoDto.add(linkListar);
+		pedidoResumoDto.add(linkListarCompleto);
+		pedidoResumoDto.add(linkListaResumida);
 		pedidoResumoDto.getUsuarioCliente().add(linkUsuario);
 		pedidoResumoDto.getRestaurante().add(linkRestaurante);
 
