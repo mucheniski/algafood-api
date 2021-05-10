@@ -8,6 +8,7 @@ import com.algaworks.algafood.controller.CidadeController;
 import com.algaworks.algafood.controller.PedidoController;
 import com.algaworks.algafood.controller.RestauranteController;
 import com.algaworks.algafood.controller.UsuarioController;
+import com.algaworks.algafood.links.LinkManager;
 import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class PedidoResumoConversor extends RepresentationModelAssemblerSupport<P
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private LinkManager linkManager;
+
 	public PedidoResumoConversor() {
 		super(PedidoController.class, PedidoResumoDTO.class);
 	}
@@ -37,40 +41,7 @@ public class PedidoResumoConversor extends RepresentationModelAssemblerSupport<P
 	@Override
 	public PedidoResumoDTO toModel(Pedido pedido) {
 		var pedidoResumoDto = modelMapper.map(pedido, PedidoResumoDTO.class);
-
-
-		// Pedido
-		var linkBuscarPorId = linkTo(methodOn(PedidoController.class).buscarDtoPorCodigo(pedido.getCodigo())).withSelfRel();
-		var linkListarCompleto = linkTo(methodOn(PedidoController.class).listarCompleto()).withRel("lista-completa");
-
-		var variables = new TemplateVariables(
-				new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
-				new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
-				new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
-		);
-
-		var filterVariables = new TemplateVariables(
-				new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
-				new TemplateVariable("dataCriacaoInicio", TemplateVariable.VariableType.REQUEST_PARAM),
-				new TemplateVariable("dataCriacaoFim", TemplateVariable.VariableType.REQUEST_PARAM)
-		);
-
-		String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
-
-		var linkListaResumida = new Link(UriTemplate.of(pedidosUrl, variables.concat(filterVariables)), "lista-resumida");
-
-		// Usuario
-		var linkUsuario = linkTo(methodOn(UsuarioController.class).buscarPorId(pedido.getUsuarioCliente().getId())).withSelfRel();
-
-		// Restaurante
-		var linkRestaurante = linkTo(methodOn(RestauranteController.class).buscarPorId(pedido.getRestaurante().getId())).withSelfRel();
-
-		pedidoResumoDto.add(linkBuscarPorId);
-		pedidoResumoDto.add(linkListarCompleto);
-		pedidoResumoDto.add(linkListaResumida);
-		pedidoResumoDto.getUsuarioCliente().add(linkUsuario);
-		pedidoResumoDto.getRestaurante().add(linkRestaurante);
-
+		pedidoResumoDto = linkManager.linkToPedidos(pedidoResumoDto, pedido);
 		return pedidoResumoDto;
 	}
 	
