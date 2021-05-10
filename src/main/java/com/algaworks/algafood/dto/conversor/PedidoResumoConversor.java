@@ -49,9 +49,15 @@ public class PedidoResumoConversor extends RepresentationModelAssemblerSupport<P
 				new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
 		);
 
+		var filterVariables = new TemplateVariables(
+				new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCriacaoInicio", TemplateVariable.VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCriacaoFim", TemplateVariable.VariableType.REQUEST_PARAM)
+		);
+
 		String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
 
-		var linkListaResumida = new Link(UriTemplate.of(pedidosUrl, variables), "lista-resumida");
+		var linkListaResumida = new Link(UriTemplate.of(pedidosUrl, variables.concat(filterVariables)), "lista-resumida");
 
 		// Usuario
 		var linkUsuario = linkTo(methodOn(UsuarioController.class).buscarPorId(pedido.getUsuarioCliente().getId())).withSelfRel();
@@ -77,11 +83,5 @@ public class PedidoResumoConversor extends RepresentationModelAssemblerSupport<P
 	public Pedido converterParaObjeto(PedidoResumoDTO pedidoDTO) {
 		return modelMapper.map(pedidoDTO, Pedido.class);
 	}
-	
-//	public void copiarParaObjeto(PedidoDTO pedidoDTO, Pedido pedido) {
-//		pedidoDTO.setId(pedido.getId());		
-//		pedidoDTO.setEstado(estadoConversor.converterParaDTO(pedido.getEstado()));
-//		modelMapper.map(pedidoDTO, pedido);
-//	}
 	
 }
