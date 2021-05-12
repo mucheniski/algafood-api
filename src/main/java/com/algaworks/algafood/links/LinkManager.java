@@ -1,15 +1,16 @@
 package com.algaworks.algafood.links;
 
-import com.algaworks.algafood.controller.PedidoController;
-import com.algaworks.algafood.controller.RestauranteController;
-import com.algaworks.algafood.controller.UsuarioController;
-import com.algaworks.algafood.dto.PedidoResumoDTO;
+import com.algaworks.algafood.controller.*;
+import com.algaworks.algafood.dto.*;
+import com.algaworks.algafood.entity.Estado;
 import com.algaworks.algafood.entity.Pedido;
+import com.algaworks.algafood.entity.Restaurante;
 import lombok.var;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.TemplateVariable;
 import org.springframework.hateoas.TemplateVariables;
 import org.springframework.hateoas.UriTemplate;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -18,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class LinkManager {
 
-    public PedidoResumoDTO linkToPedidos(PedidoResumoDTO pedidoResumoDto, Pedido pedido) {
+    public PedidoResumoDTO linkToPedidoResumo(PedidoResumoDTO pedidoResumoDto, Pedido pedido) {
 
         // Pedido
         var linkBuscarPorId = linkTo(methodOn(PedidoController.class).buscarDtoPorCodigo(pedido.getCodigo())).withSelfRel();
@@ -54,6 +55,71 @@ public class LinkManager {
 
         return pedidoResumoDto;
 
+    }
+
+    public PedidoDTO linkToPedido(PedidoDTO pedidoDTO, Pedido pedido) {
+        // Pedido
+        var linkBuscarPorId = linkTo(methodOn(PedidoController.class).buscarDtoPorCodigo(pedido.getCodigo())).withSelfRel();
+        var linkListar = linkTo(methodOn(PedidoController.class).listarCompleto()).withRel("lista");
+
+        // Usuario
+        var linkUsuario = linkTo(methodOn(UsuarioController.class).buscarPorId(pedido.getUsuarioCliente().getId())).withSelfRel();
+
+        // Cidade
+        var linkCidade = linkTo(methodOn(CidadeController.class).buscarPorId(pedido.getEnderecoEntrega().getCidade().getId())).withSelfRel();
+
+        // Restaurante
+        var linkRestaurante = linkTo(methodOn(RestauranteController.class).buscarPorId(pedido.getRestaurante().getId())).withSelfRel();
+
+        // Forma Pagamento
+        var linkFormaPagamento = linkTo(methodOn(FormaPagamentoController.class).buscarPorId(pedido.getFormaPagamento().getId())).withSelfRel();
+
+        pedidoDTO.add(linkBuscarPorId);
+        pedidoDTO.add(linkListar);
+        pedidoDTO.getUsuarioCliente().add(linkUsuario);
+        pedidoDTO.getEnderecoEntrega().getCidade().add(linkCidade);
+        pedidoDTO.getRestaurante().add(linkRestaurante);
+        pedidoDTO.getFormaPagamento().add(linkFormaPagamento);
+
+        pedidoDTO.getItens().forEach(itemPedidoDTO -> {
+            itemPedidoDTO.add(linkTo(methodOn(RestauranteProdutoController.class).buscarProdutoPorId(pedidoDTO.getRestaurante().getId(), itemPedidoDTO.getProdutoId())).withSelfRel());
+        });
+
+        return pedidoDTO;
+    }
+
+    public EstadoDTO linkToEstado(EstadoDTO estadoDTO) {
+
+        Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarPorId(estadoDTO.getId())).withSelfRel();
+        Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).listar()).withRel("lista");
+
+        estadoDTO.add(linkBuscarPorId);
+        estadoDTO.add(linkListar);
+
+        return estadoDTO;
+
+    }
+
+    public RestauranteRetornoDTO linkToRestaurante(RestauranteRetornoDTO restauranteRetornoDTO, Restaurante restaurante) {
+        var linkBuscarPorId = linkTo(methodOn(RestauranteController.class).buscarPorId(restaurante.getId())).withSelfRel();
+        var linkListar = linkTo(methodOn(RestauranteController.class).listar()).withRel("listar");
+
+        restauranteRetornoDTO.add(linkBuscarPorId);
+        restauranteRetornoDTO.add(linkListar);
+
+        return restauranteRetornoDTO;
+    }
+
+    public UsuarioDTO linkToUsuario(UsuarioDTO usuarioDTO) {
+        Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).buscarPorId(usuarioDTO.getId())).withSelfRel();
+        Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar()).withRel("lista");
+        Link linkGrupos = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listarGruposPorUsuario(usuarioDTO.getId())).withSelfRel();
+
+        usuarioDTO.add(linkBuscarPorId);
+        usuarioDTO.add(linkListar);
+        usuarioDTO.add(linkGrupos);
+
+        return usuarioDTO;
     }
 
 }

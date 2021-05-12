@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.algaworks.algafood.controller.*;
+import com.algaworks.algafood.links.LinkManager;
 import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UsuarioConversor extends RepresentationModelAssemblerSupport<Usuari
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private LinkManager linkManager;
+
 	public UsuarioConversor() {
 		super(UsuarioController.class, UsuarioDTO.class);
 	}
@@ -31,15 +35,7 @@ public class UsuarioConversor extends RepresentationModelAssemblerSupport<Usuari
 	@Override
 	public UsuarioDTO toModel(Usuario usuario) {
 		var usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
-
-		Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).buscarPorId(usuarioDTO.getId())).withSelfRel();
-		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar()).withRel("lista");
-		Link linkGrupos = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listarGruposPorUsuario(usuarioDTO.getId())).withSelfRel();
-
-		usuarioDTO.add(linkBuscarPorId);
-		usuarioDTO.add(linkListar);
-		usuarioDTO.add(linkGrupos);
-
+		usuarioDTO = linkManager.linkToUsuario(usuarioDTO);
 		return usuarioDTO;
 	}
 

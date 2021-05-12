@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.algaworks.algafood.controller.*;
+import com.algaworks.algafood.links.LinkManager;
 import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class PedidoConversor extends RepresentationModelAssemblerSupport<Pedido,
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private LinkManager linkManager;
+
 	public PedidoConversor() {
 		super(PedidoController.class, PedidoDTO.class);
 	}
@@ -28,34 +32,7 @@ public class PedidoConversor extends RepresentationModelAssemblerSupport<Pedido,
 	@Override
 	public PedidoDTO toModel(Pedido pedido) {
 		var pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);
-
-		// Pedido
-		var linkBuscarPorId = linkTo(methodOn(PedidoController.class).buscarDtoPorCodigo(pedido.getCodigo())).withSelfRel();
-		var linkListar = linkTo(methodOn(PedidoController.class).listarCompleto()).withRel("lista");
-
-		// Usuario
-		var linkUsuario = linkTo(methodOn(UsuarioController.class).buscarPorId(pedido.getUsuarioCliente().getId())).withSelfRel();
-
-		// Cidade
-		var linkCidade = linkTo(methodOn(CidadeController.class).buscarPorId(pedido.getEnderecoEntrega().getCidade().getId())).withSelfRel();
-
-		// Restaurante
-		var linkRestaurante = linkTo(methodOn(RestauranteController.class).buscarPorId(pedido.getRestaurante().getId())).withSelfRel();
-
-		// Forma Pagamento
-		var linkFormaPagamento = linkTo(methodOn(FormaPagamentoController.class).buscarPorId(pedido.getFormaPagamento().getId())).withSelfRel();
-
-		pedidoDTO.add(linkBuscarPorId);
-		pedidoDTO.add(linkListar);
-		pedidoDTO.getUsuarioCliente().add(linkUsuario);
-		pedidoDTO.getEnderecoEntrega().getCidade().add(linkCidade);
-		pedidoDTO.getRestaurante().add(linkRestaurante);
-		pedidoDTO.getFormaPagamento().add(linkFormaPagamento);
-
-		pedidoDTO.getItens().forEach(itemPedidoDTO -> {
-			itemPedidoDTO.add(linkTo(methodOn(RestauranteProdutoController.class).buscarProdutoPorId(pedidoDTO.getRestaurante().getId(), itemPedidoDTO.getProdutoId())).withSelfRel());
-		});
-
+		pedidoDTO = linkManager.linkToPedido(pedidoDTO, pedido);
 		return pedidoDTO;
 	}
 	

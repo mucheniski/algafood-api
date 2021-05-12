@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.algaworks.algafood.controller.EstadoController;
 import com.algaworks.algafood.controller.UsuarioController;
 import com.algaworks.algafood.controller.UsuarioGrupoController;
+import com.algaworks.algafood.links.LinkManager;
 import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class EstadoConversor extends RepresentationModelAssemblerSupport<Estado,
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private LinkManager linkManager;
+
 	public EstadoConversor() {
 		super(EstadoController.class, EstadoDTO.class);
 	}
@@ -31,13 +35,7 @@ public class EstadoConversor extends RepresentationModelAssemblerSupport<Estado,
 	@Override
 	public EstadoDTO toModel(Estado estado) {
 		var estadoDTO =  modelMapper.map(estado, EstadoDTO.class);
-
-		Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarPorId(estadoDTO.getId())).withSelfRel();
-		Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).listar()).withRel("lista");
-
-		estadoDTO.add(linkBuscarPorId);
-		estadoDTO.add(linkListar);
-
+		estadoDTO = linkManager.linkToEstado(estadoDTO);
 		return estadoDTO;
 	}
 	

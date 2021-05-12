@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.algaworks.algafood.controller.RestauranteController;
+import com.algaworks.algafood.links.LinkManager;
 import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class RestauranteConversor extends RepresentationModelAssemblerSupport<Re
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private LinkManager linkManager;
+
 	public RestauranteConversor() {
 		super(RestauranteController.class, RestauranteRetornoDTO.class);
 	}
@@ -36,13 +40,7 @@ public class RestauranteConversor extends RepresentationModelAssemblerSupport<Re
 	@Override
 	public RestauranteRetornoDTO toModel(Restaurante restaurante) {
 		var restauranteRetornoDTO = modelMapper.map(restaurante, RestauranteRetornoDTO.class);
-
-		var linkBuscarPorId = linkTo(methodOn(RestauranteController.class).buscarPorId(restaurante.getId())).withSelfRel();
-		var linkListar = linkTo(methodOn(RestauranteController.class).listar()).withRel("listar");
-
-		restauranteRetornoDTO.add(linkBuscarPorId);
-		restauranteRetornoDTO.add(linkListar);
-
+		restauranteRetornoDTO = linkManager.linkToRestaurante(restauranteRetornoDTO, restaurante);
 		return restauranteRetornoDTO;
 	}
 
