@@ -74,12 +74,19 @@ public class LinkManager {
         // Forma Pagamento
         var linkFormaPagamento = linkTo(methodOn(FormaPagamentoController.class).buscarPorId(pedido.getFormaPagamento().getId())).withSelfRel();
 
+        var linkConfirmarPedido = linkTo(methodOn(PedidoController.class).confirmarPedido(pedido.getCodigo())).withRel("/confirmar-pedido");
+        var linkConfirmarEntrega = linkTo(methodOn(PedidoController.class).confirmarEntrega(pedido.getCodigo())).withRel("/confirmar-entrega");
+        var linkCancelarPedido = linkTo(methodOn(PedidoController.class).cancelarPedido(pedido.getCodigo())).withRel("/cancelar-pedido");
+
         pedidoDTO.add(linkBuscarPorId);
         pedidoDTO.add(linkListar);
         pedidoDTO.getUsuarioCliente().add(linkUsuario);
         pedidoDTO.getEnderecoEntrega().getCidade().add(linkCidade);
         pedidoDTO.getRestaurante().add(linkRestaurante);
         pedidoDTO.getFormaPagamento().add(linkFormaPagamento);
+        pedidoDTO.add(linkConfirmarPedido);
+        pedidoDTO.add(linkConfirmarEntrega);
+        pedidoDTO.add(linkCancelarPedido);
 
         pedidoDTO.getItens().forEach(itemPedidoDTO -> {
             itemPedidoDTO.add(linkTo(methodOn(RestauranteProdutoController.class).buscarProdutoPorId(pedidoDTO.getRestaurante().getId(), itemPedidoDTO.getProdutoId())).withSelfRel());
@@ -90,8 +97,8 @@ public class LinkManager {
 
     public EstadoDTO linkToEstado(EstadoDTO estadoDTO) {
 
-        Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscarPorId(estadoDTO.getId())).withSelfRel();
-        Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).listar()).withRel("lista");
+        Link linkBuscarPorId = linkTo(methodOn(EstadoController.class).buscarPorId(estadoDTO.getId())).withSelfRel();
+        Link linkListar = linkTo(methodOn(EstadoController.class).listar()).withRel("lista");
 
         estadoDTO.add(linkBuscarPorId);
         estadoDTO.add(linkListar);
@@ -111,9 +118,9 @@ public class LinkManager {
     }
 
     public UsuarioDTO linkToUsuario(UsuarioDTO usuarioDTO) {
-        Link linkBuscarPorId = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).buscarPorId(usuarioDTO.getId())).withSelfRel();
-        Link linkListar = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar()).withRel("lista");
-        Link linkGrupos = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listarGruposPorUsuario(usuarioDTO.getId())).withSelfRel();
+        Link linkBuscarPorId = linkTo(methodOn(UsuarioController.class).buscarPorId(usuarioDTO.getId())).withSelfRel();
+        Link linkListar = linkTo(methodOn(UsuarioController.class).listar()).withRel("lista");
+        Link linkGrupos = linkTo(methodOn(UsuarioGrupoController.class).listarGruposPorUsuario(usuarioDTO.getId())).withSelfRel();
 
         usuarioDTO.add(linkBuscarPorId);
         usuarioDTO.add(linkListar);

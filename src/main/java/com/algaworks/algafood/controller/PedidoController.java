@@ -6,10 +6,10 @@ import javax.validation.Valid;
 
 import com.algaworks.algafood.documentation.PedidoOpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,22 +69,25 @@ public class PedidoController implements PedidoOpenAPI {
 	@Override
 	@PutMapping("/{codigo}/confirmar-pedido")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmarPedido(@PathVariable String codigo) {
+	public ResponseEntity<Void> confirmarPedido(@PathVariable String codigo) {
 		service.confirmarPedido(codigo);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@Override
 	@PutMapping("/{codigo}/confirmar-entrega")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmarEntrega(@PathVariable String codigo) {
+	public ResponseEntity<Void> confirmarEntrega(@PathVariable String codigo) {
 		service.confirmarEntrega(codigo);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@Override
 	@PutMapping("/{codigo}/cancelar-pedido")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void cancelarPedido(@PathVariable String codigo) {
+	public ResponseEntity<Void> cancelarPedido(@PathVariable String codigo) {
 		service.cancelarPedido(codigo);
+		return ResponseEntity.noContent().build();
 	}
 	
 }
