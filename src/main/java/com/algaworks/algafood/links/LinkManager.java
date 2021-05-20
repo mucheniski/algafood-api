@@ -74,9 +74,20 @@ public class LinkManager {
         // Forma Pagamento
         var linkFormaPagamento = linkTo(methodOn(FormaPagamentoController.class).buscarPorId(pedido.getFormaPagamento().getId())).withSelfRel();
 
-        var linkConfirmarPedido = linkTo(methodOn(PedidoController.class).confirmarPedido(pedido.getCodigo())).withRel("/confirmar-pedido");
-        var linkConfirmarEntrega = linkTo(methodOn(PedidoController.class).confirmarEntrega(pedido.getCodigo())).withRel("/confirmar-entrega");
-        var linkCancelarPedido = linkTo(methodOn(PedidoController.class).cancelarPedido(pedido.getCodigo())).withRel("/cancelar-pedido");
+        if (pedido.podeSerConfirmado()) {
+            var linkConfirmarPedido = linkTo(methodOn(PedidoController.class).confirmarPedido(pedido.getCodigo())).withRel("/confirmar-pedido");
+            pedidoDTO.add(linkConfirmarPedido);
+        }
+
+        if (pedido.podeSerEntregue()) {
+            var linkConfirmarEntrega = linkTo(methodOn(PedidoController.class).confirmarEntrega(pedido.getCodigo())).withRel("/confirmar-entrega");
+            pedidoDTO.add(linkConfirmarEntrega);
+        }
+
+        if (pedido.podeSerCancelado()) {
+            var linkCancelarPedido = linkTo(methodOn(PedidoController.class).cancelarPedido(pedido.getCodigo())).withRel("/cancelar-pedido");
+            pedidoDTO.add(linkCancelarPedido);
+        }
 
         pedidoDTO.add(linkBuscarPorId);
         pedidoDTO.add(linkListar);
@@ -84,9 +95,6 @@ public class LinkManager {
         pedidoDTO.getEnderecoEntrega().getCidade().add(linkCidade);
         pedidoDTO.getRestaurante().add(linkRestaurante);
         pedidoDTO.getFormaPagamento().add(linkFormaPagamento);
-        pedidoDTO.add(linkConfirmarPedido);
-        pedidoDTO.add(linkConfirmarEntrega);
-        pedidoDTO.add(linkCancelarPedido);
 
         pedidoDTO.getItens().forEach(itemPedidoDTO -> {
             itemPedidoDTO.add(linkTo(methodOn(RestauranteProdutoController.class).buscarProdutoPorId(pedidoDTO.getRestaurante().getId(), itemPedidoDTO.getProdutoId())).withSelfRel());
