@@ -1925,6 +1925,21 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Root Entry Point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080",
+					"host": [
+						"localhost"
+					],
+					"port": "8080"
+				}
+			},
+			"response": []
 		}
 	]
 }

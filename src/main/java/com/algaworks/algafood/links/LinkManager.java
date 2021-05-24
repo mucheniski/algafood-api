@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+// TODO: fazer os desafios à partir da aula 19.24
 @Component
 public class LinkManager {
 

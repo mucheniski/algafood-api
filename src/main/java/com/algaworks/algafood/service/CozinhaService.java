@@ -40,6 +40,12 @@ public class CozinhaService {
 		PagedModel<CozinhaDTO> cozinhasPagedModel = pagedResourcesAssembler.toModel(cozinhasPaginada, conversor);
 		return cozinhasPagedModel;
 	}
+
+	public List<CozinhaDTO> listarSemPaginacao() {
+		List<Cozinha> cozinhas = respository.findAll();
+		List<CozinhaDTO> cozinhasDTO = conversor.toCollectionModel(cozinhas);
+		return cozinhasDTO;
+	}
 	
 	public List<CozinhaDTO> listarPorNome(String nome) {		
 		List<Cozinha> cozinhas = respository.findByNome(nome);

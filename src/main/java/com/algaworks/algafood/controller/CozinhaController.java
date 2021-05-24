@@ -38,6 +38,11 @@ public class CozinhaController implements CozinhaOpenAPI {
 	public PagedModel<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
 		return service.listar(pageable);
 	}
+
+	@GetMapping("/sem-paginacao")
+	public List<CozinhaDTO> listarSemPaginacao() {
+		return service.listarSemPaginacao();
+	}
 	
 	@Override
 	@GetMapping("/nome")
