@@ -3,6 +3,9 @@ package com.algaworks.algafood.service;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,6 +24,7 @@ import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.repository.CozinhaRepository;
 
+@Slf4j
 @Service
 public class CozinhaService {
 
@@ -36,6 +40,7 @@ public class CozinhaService {
 	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 	
 	public PagedModel<CozinhaDTO> listar(Pageable pageable) {
+		log.info("Consultando cozinhas com paginas de {} registros", pageable.getPageSize());
 		Page<Cozinha> cozinhasPaginada = respository.findAll(pageable);		
 		PagedModel<CozinhaDTO> cozinhasPagedModel = pagedResourcesAssembler.toModel(cozinhasPaginada, conversor);
 		return cozinhasPagedModel;

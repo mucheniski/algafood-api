@@ -295,3 +295,11 @@ Hypermedia são recursos que adicionam links para outros recursos, como no exemp
 Também existem formatos para recursos de hypermedia no Spring, como por exemplo o Hypertext Application Language HAL  
 [documentação](https://stateless.group/hal_specification.html)   
 
+# TODO: Após finalinzar fazer o versionamento do capitulo 20
+
+Logger  
+o @Slf4j do lombok cria automáticamente uma instância de  
+private statinc final Logger log = Logfactory.getLog(NomeClasse.class)  
+
+
+
