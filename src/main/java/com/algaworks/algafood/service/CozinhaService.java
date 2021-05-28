@@ -41,6 +41,11 @@ public class CozinhaService {
 	
 	public PagedModel<CozinhaDTO> listar(Pageable pageable) {
 		log.info("Consultando cozinhas com paginas de {} registros", pageable.getPageSize());
+
+		if (true) {
+			throw new RuntimeException("Erro na listagam de teste");
+		}
+
 		Page<Cozinha> cozinhasPaginada = respository.findAll(pageable);		
 		PagedModel<CozinhaDTO> cozinhasPagedModel = pagedResourcesAssembler.toModel(cozinhasPaginada, conversor);
 		return cozinhasPagedModel;

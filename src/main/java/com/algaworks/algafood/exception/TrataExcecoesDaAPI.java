@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -38,6 +39,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
  * sejam tratados aqui
  * */
 
+@Slf4j
 @ControllerAdvice
 public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 	private static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado. Tente novamente, se o problema persistir, entre em contato com o administrador do sistema";
@@ -111,7 +113,8 @@ public class TrataExcecoesDaAPI extends ResponseEntityExceptionHandler {
 		String detalhe = MSG_ERRO_GENERICO_USUARIO_FINAL;
 		Problema problema = criarUmProblema(status, TipoProblema.ERRO_DE_SISTEMA, detalhe)
 									.mensagemParaUsuario(MSG_ERRO_GENERICO_USUARIO_FINAL)
-									.build();	
+									.build();
+		log.error("Erro não tratado! {}", ex.getMessage());
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
