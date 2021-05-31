@@ -301,5 +301,11 @@ Logger
 o @Slf4j do lombok cria automáticamente uma instância de  
 private statinc final Logger log = Logfactory.getLog(NomeClasse.class)  
 
+21.3. Criando uma conta no Loggly serviço de gerenciamento de logs na nuvem
+O serviço de log na núvem é importante para que os logs não fiquem salvos na própria máquina onde a aplicação é instalada  
+para caso existam várias instâncias do programa é importante deixar os logs salvos na núvem, em um local separado  
+um dos serviços usados para isso é o loggly. https://www.loggly.com/  
+
+
 
 
