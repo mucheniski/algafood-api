@@ -306,6 +306,7 @@ O serviço de log na núvem é importante para que os logs não fiquem salvos na
 para caso existam várias instâncias do programa é importante deixar os logs salvos na núvem, em um local separado  
 um dos serviços usados para isso é o loggly. https://www.loggly.com/  
 
-
+o nome do arquivo precisa ser logback-spring.xml para que o spring já encontre as configurações de log  
+o appender tem a função de escrever logs em um determinado local, o padrão é sempre o mesmo, o que muda é o appender  
 
 
