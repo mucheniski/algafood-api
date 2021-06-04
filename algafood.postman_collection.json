@@ -1496,6 +1496,21 @@
 				{
 					"name": "buscar por id",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "developer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "developer",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {

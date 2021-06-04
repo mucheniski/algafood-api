@@ -310,3 +310,14 @@ o nome do arquivo precisa ser logback-spring.xml para que o spring já encontre 
 o appender tem a função de escrever logs em um determinado local, o padrão é sempre o mesmo, o que muda é o appender  
 
 
+Basic Authorization - o usuário e senha padrão depois que adicina a dependencia do spring-security são adicionados automaticamente.  
+usuario é user e a senha é uma senha aleatório que é impressa no console quando sobre o projeto.  
+Using generated security password: d6eb9925-ab59-48a2-abb7-4ed9bda11a35  
+é preciso encodar para base64 (https://www.base64encode.org/) no formato user:d6eb9925-ab59-48a2-abb7-4ed9bda11a35  
+em seguida colocar no Header como Basic dXNlcjpkNmViOTkyNS1hYjU5LTQ4YTItYWJiNy00ZWQ5YmRhMTFhMzU=  
+para alterar o user e senha padrão devem ser adicionadas as propriedados no application.properties  
+spring.security.user.name=developer  
+spring.security.user.password=developer  
+
+Cookies são enviados para as sessões, porém como a api deve ser stateless, o ideal é que sejam desabilitados.  
+
