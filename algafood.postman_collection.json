@@ -591,6 +591,21 @@
 				{
 					"name": "listar",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "developer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "developer",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -628,6 +643,21 @@
 				{
 					"name": "salvar",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "developer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "developer",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1497,19 +1527,7 @@
 					"name": "buscar por id",
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "developer",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "developer",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
