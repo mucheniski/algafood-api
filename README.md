@@ -323,4 +323,8 @@ Cookies são enviados para as sessões, porém como a api deve ser stateless, o 
 
 OAuth2 é um especificação sobre segurança para aplicações web  
 Arquitetura do Authorization Code Flow  
-![](img/arquiteturaOauth2.PNG)
+![](img/arquiteturaOauth2.PNG)  
+
+Fluxo Resource Owner Password Credentials Grant - Gera um access toker através de um usuário e senha, não é o fluxo ideal por medidas de segurança  
+deve ser usado apenas caso nenhum outro fluxo se adeque a sua necessidade.  
+
