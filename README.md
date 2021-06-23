@@ -328,3 +328,9 @@ Arquitetura do Authorization Code Flow
 Fluxo Resource Owner Password Credentials Grant - Gera um access toker através de um usuário e senha, não é o fluxo ideal por medidas de segurança  
 deve ser usado apenas caso nenhum outro fluxo se adeque a sua necessidade.  
 
+Commits em outro projeto:  
+https://github.com/mucheniski/algafood-authorization-server
+22.8. Criando o projeto do Authorization Server com Spring Security OAuth2  
+22.9. Configurando o fluxo Authorization Server com Password Credentials e Opaque Tokens  
+22.10. Configurando o endpoint de introspecção de tokens no Authorization Server  
+

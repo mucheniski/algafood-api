@@ -595,12 +595,12 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "password",
+									"key": "username",
 									"value": "developer",
 									"type": "string"
 								},
 								{
-									"key": "username",
+									"key": "password",
 									"value": "developer",
 									"type": "string"
 								}
@@ -1490,7 +1490,13 @@
 					"name": "listar paginado",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer bde4d0f3-ed77-472f-a7b7-206be1a54383",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "localhost:8080/cozinhas?page=0&sort=nome,desc&size=1",
 							"host": [
@@ -1527,7 +1533,49 @@
 					"name": "buscar por id",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "diego",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "web123",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "algafood-web",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "localhost:8081/oauth/token",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "token algafood",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
