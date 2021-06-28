@@ -333,6 +333,7 @@ https://github.com/mucheniski/algafood-authorization-server
 22.8. Criando o projeto do Authorization Server com Spring Security OAuth2  
 22.9. Configurando o fluxo Authorization Server com Password Credentials e Opaque Tokens  
 22.10. Configurando o endpoint de introspecção de tokens no Authorization Server  
+22.13. Configurando o Refresh Token Grant Type no Authorization Server  
 
 O refresh_token é usado para quando o token expira, com um tempo maior de expiração ele serve para que o client não tenha que ficar relogando na aplicação
 a todo o momento, porém vale lembrar que quanto maior o tempo do token menos segurança ele representa, existe esse trade off.  
