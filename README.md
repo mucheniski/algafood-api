@@ -341,4 +341,8 @@ a todo o momento, porém vale lembrar que quanto maior o tempo do token menos se
 O Fluxo para o refresh_token é o seguinte:  
 ![](img/modeloRefreshToken.png)  
 
+O Recurso Client_credentials é usado quando é uma api chamando diretamente outro serviço, sem a participação do Resource Owner  
+
+
+
 
