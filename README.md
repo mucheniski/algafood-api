@@ -321,6 +321,13 @@ spring.security.user.password=developer
 
 Cookies são enviados para as sessões, porém como a api deve ser stateless, o ideal é que sejam desabilitados.  
 
+## Segurança com Oauth2  
+Através do Oauth2 o cliente solicita uma autorização a um servidor de autorização.  
+Esse servidor valida as credenciais passadas pelo Cliente e retorna um access token.  
+O access token é enviado nas requisições feitas a API.  
+Com o access token pode ser permitido apenas acessos a endpoints específicos ou usuários específicos.  
+![](img/Oauth2FluxoSolicitacao.png)
+
 OAuth2 é um especificação sobre segurança para aplicações web  
 Arquitetura do Authorization Code Flow  
 ![](img/arquiteturaOauth2.PNG)  
