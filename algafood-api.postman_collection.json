@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "df1dc5ef-c23c-4bf2-8f29-375176d3f785",
-		"name": "algafood",
+		"name": "algafood-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -592,22 +592,16 @@
 					"name": "listar",
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "username",
-									"value": "developer",
-									"type": "string"
-								},
-								{
-									"key": "password",
-									"value": "developer",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 968e3f07-4c70-4f9e-b08d-ce5e0963cc9d",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "localhost:8080/cidades",
 							"host": [
@@ -1493,7 +1487,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer bde4d0f3-ed77-472f-a7b7-206be1a54383",
+								"value": "Bearer 968e3f07-4c70-4f9e-b08d-ce5e0963cc9d",
 								"type": "text"
 							}
 						],

@@ -310,32 +310,52 @@ o nome do arquivo precisa ser logback-spring.xml para que o spring já encontre 
 o appender tem a função de escrever logs em um determinado local, o padrão é sempre o mesmo, o que muda é o appender  
 
 
-Basic Authorization - o usuário e senha padrão depois que adicina a dependencia do spring-security são adicionados automaticamente.  
-usuario é user e a senha é uma senha aleatório que é impressa no console quando sobre o projeto.  
+Basic Authorization - o usuário e senha padrão depois que adiciona a dependencia do spring-security são adicionados automaticamente.  
+usuario é user e a senha é uma senha aleatória que é impressa no console quando sobre o projeto.  
 Using generated security password: d6eb9925-ab59-48a2-abb7-4ed9bda11a35  
-é preciso encodar para base64 (https://www.base64encode.org/) no formato user:d6eb9925-ab59-48a2-abb7-4ed9bda11a35  
+é preciso encodar para base64 (https://www.base64encode.org/) no formato user:password  
 em seguida colocar no Header como Basic dXNlcjpkNmViOTkyNS1hYjU5LTQ4YTItYWJiNy00ZWQ5YmRhMTFhMzU=  
 para alterar o user e senha padrão devem ser adicionadas as propriedados no application.properties  
 spring.security.user.name=developer  
 spring.security.user.password=developer  
 
 Cookies são enviados para as sessões, porém como a api deve ser stateless, o ideal é que sejam desabilitados.  
+para desabilitar basta que a api seja configurada como stateless. 
+
+CSRF - Cross-site request forgery, é um tipo de ataque onde o hacker falsifica a requisição, pode ser usado quando usa-se cookies por exemplo.  
+nesse caso o atacante pode adicionar um novo pedido enviando para outro endereço, sem precisar informar usuario e senha novamente.  
+
+
 
 ## Segurança com Oauth2  
+
 Através do Oauth2 o cliente solicita uma autorização a um servidor de autorização.  
 Esse servidor valida as credenciais passadas pelo Cliente e retorna um access token.  
 O access token é enviado nas requisições feitas a API.  
 Com o access token pode ser permitido apenas acessos a endpoints específicos ou usuários específicos.  
 ![](img/Oauth2FluxoSolicitacao.png)
 
-OAuth2 é um especificação sobre segurança para aplicações web  
+OAuth2 é um especificação sobre segurança para aplicações web, é um frameword  
 Arquitetura do Authorization Code Flow  
 ![](img/arquiteturaOauth2.PNG)  
 
-Fluxo Resource Owner Password Credentials Grant - Gera um access toker através de um usuário e senha, não é o fluxo ideal por medidas de segurança  
+A implementação que suporta o Oauth2 é o Spring Security Oauth2 por isso vamos implementar um autorization server separado com ele.  
+o Resource Server vai usar apenas o Spring Security, são implementações diferentes.  
+
+
+Fluxo Resource Owner Password Credentials Grant - Gera um access token através de um usuário e senha, não é o fluxo ideal por medidas de segurança  
 deve ser usado apenas caso nenhum outro fluxo se adeque a sua necessidade.  
 
-Commits em outro projeto:  
+O Client é autenticado usando o http basic no postman (Resource Owner ou usuário) e passadas as credenciais do usuário no body para gerar o token no authorization server, mas para fazer as chamadas no resource server  
+é usado o token retornado pelo autorization server com autenticacao oauth2.  
+
+
+Existem 2 tipos de token opaque token que é o token que não da para validar as informações que existem nele e  
+tranparent token que é o token onde podemos validar o que contem nele, como nome de usuário, tempo de expiração etc...   
+que é o caso no JWT Token.  
+
+
+Commits em outro projeto - no Authorization Server com Oauth2:  
 https://github.com/mucheniski/algafood-authorization-server
 22.8. Criando o projeto do Authorization Server com Spring Security OAuth2  
 22.9. Configurando o fluxo Authorization Server com Password Credentials e Opaque Tokens  
@@ -343,12 +363,25 @@ https://github.com/mucheniski/algafood-authorization-server
 22.13. Configurando o Refresh Token Grant Type no Authorization Server  
 22.14. Configurando a validade e não reutilização de Refresh Tokens  
 
+
+O Check token é usado para validar se está válido ou não, por exemplo localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3  
+aula 22.10  
+
+
 O refresh_token é usado para quando o token expira, com um tempo maior de expiração ele serve para que o client não tenha que ficar relogando na aplicação
 a todo o momento, porém vale lembrar que quanto maior o tempo do token menos segurança ele representa, existe esse trade off.  
 O Fluxo para o refresh_token é o seguinte:  
 ![](img/modeloRefreshToken.png)  
+O padrão de tempo do refresh_token é de 30 dias.  
+o refresh_token gera novos acess_token para serem usados quando o tempo do acess_token expira.  
 
+## Client Credentials Grant  
 O Recurso Client_credentials é usado quando é uma api chamando diretamente outro serviço, sem a participação do Resource Owner  
+Obtem o token usando apenas as credenciais do Client.  
+Com esse fluxo não é possível usar o refresh_token.  
+![](img/fluxoClientCredentials.png)  
+
+
 
 
 
