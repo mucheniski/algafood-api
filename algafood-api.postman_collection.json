@@ -598,7 +598,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer 968e3f07-4c70-4f9e-b08d-ce5e0963cc9d",
+								"value": "Bearer 6fdd66a8-bb3c-4b1a-8876-15a92f0d738e",
 								"type": "text"
 							}
 						],
@@ -2005,7 +2005,51 @@
 			"name": "Security",
 			"item": [
 				{
-					"name": "token",
+					"name": "token - grant_type password",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "terceiro123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "aplicacao-terceira",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8081/oauth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "token - grant_type client_credentials",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -2117,26 +2161,10 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "username",
-									"value": "diego",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123",
-									"type": "text"
-								},
-								{
-									"key": "grant_type",
-									"value": "password",
-									"type": "text"
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
-							"raw": "localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3",
+							"raw": "localhost:8081/oauth/check_token?token=6fdd66a8-bb3c-4b1a-8876-15a92f0d738e",
 							"host": [
 								"localhost"
 							],
@@ -2148,7 +2176,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "6c655909-e43f-4e1a-ad5e-131c875a74d3"
+									"value": "6fdd66a8-bb3c-4b1a-8876-15a92f0d738e"
 								}
 							]
 						}

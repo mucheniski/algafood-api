@@ -362,12 +362,13 @@ https://github.com/mucheniski/algafood-authorization-server
 22.10. Configurando o endpoint de introspecção de tokens no Authorization Server  
 22.13. Configurando o Refresh Token Grant Type no Authorization Server  
 22.14. Configurando a validade e não reutilização de Refresh Tokens  
+22.16. Configurando o Client Credentials Grant Type no Authorization Server  
 
 
 O Check token é usado para validar se está válido ou não, por exemplo localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3  
 aula 22.10  
 
-
+## Password flow  
 O refresh_token é usado para quando o token expira, com um tempo maior de expiração ele serve para que o client não tenha que ficar relogando na aplicação
 a todo o momento, porém vale lembrar que quanto maior o tempo do token menos segurança ele representa, existe esse trade off.  
 O Fluxo para o refresh_token é o seguinte:  
@@ -375,14 +376,26 @@ O Fluxo para o refresh_token é o seguinte:
 O padrão de tempo do refresh_token é de 30 dias.  
 o refresh_token gera novos acess_token para serem usados quando o tempo do acess_token expira.  
 
-## Client Credentials Grant  
+## Client Credentials Grant flow   
 O Recurso Client_credentials é usado quando é uma api chamando diretamente outro serviço, sem a participação do Resource Owner  
 Obtem o token usando apenas as credenciais do Client.  
 Com esse fluxo não é possível usar o refresh_token.  
 ![](img/fluxoClientCredentials.png)  
 
+## Authorization Code Flow  
+Ao invés do client pedir um usuário e senha para o resource owner, ele solicita um código de autorização para o Authorization Server  
+seguindo esse padrão.  
+![](img/AuthotizationFlow1.png)  
 
+Se o resource owner autoriza, o Authorization Server retorna no redirect um code e um state, esse code vai ser usado para gerar o token.  
+o state é para comparar se ainda está igual ao primeiro envio acima, caso não esteja a operação é abortada.  
+![](img/AuthotizationFlow2.png)  
 
+Na solicitação do token é passado o code e o grant_type.  
+![](img/AuthotizationFlow3.png)  
+
+O restante do fluxo é o mesmo.  
+1[](img/AuthotizationFlow4.png)
 
 
 
