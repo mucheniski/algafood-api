@@ -409,5 +409,5 @@ após acessar e autorizar ó authorization server direciona para a url cadastrad
 Vai para o authorization server porém não retorna código, retorna direto o access_token na url.  
 O uso é desencorajado pelo risco de segurança de retornar um token direto na url.  
 ![](img/ImplicitGrant.png)  
-
+Como é desaconselhavel essa implementacao, não foram feitas as alterações da aula 22.21. Configurando o fluxo Implicit Grant Type.
 
