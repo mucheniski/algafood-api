@@ -598,7 +598,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer 6fdd66a8-bb3c-4b1a-8876-15a92f0d738e",
+								"value": "Bearer 9fcf5c5f-9ea2-4b6b-b4a9-c177a2b86210",
 								"type": "text"
 							}
 						],
@@ -2005,7 +2005,7 @@
 			"name": "Security",
 			"item": [
 				{
-					"name": "token - grant_type password",
+					"name": "token - grant_type client_credentials1",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -2049,7 +2049,7 @@
 					"response": []
 				},
 				{
-					"name": "token - grant_type client_credentials",
+					"name": "token - grant_type password",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -2084,6 +2084,60 @@
 								{
 									"key": "grant_type",
 									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8081/oauth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "token - grant_type authorization-code",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "analitica123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "aplicacao-analitica",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "r7o5Lk",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://www.aplicacao-analitica/analise",
 									"type": "text"
 								}
 							]

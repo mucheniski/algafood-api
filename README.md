@@ -363,6 +363,7 @@ https://github.com/mucheniski/algafood-authorization-server
 22.13. Configurando o Refresh Token Grant Type no Authorization Server  
 22.14. Configurando a validade e não reutilização de Refresh Tokens  
 22.16. Configurando o Client Credentials Grant Type no Authorization Server  
+22.18. Configurando o Authorization Code Grant Type  
 
 
 O Check token é usado para validar se está válido ou não, por exemplo localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3  
@@ -395,7 +396,13 @@ Na solicitação do token é passado o code e o grant_type.
 ![](img/AuthotizationFlow3.png)  
 
 O restante do fluxo é o mesmo.  
-1[](img/AuthotizationFlow4.png)
+1[](img/AuthotizationFlow4.png)  
+
+url montada para teste do fluxo, colada direto no navegador para o login do authorization server.  
+logar com as credenciais do resource owner (Usuário).  
+http://localhost:8081/oauth/authorize?response_type=code&client_id=aplicacao-analitica&state=abc&redirect_uri=https://www.aplicacao-analitica/analise  
+após acessar e autorizar ó authorization server direciona para a url cadastrada em redirect_uri  
+
 
 
 
