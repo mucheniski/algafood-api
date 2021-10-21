@@ -412,3 +412,13 @@ O uso é desencorajado pelo risco de segurança de retornar um token direto na u
 ![](img/ImplicitGrant.png)  
 Como é desaconselhavel essa implementacao, não foram feitas as alterações da aula 22.21. Configurando o fluxo Implicit Grant Type.
 
+## Qual fluxo usar?  
+O Oauth2 tem dois tipos de clintes, Publico e Confidencial. 
+Publico é quando o usuário consegue visualizar o client_secret no codigo fonte. Como aplicacoes javascript rodando no navegador.   
+Confidencial não e possível visualizar o client_secret no codigo fonte, no caso quando o codigo fonte nao pode ser visualizado, por exemplo  
+em aplicacoes side server, onde o contado do client nao e com o codigo fonte e sim com o servidor.  
+
+Clientes confiaveis sao aplicacoes proprias que voce mesmo desenvolveu.  
+Clientes nao confiaveis sao aplicacoes terceiras onde voce nao conhece a procedencia.  
+
+![](img/QualFluxoUsar.png)
