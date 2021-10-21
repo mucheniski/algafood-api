@@ -365,6 +365,7 @@ https://github.com/mucheniski/algafood-authorization-server
 22.16. Configurando o Client Credentials Grant Type no Authorization Server  
 22.18. Configurando o Authorization Code Grant Type  
 22.19. Testando o fluxo Authorization Code com um client JavaScript  
+22.24. Testando o fluxo Authorization Code com PKCE com o método plain  
 
 
 
