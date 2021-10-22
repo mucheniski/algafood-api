@@ -421,4 +421,23 @@ em aplicacoes side server, onde o contado do client nao e com o codigo fonte e s
 Clientes confiaveis sao aplicacoes proprias que voce mesmo desenvolveu.  
 Clientes nao confiaveis sao aplicacoes terceiras onde voce nao conhece a procedencia.  
 
-![](img/QualFluxoUsar.png)
+![](img/QualFluxoUsar.png)  
+
+## Stateful e Stateless  
+Stateful siginifica com estado e Stateless significa sem estado.  
+Para aplicacoes REST é importante que a comunicação seja stateless, ou seja, a cada requisição todas as informações  
+nescessarias devem ser passadas, sem armazenamento de estado no servidor, todas as informacoes devem vir do cliente.  
+O que deve ser stateless é o estado da aplicacao, que é o caso da secao do usuario, o estado dos recursos não.  
+estado dos recursos é relacionado ao dominio da aplicacao, como por exemplo um cadastro de cozinha precisa informar o payload na chamada.  
+
+Stateful Authentication  
+![](img/StatefulAuthentication.png)  
+
+Trasnparent token - é um token transparente assinado e com o JSON autocontido abaixo, codificado em Base64.  
+![](img/TrasparentToken.png)  
+
+Stateless Authentication - Os dados da secao do usuario sao armazenados do lado cliente, nada no servidor, o authorization server só valida 
+se o token e valido e mais nada.  
+![](img/StatelessAuthentication.png)  
+
+
