@@ -366,7 +366,7 @@ https://github.com/mucheniski/algafood-authorization-server
 22.18. Configurando o Authorization Code Grant Type  
 22.19. Testando o fluxo Authorization Code com um client JavaScript  
 22.24. Testando o fluxo Authorization Code com PKCE com o método plain  
-
+23.5. Gerando JWT com chave simétrica (HMAC SHA-256) no Authorization Server  
 
 
 O Check token é usado para validar se está válido ou não, por exemplo localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3  
@@ -440,4 +440,5 @@ Stateless Authentication - Os dados da secao do usuario sao armazenados do lado 
 se o token e valido e mais nada.  
 ![](img/StatelessAuthentication.png)  
 
+o JWT token não é armazenado em local algum, todas as informações estão cotidas no próprio token, o authorization server nao armazena estado.  
 
