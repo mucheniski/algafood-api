@@ -442,3 +442,15 @@ se o token e valido e mais nada.
 
 o JWT token não é armazenado em local algum, todas as informações estão cotidas no próprio token, o authorization server nao armazena estado.  
 
+Assinatura com chave simetrica - a chave é compartilhada entre o resource server e o authorization server, por este motivo nao é muito seguro se  
+existirem resource servers terceiros gerando tokens por exemplo, caso tenha acesso a essa chave podem ser gerados novos tokens.  
+![](img/AssinaturaChaveSimetrica.png)  
+
+
+Assinatura com chave assimetrica - usa um par de chaves que é uma privada e uma publica, o emissor(Authorization server) tem acesso a chave privada  
+somente ele precisa conhecer essa chave e guarda-la.  
+O receptor(Resource server) usa a chave publica para validar a assinatura do token, porem é possivel apenas validar a assinatura, não é possivel a modificacao  
+ou criacao de novos tokens jwt. Por este motivo é mais seguro neste caso.  
+![](img/AssinaturaChaveAssimetrica.png)  
+
+
