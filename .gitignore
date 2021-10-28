@@ -35,3 +35,4 @@ build/
 .checkstyle
 s101plugin.state
 .attach_pid*
+*.jks
