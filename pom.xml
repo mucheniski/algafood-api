@@ -19,7 +19,7 @@
 		<modelmapper.version>2.3.0</modelmapper.version>
 		<squiggly.version>1.3.18</squiggly.version>
 		<jasperreports.version>6.16.0</jasperreports.version>
-		<aws-java-sdk.version>1.11.963</aws-java-sdk.version>
+		<aws-java-sdk.version>1.12.261</aws-java-sdk.version>
 		<spring-fox.version>2.9.2</spring-fox.version>
 		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
 		<oauth2-oidc-sdk.version>6.21.2</oauth2-oidc-sdk.version>
