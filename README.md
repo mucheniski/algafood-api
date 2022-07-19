@@ -35,10 +35,12 @@ Projeto do curso Especialista REST - Algaworks
 **7. Pool de conexões e Flyway**
 O flyway é usado para gerenciamento de criação e migração de tabelas e dados.
 
+~~~
 <dependency>  
 	<groupId>org.flywaydb</groupId>  
 	<artifactId>flyway-core</artifactId>  
 </dependency>  
+~~~
 
 
 
@@ -116,12 +118,14 @@ Eu posso ter mais de um DTO para representar o mesmo recurso, por exemplo, caso 
 Funcionamento do ModelMapper - Ele transforma todas as propriedades das classes em tokens, depois compara os tokens de origem e destino, seguindo as regras 1 - Os nomes de tokens de origem precisam ser iguais aos tokens de destino, 2 - Não importa a ordem em que os tokens estejam. 3 - O nome da propriedade de origem, deve ter ao menos um token de correspondência.
 Explicado na aula 11.15. Entendendo a estratégia padrão do ModelMapper para correspondência de propriedades
 
+~~~
 <!-- http://modelmapper.org/downloads/ -->  
 <dependency>   
 	<groupId>org.modelmapper</groupId>  
 	<artifactId>modelmapper</artifactId>  
 	<version>2.3.0</version> <!-- como o parent não tem o modelmapper, preciso especificar a versão  -->  
 </dependency>  
+~~~
 
 Após importar as dependências é preciso criar a classe de configuração ModelMapperBean.
 
@@ -366,7 +370,7 @@ https://github.com/mucheniski/algafood-authorization-server
 22.18. Configurando o Authorization Code Grant Type  
 22.19. Testando o fluxo Authorization Code com um client JavaScript  
 22.24. Testando o fluxo Authorization Code com PKCE com o método plain  
-
+23.5. Gerando JWT com chave simétrica (HMAC SHA-256) no Authorization Server  
 
 
 O Check token é usado para validar se está válido ou não, por exemplo localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3  
@@ -440,4 +444,27 @@ Stateless Authentication - Os dados da secao do usuario sao armazenados do lado 
 se o token e valido e mais nada.  
 ![](img/StatelessAuthentication.png)  
 
+o JWT token não é armazenado em local algum, todas as informações estão cotidas no próprio token, o authorization server nao armazena estado.  
 
+Assinatura com chave simetrica - a chave é compartilhada entre o resource server e o authorization server, por este motivo nao é muito seguro se  
+existirem resource servers terceiros gerando tokens por exemplo, caso tenha acesso a essa chave podem ser gerados novos tokens.  
+![](img/AssinaturaChaveSimetrica.png)  
+
+
+Assinatura com chave assimetrica - usa um par de chaves que é uma privada e uma publica, o emissor(Authorization server) tem acesso a chave privada  
+somente ele precisa conhecer essa chave e guarda-la.  
+O receptor(Resource server) usa a chave publica para validar a assinatura do token, porem é possivel apenas validar a assinatura, não é possivel a modificacao  
+ou criacao de novos tokens jwt. Por este motivo é mais seguro neste caso.  
+![](img/AssinaturaChaveAssimetrica.png)  
+
+
+Para gerar as chaves é preciso usar uma ferramente chamada keytool que já vem no jdk, basta digitar o comando abaixo  
+no terminal. Vai ser feitas algumas perguntas, pode ser respondido ou nao, caso nao fica como unhnown, é apenas informativo.
+~~~
+keytool -genkeypair -alias mykeypair -keyalg RSA -keypass 123456 -keystore mykeystore.jks -storepass 123456
+~~~  
+
+vai ser gerado um arquivo com o nome informado no parametro keystore, para listar o conteudo do arquivo usar o comando.  
+~~~
+keytool -list -keystore mykeystore.jks
+~~~
