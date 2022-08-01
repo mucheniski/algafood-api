@@ -371,6 +371,7 @@ https://github.com/mucheniski/algafood-authorization-server
 22.19. Testando o fluxo Authorization Code com um client JavaScript  
 22.24. Testando o fluxo Authorization Code com PKCE com o método plain  
 23.5. Gerando JWT com chave simétrica (HMAC SHA-256) no Authorization Server  
+23.9. Assinando o JWT com RSA SHA-256 (chave assimétrica).mp4
 
 
 O Check token é usado para validar se está válido ou não, por exemplo localhost:8081/oauth/check_token?token=6c655909-e43f-4e1a-ad5e-131c875a74d3  
@@ -459,7 +460,7 @@ ou criacao de novos tokens jwt. Por este motivo é mais seguro neste caso.
 
 
 Para gerar as chaves é preciso usar uma ferramente chamada keytool que já vem no jdk, basta digitar o comando abaixo  
-no terminal. Vai ser feitas algumas perguntas, pode ser respondido ou nao, caso nao fica como unhnown, é apenas informativo.
+no terminal. Vão ser feitas algumas perguntas, pode ser respondido ou nao, caso nao fica como unhnown, é apenas informativo.
 ~~~
 keytool -genkeypair -alias mykeypair -keyalg RSA -keypass 123456 -keystore mykeystore.jks -storepass 123456
 ~~~  
